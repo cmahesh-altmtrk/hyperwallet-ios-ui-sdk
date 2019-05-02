@@ -19,12 +19,12 @@
 import Foundation
 import HyperwalletSDK
 
-extension HyperwalletFee {
+extension HyperwalletFeeNew {
     private static let percent = "PERCENT"
     private static let flat = "FLAT"
 
     /// Formats the Fees to be displayed
-    static func format(fees: [HyperwalletFee]) -> String {
+    static func format(fees: [HyperwalletFeeNew]) -> String {
         var description = ""
         let percentFee = fees.first(where: { (fee) in fee.feeRateType == percent })
         let flatFee = fees.first(where: { (fee) in fee.feeRateType == flat })
@@ -40,9 +40,9 @@ extension HyperwalletFee {
     }
 
     enum FeeTypes {
-        case flat(_ flatFee: HyperwalletFee)
-        case percent(_ percentFee: HyperwalletFee)
-        case mixed(_ percentFee: HyperwalletFee, _ flatFee: HyperwalletFee)
+        case flat(_ flatFee: HyperwalletFeeNew)
+        case percent(_ percentFee: HyperwalletFeeNew)
+        case mixed(_ percentFee: HyperwalletFeeNew, _ flatFee: HyperwalletFeeNew)
 
         func feeDescription() -> String {
             switch self {
@@ -57,12 +57,12 @@ extension HyperwalletFee {
             }
         }
 
-        private func flatFeeDescription(_ flatFee: HyperwalletFee) -> String {
+        private func flatFeeDescription(_ flatFee: HyperwalletFeeNew) -> String {
             let feeFormat = "fee_flat_formatter".localized()
             return String(format: feeFormat.localized(), flatFee.currency, flatFee.value)
         }
 
-        private func percentFeeDescription(_ percentFee: HyperwalletFee) -> String {
+        private func percentFeeDescription(_ percentFee: HyperwalletFeeNew) -> String {
             var description = ""
             var feeFormat = ""
             let value = percentFee.value
@@ -83,7 +83,7 @@ extension HyperwalletFee {
             return description
         }
 
-        private func mixedFeeDescription(_ percentFee: HyperwalletFee, _ flatFee: HyperwalletFee) -> String {
+        private func mixedFeeDescription(_ percentFee: HyperwalletFeeNew, _ flatFee: HyperwalletFeeNew) -> String {
             var description = ""
             var feeFormat = ""
             let flatValue = flatFee.value

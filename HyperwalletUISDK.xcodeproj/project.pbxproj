@@ -83,12 +83,11 @@
 		DBCA386C225E8BAA00CD4137 /* ListTransferMethodPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA382B225E8BA900CD4137 /* ListTransferMethodPresenter.swift */; };
 		DBCA386D225E8BAA00CD4137 /* ListTransferMethodTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBCA382C225E8BA900CD4137 /* ListTransferMethodTableViewCell.xib */; };
 		DBCA386E225E8BAA00CD4137 /* AddTransferMethodFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA382D225E8BA900CD4137 /* AddTransferMethodFooter.swift */; };
-		DBCA386F225E8BAA00CD4137 /* TransferMethodConfigurationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA382F225E8BA900CD4137 /* TransferMethodConfigurationResult.swift */; };
 		DBCA3870225E8BAA00CD4137 /* UIAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3830225E8BA900CD4137 /* UIAlertAction.swift */; };
 		DBCA3871225E8BAA00CD4137 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3831225E8BA900CD4137 /* UIView.swift */; };
 		DBCA3872225E8BAA00CD4137 /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3832225E8BA900CD4137 /* UIBarButtonItem.swift */; };
 		DBCA3873225E8BAA00CD4137 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3833225E8BA900CD4137 /* UIColor.swift */; };
-		DBCA3874225E8BAA00CD4137 /* HyperwalletFee.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3834225E8BA900CD4137 /* HyperwalletFee.swift */; };
+		DBCA3874225E8BAA00CD4137 /* HyperwalletFeeNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3834225E8BA900CD4137 /* HyperwalletFeeNew.swift */; };
 		DBCA3875225E8BAA00CD4137 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3835225E8BA900CD4137 /* Notification.swift */; };
 		DBCA3876225E8BAA00CD4137 /* NSRegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3836225E8BA900CD4137 /* NSRegularExpression.swift */; };
 		DBCA3879225E8BAA00CD4137 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA3839225E8BA900CD4137 /* UIImage.swift */; };
@@ -240,12 +239,11 @@
 		DBCA382B225E8BA900CD4137 /* ListTransferMethodPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTransferMethodPresenter.swift; sourceTree = "<group>"; };
 		DBCA382C225E8BA900CD4137 /* ListTransferMethodTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListTransferMethodTableViewCell.xib; sourceTree = "<group>"; };
 		DBCA382D225E8BA900CD4137 /* AddTransferMethodFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTransferMethodFooter.swift; sourceTree = "<group>"; };
-		DBCA382F225E8BA900CD4137 /* TransferMethodConfigurationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferMethodConfigurationResult.swift; sourceTree = "<group>"; };
 		DBCA3830225E8BA900CD4137 /* UIAlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertAction.swift; sourceTree = "<group>"; };
 		DBCA3831225E8BA900CD4137 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		DBCA3832225E8BA900CD4137 /* UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
 		DBCA3833225E8BA900CD4137 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		DBCA3834225E8BA900CD4137 /* HyperwalletFee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperwalletFee.swift; sourceTree = "<group>"; };
+		DBCA3834225E8BA900CD4137 /* HyperwalletFeeNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperwalletFeeNew.swift; sourceTree = "<group>"; };
 		DBCA3835225E8BA900CD4137 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		DBCA3836225E8BA900CD4137 /* NSRegularExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSRegularExpression.swift; sourceTree = "<group>"; };
 		DBCA3839225E8BA900CD4137 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -553,11 +551,10 @@
 		DBCA382E225E8BA900CD4137 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				DBCA3834225E8BA900CD4137 /* HyperwalletFee.swift */,
+				DBCA3834225E8BA900CD4137 /* HyperwalletFeeNew.swift */,
 				DBCA3835225E8BA900CD4137 /* Notification.swift */,
 				DBCA3836225E8BA900CD4137 /* NSRegularExpression.swift */,
 				DB2EB66C22617A8500FBEB3D /* String+Array.swift */,
-				DBCA382F225E8BA900CD4137 /* TransferMethodConfigurationResult.swift */,
 				DBCA3830225E8BA900CD4137 /* UIAlertAction.swift */,
 				DBCA3832225E8BA900CD4137 /* UIBarButtonItem.swift */,
 				DBCA3833225E8BA900CD4137 /* UIColor.swift */,
@@ -982,11 +979,10 @@
 				DBCA3882225E8BAA00CD4137 /* HyperwalletUtilViews.swift in Sources */,
 				DBCA3875225E8BAA00CD4137 /* Notification.swift in Sources */,
 				DBCA387A225E8BAA00CD4137 /* UIViewController.swift in Sources */,
-				DBCA3874225E8BAA00CD4137 /* HyperwalletFee.swift in Sources */,
+				DBCA3874225E8BAA00CD4137 /* HyperwalletFeeNew.swift in Sources */,
 				DBCA3862225E8BAA00CD4137 /* ListTransferMethodTableViewCell.swift in Sources */,
 				DBCA388C225E8BAA00CD4137 /* TextWidget.swift in Sources */,
 				078B45812273A441005B0248 /* HyperwalletUI.swift in Sources */,
-				DBCA386F225E8BAA00CD4137 /* TransferMethodConfigurationResult.swift in Sources */,
 				DBCA3889225E8BAA00CD4137 /* ExpiryDateWidget.swift in Sources */,
 				DBCA3883225E8BAA00CD4137 /* Theme.swift in Sources */,
 				DBCA385D225E8BAA00CD4137 /* SelectTransferMethodTypeViewController.swift in Sources */,

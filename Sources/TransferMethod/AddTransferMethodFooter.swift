@@ -68,7 +68,7 @@ final class AddTransferMethodFooter: UITableViewHeaderFooterView {
 }
 
 final class AddTransferMethodSectionData {
-    var category: String
+    var group: String
     var country: String
     var currency: String
     var transferMethodType: String
@@ -79,12 +79,12 @@ final class AddTransferMethodSectionData {
     var isScrolling: Bool = false
 
     lazy var header: String? = {
-        switch category {
-        case "ACCOUNT":
-            let format = "\(category)_header".lowercased().localized()
+        switch group {
+        case "PERSONAL_INFORMATION":
+            let format = "\(group)_header".lowercased().localized()
             return String(format: format, "account_information_title".localized(), country.localized(), currency)
-        case "PROFILE", "ADDRESS", "INFORMATION":
-            return "\(category)_header".lowercased().localized()
+        case "PROFILE", "HOME_ADDRESS", "INFORMATION":
+            return "\(group)_header".lowercased().localized()
 
         default:
             return  nil
@@ -92,10 +92,10 @@ final class AddTransferMethodSectionData {
     }()
 
     lazy var footer: String? = {
-        switch category {
-        case "ACCOUNT":
+        switch group {
+        case "PERSONAL_INFORMATION":
             return "\(transferMethodType.lowercased())_footer".localized()
-        case "PROFILE":
+        case "HOME_ADDRESS":
             return "add_profile_footer".localized()
 
         default:
@@ -111,13 +111,13 @@ final class AddTransferMethodSectionData {
         return cells.count
     }
 
-    init(category: String,
+    init(group: String,
          country: String,
          currency: String,
          transferMethodType: String,
          cells: [UIView]
         ) {
-        self.category = category
+        self.group = group
         self.country = country
         self.currency = currency
         self.transferMethodType = transferMethodType

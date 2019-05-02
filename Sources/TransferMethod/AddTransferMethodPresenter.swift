@@ -30,7 +30,7 @@ protocol AddTransferMethodView: class {
     func showBusinessError(_ error: HyperwalletErrorType, _ handler: @escaping () -> Void)
     func showLoading()
     func showProcessing()
-    func showTransferMethodFields(_ fields: [HyperwalletField], _ transferMethodTypeDetail: TransferMethodTypeDetail)
+    func showTransferMethodFields(_ fields: [HyperwalletFieldGroup], _ transferMethodTypeDetail: HyperwalletTransferMethodType)
     func showFooterViewWithUpdatedSectionData(for sections: [AddTransferMethodSectionData])
 }
 
@@ -55,14 +55,14 @@ final class AddTransferMethodPresenter {
     }
 
     func loadTransferMethodConfigurationFields() {
-        let fieldsQuery = HyperwalletTransferMethodConfigurationFieldQuery(
+        let fieldsQuery = HyperwalletTransferMethodConfigurationFieldQueryNew(
             country: country,
             currency: currency,
             transferMethodType: transferMethodType,
             profile: profileType
         )
         view.showLoading()
-        Hyperwallet.shared.retrieveTransferMethodConfigurationFields(
+        Hyperwallet.shared.retrieveTransferMethodConfigurationFieldsNew(
             request: fieldsQuery,
             completion: { [weak self] (result, error) in
                 guard let strongSelf = self else {
@@ -80,12 +80,9 @@ final class AddTransferMethodPresenter {
                     guard let result = result else {
                         return
                     }
-                    let transferTypeDetail = result.populateTransferMethodTypeDetail(
-                        country: strongSelf.country,
-                        currency: strongSelf.currency,
-                        profileType: strongSelf.profileType,
-                        transferMethodType: strongSelf.transferMethodType)
-                    strongSelf.view.showTransferMethodFields(result.fields(), transferTypeDetail)
+                    if let transferTypeDetail = result.transferMethodType() {
+                        strongSelf.view.showTransferMethodFields(result.fields(), transferTypeDetail)
+                    }
                 }
             })
     }
@@ -232,8 +229,8 @@ final class AddTransferMethodPresenter {
         return sections.first(where: { $0.containsFocusedField == true })
     }
 
-    func getSectionIndex(by category: String) -> Int? {
-        return sections.firstIndex(where: { $0.category == category })
+    func getSectionIndex(by group: String) -> Int? {
+        return sections.firstIndex(where: { $0.group == group })
     }
 
     func focusField(in section: AddTransferMethodSectionData) {

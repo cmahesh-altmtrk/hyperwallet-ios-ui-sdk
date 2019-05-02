@@ -20,18 +20,14 @@ import HyperwalletSDK
 import UIKit
 
 /// Represents the Transfer Method Detail, fee required for that transfer method and processing time required for it.
-struct TransferMethodTypeDetail {
-    let transferMethodType: String
-    var fees: [HyperwalletFee]?
-    var processingTime: String?
-
+extension HyperwalletTransferMethodType {
     func formatFeesProcessingTime() -> NSAttributedString {
         let attributedText = NSMutableAttributedString()
         // Fees
-        if let fees = self.fees {
+        if let fees = self.fees?.nodes {
             formatSubLabel(attributedText,
                            label: "add_transfer_method_fee_label".localized(),
-                           value: HyperwalletFee.format(fees: fees))
+                           value: HyperwalletFeeNew.format(fees: fees))
         }
 
         // Processing Time

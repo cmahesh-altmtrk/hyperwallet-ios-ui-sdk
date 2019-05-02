@@ -270,7 +270,7 @@ extension AddTransferMethodViewController {
 extension AddTransferMethodViewController: AddTransferMethodView {
     func showFooterViewWithUpdatedSectionData(for sections: [AddTransferMethodSectionData]) {
         for section in sections {
-            if let sectionIndex = presenter.getSectionIndex(by: section.category) {
+            if let sectionIndex = presenter.getSectionIndex(by: section.group) {
                 if let footerView = tableView.footerView(forSection: sectionIndex) as? AddTransferMethodFooter {
                     // section is visible, update footer
                     updateFooterView(footerView,
@@ -350,7 +350,8 @@ extension AddTransferMethodViewController: AddTransferMethodView {
         }
     }
 
-    func showTransferMethodFields(_ fields: [HyperwalletField], _ transferMethodTypeDetail: TransferMethodTypeDetail) {
+    func showTransferMethodFields(_ fields: [HyperwalletFieldGroup],
+                                  _ transferMethodTypeDetail: HyperwalletTransferMethodType) {
         addFieldsSection(fields)
         addInfoSection(transferMethodTypeDetail)
         addCreateButtonSection()
@@ -391,29 +392,30 @@ extension AddTransferMethodViewController: AddTransferMethodView {
         }
     }
 
-    private func addFieldsSection(_ fields: [HyperwalletField]) {
-        for field in fields {
-            let widgetView = WidgetFactory.newWidget(field: field)
-            guard let category = field.category else {
-                continue
+    private func addFieldsSection(_ fieldGroups: [HyperwalletFieldGroup]) {
+        for fieldGroup in fieldGroups {
+            if let group = fieldGroup.group, let fields = fieldGroup.fields {
+                for field in fields {
+                    let widgetView = WidgetFactory.newWidget(field: field)
+                    if let section = presenter.sections.first(where: { $0.group == group }) {
+                        section.cells.append(widgetView)
+                    } else {
+                        let section = AddTransferMethodSectionData(
+                            group: group,
+                            country: country,
+                            currency: currency,
+                            transferMethodType: transferMethodType,
+                            cells: [widgetView]
+                        )
+                        presenter.sections.append(section)
+                    }
+                    widgets.append(widgetView)
+                }
             }
-            if let section = presenter.sections.first(where: { $0.category == category }) {
-                section.cells.append(widgetView)
-            } else {
-                let section = AddTransferMethodSectionData(
-                    category: category,
-                    country: country,
-                    currency: currency,
-                    transferMethodType: transferMethodType,
-                    cells: [widgetView]
-                )
-                presenter.sections.append(section)
-            }
-            widgets.append(widgetView)
         }
     }
 
-    private func addInfoSection(_ transferMethodTypeDetail: TransferMethodTypeDetail) {
+    private func addInfoSection(_ transferMethodTypeDetail: HyperwalletTransferMethodType) {
         guard transferMethodTypeDetail.fees != nil || transferMethodTypeDetail.processingTime != nil else {
             return
         }
@@ -421,7 +423,7 @@ extension AddTransferMethodViewController: AddTransferMethodView {
         if let infoLabel = infoView.arrangedSubviews[0] as? UILabel {
             infoLabel.attributedText = transferMethodTypeDetail.formatFeesProcessingTime()
             let infoSection = AddTransferMethodSectionData(
-                category: "INFORMATION",
+                group: "INFORMATION",
                 country: country,
                 currency: currency,
                 transferMethodType: transferMethodType,
@@ -432,7 +434,7 @@ extension AddTransferMethodViewController: AddTransferMethodView {
 
     private func addCreateButtonSection() {
         let buttonSection = AddTransferMethodSectionData(
-            category: "CREATE_BUTTON",
+            group: "CREATE_BUTTON",
             country: country,
             currency: currency,
             transferMethodType: transferMethodType,
@@ -446,7 +448,7 @@ extension AddTransferMethodViewController: AddTransferMethodView {
     }
 
     private func getIndexPath(for section: AddTransferMethodSectionData) -> IndexPath {
-        let sectionIndex = presenter.getSectionIndex(by: section.category)!
+        let sectionIndex = presenter.getSectionIndex(by: section.group)!
         return IndexPath(row: section.rowShouldBeScrolledTo!, section: sectionIndex)
     }
 }
