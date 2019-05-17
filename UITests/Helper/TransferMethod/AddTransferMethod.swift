@@ -13,7 +13,7 @@ class AddTransferMethod {
 
     var addTMTableView: XCUIElement
     var branchIdInput: XCUIElement
-    var accountNumberInput: XCUIElement
+    var bankAccountIdInput: XCUIElement
     var accountTypeSelect: XCUIElement
     var createTransferMethodButton: XCUIElement
     var cardNumberInput: XCUIElement
@@ -22,13 +22,21 @@ class AddTransferMethod {
     var emailInput: XCUIElement
     var title: XCUIElement
     var navigationBar: XCUIElement
+    var inputBankId: XCUIElement
+    var inputFirstName: XCUIElement
+    var inputLastName: XCUIElement
+    var inputStreet: XCUIElement
+    var inputCity: XCUIElement
+    var inputStateProvince: XCUIElement
+    var countrySelector: XCUIElement
+    var inputZipCode: XCUIElement
 
     init(app: XCUIApplication, for accountType: AccountType) {
         self.app = app
 
         addTMTableView = app.tables["addTransferMethodTable"]
         branchIdInput = addTMTableView.textFields["branchId"]
-        accountNumberInput = addTMTableView.textFields["bankAccountId"]
+        bankAccountIdInput = addTMTableView.textFields["bankAccountId"]
         accountTypeSelect = addTMTableView.cells.staticTexts["Account Type"]
         createTransferMethodButton = addTMTableView.cells.containing(.button,
                                                                      identifier: "createAccountBtn")
@@ -39,6 +47,18 @@ class AddTransferMethod {
         emailInput = addTMTableView.textFields["email"]
         title = addTMTableView.staticTexts["Account Information - United States (USD)"]
         navigationBar = app.navigationBars[accountType.rawValue]
+        inputBankId = addTMTableView.textFields["bankId"]
+        inputFirstName = addTMTableView.textFields["firstName"]
+        inputLastName = addTMTableView.textFields["lastName"]
+        inputStreet = addTMTableView.textFields["addressLine1"]
+        inputCity = addTMTableView.textFields["city"]
+        inputStateProvince = addTMTableView.textFields["stateProvince"]
+        countrySelector = addTMTableView.staticTexts["Country"]
+        inputZipCode = addTMTableView.textFields["postalCode"]
+    }
+
+    func setTitle(_ text: String) {
+        title = addTMTableView.staticTexts[text]
     }
 
     func setBranchId(branchId: String) {
@@ -48,8 +68,8 @@ class AddTransferMethod {
         title.tap()
     }
 
-    func setAccountNumber(accountNumber: String) {
-        accountNumberInput.tap()
+    func setbankAccountId(accountNumber: String) {
+        bankAccountIdInput.tap()
         app.typeText(accountNumber)
         title.tap()
     }
@@ -82,6 +102,57 @@ class AddTransferMethod {
         app.pickerWheels[String(dateComponent.year!)].adjust(toPickerWheelValue: expiryYear)
         app.pickerWheels[monthText].adjust(toPickerWheelValue: expiryMonth)
         app.toolbars.buttons["Done"].tap()
+    }
+
+    func setBankId(bankId: String) {
+        inputBankId.tap()
+        app.typeText(bankId)
+        title.tap()
+    }
+
+    func setFirstName(firstName: String) {
+        inputFirstName.tap()
+        app.typeText(firstName)
+        title.tap()
+    }
+
+    func setLastName(lastName: String) {
+        inputLastName.tap()
+        app.typeText(lastName)
+        title.tap()
+    }
+
+//    func setBusinessName(businessName: String){
+//        businessNameInput.tap()
+//        app.typeText(businessName)
+//        title.tap()
+//    }
+
+    func tapCountry() {
+        countrySelector.tap()
+    }
+
+    func selectCountry(country: String) {
+        tapCountry()
+        app.tables.staticTexts[country].tap()
+    }
+
+    func setStateProvince(state: String) {
+        inputStateProvince.tap()
+        app.typeText(state)
+        title.tap()
+    }
+
+    func setAddress(address: String) {
+        inputStreet.tap()
+        app.typeText(address)
+        title.tap()
+    }
+
+    func setCity(city: String) {
+        inputCity.tap()
+        app.typeText(city)
+        title.tap()
     }
 
     func clickBackButton() {

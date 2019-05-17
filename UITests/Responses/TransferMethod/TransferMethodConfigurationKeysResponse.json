@@ -201,6 +201,50 @@
                             }
                         ]
                     }
+                },
+                {
+                    "countries": [
+                        "GB"
+                    ],
+                    "currencies": [
+                        "GBP"
+                    ],
+                    "transferMethodType": "BANK_ACCOUNT",
+                    "processingTime": "1-2 Business days",
+                    "profile": "INDIVIDUAL",
+                    "fees": {
+                        "nodes": [
+                            {
+                                "transferMethodType": "BANK_ACCOUNT",
+                                "country": "GB",
+                                "currency": "GBP",
+                                "feeRateType": "FLAT",
+                                "value": "1.50"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "countries": [
+                        "GB"
+                    ],
+                    "currencies": [
+                        "EUR"
+                    ],
+                    "transferMethodType": "BANK_ACCOUNT",
+                    "processingTime": "1-2 Business days",
+                    "profile": "INDIVIDUAL",
+                    "fees": {
+                        "nodes": [
+                            {
+                                "transferMethodType": "BANK_ACCOUNT",
+                                "country": "GB",
+                                "currency": "EUR",
+                                "feeRateType": "FLAT",
+                                "value": "1.50"
+                            }
+                        ]
+                    }
                 }
             ]
         }

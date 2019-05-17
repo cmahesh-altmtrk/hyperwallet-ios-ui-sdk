@@ -6,7 +6,11 @@ class AddTransferMethodBankCardTests: BaseTests {
     let debitCard = NSPredicate(format: "label CONTAINS[c] 'Debit Card'")
 
     override func setUp() {
+        profileType = .individual
+
         super.setUp()
+
+        mockServer.setupGraphQLStubs(.unitedStatesUSD, .individual)
         setUpAddTransferMethodBankCardScreen()
     }
 

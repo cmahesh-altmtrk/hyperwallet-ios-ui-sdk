@@ -6,6 +6,35 @@ enum HTTPMethod {
     case post
 }
 
+enum UserProfileType: String {
+    case individual
+    case business
+
+    var authenticationTokenResponseFileName: String {
+        return self == .individual ? "AuthenticationTokenResponse" : "BusinessAuthenticationTokenResponse"
+    }
+
+    var userProfileResponseFileName: String {
+        return self == .individual ? "UserIndividualResponse" : "UserProfileBusiness"
+    }
+}
+
+enum ConfigurationType {
+    case unitedStatesUSD
+    case unitedKingdomGBP
+
+    func getBankAccountRequestName(for profileType: UserProfileType) -> String {
+        switch self {
+        case .unitedStatesUSD:
+            return profileType == .individual ? "TransferMethodConfigurationBankAccountResponse" :
+                                                    "TransferMethodConfigurationBankAccountResponse"
+        case .unitedKingdomGBP:
+            return profileType == .individual ? "UnitedKingdomGBPIndividualBankAccountGraphQl" :
+            "UnitedKingdomGBPBusinessBankAccountGraphQl"
+        }
+    }
+}
+
 class HyperwalletMockWebServer {
     var server = HttpServer()
     let testBundle = Bundle(for: HyperwalletMockWebServer.self)
@@ -72,9 +101,9 @@ class HyperwalletMockWebServer {
         }
     }
 
-    func setupGraphQLStubs() {
+    func setupGraphQLStubs(_ type: ConfigurationType, _ profileType: UserProfileType) {
         let filePathKeys = testBundle.path(forResource: "TransferMethodConfigurationKeysResponse", ofType: "json")
-        let filePathBankField = testBundle.path(forResource: "TransferMethodConfigurationBankAccountResponse",
+        let filePathBankField = testBundle.path(forResource: type.getBankAccountRequestName(for: profileType),
                                                 ofType: "json")
         let filePathCardField = testBundle.path(forResource: "TransferMethodConfigurationBankCardResponse",
                                                 ofType: "json")

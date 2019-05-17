@@ -6,7 +6,10 @@ class AddTransferMethodPayPalAccountTests: BaseTests {
     let payPalAccount = NSPredicate(format: "label CONTAINS[c] 'PayPal'")
 
     override func setUp() {
+        profileType = .individual
+
         super.setUp()
+        mockServer.setupGraphQLStubs(.unitedStatesUSD, .individual)
         setUpAddTransferMethodPayPalAccountScreen()
     }
 

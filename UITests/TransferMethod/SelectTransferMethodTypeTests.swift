@@ -6,6 +6,8 @@ class SelectTransferMethodTypeTests: BaseTests {
 
     override func setUp() {
         super.setUp()
+
+        mockServer.setupGraphQLStubs(.unitedStatesUSD, .individual)
         setUpSelectTransferMethodTypeScreen()
         validateSelectTransferMethodScreen()
     }

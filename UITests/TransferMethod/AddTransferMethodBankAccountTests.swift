@@ -7,9 +7,15 @@ class AddTransferMethodTests: BaseTests {
     let bankAccount = NSPredicate(format: "label CONTAINS[c] 'Bank Account'")
 
     override func setUp() {
+        profileType = .individual
+
         super.setUp()
 
         // Initialize stubs
+        mockServer.setupStub(url: "/rest/v3/users/usr-token",
+                             filename: "UserIndividualResponse",
+                             method: HTTPMethod.get)
+        mockServer.setupGraphQLStubs(.unitedStatesUSD, .individual)
         setUpBankAccountScreen()
     }
 
@@ -21,7 +27,7 @@ class AddTransferMethodTests: BaseTests {
         waitForNonExistence(spinner)
 
         addTransferMethod.setBranchId(branchId: "021000021")
-        addTransferMethod.setAccountNumber(accountNumber: "12345")
+        addTransferMethod.setbankAccountId(accountNumber: "12345")
         addTransferMethod.selectAccountType(accountType: "Checking")
         addTransferMethod.clickCreateTransferMethodButton()
 
@@ -34,7 +40,7 @@ class AddTransferMethodTests: BaseTests {
         addTransferMethod.setBranchId(branchId: "abc123abc")
         XCTAssert(app.tables["addTransferMethodTable"].staticTexts["label_branchId_error"].exists)
 
-        addTransferMethod.setAccountNumber(accountNumber: "1a31a")
+        addTransferMethod.setbankAccountId(accountNumber: "1a31a")
         XCTAssert(app.tables["addTransferMethodTable"].staticTexts["label_bankAccountId_error"].exists)
     }
 
@@ -46,7 +52,7 @@ class AddTransferMethodTests: BaseTests {
         waitForNonExistence(spinner)
 
         addTransferMethod.setBranchId(branchId: "021000022")
-        addTransferMethod.setAccountNumber(accountNumber: "12345")
+        addTransferMethod.setbankAccountId(accountNumber: "12345")
         addTransferMethod.selectAccountType(accountType: "Checking")
         addTransferMethod.clickCreateTransferMethodButton()
         waitForNonExistence(spinner)
@@ -64,7 +70,7 @@ class AddTransferMethodTests: BaseTests {
         waitForNonExistence(spinner)
 
         addTransferMethod.setBranchId(branchId: "021000022")
-        addTransferMethod.setAccountNumber(accountNumber: "12345")
+        addTransferMethod.setbankAccountId(accountNumber: "12345")
         addTransferMethod.selectAccountType(accountType: "Checking")
         addTransferMethod.clickCreateTransferMethodButton()
         waitForNonExistence(spinner)
@@ -86,7 +92,7 @@ class AddTransferMethodTests: BaseTests {
             XCTFail("preset value is nill")
             return
         }
-        guard let accountNumberPreSetValue = addTransferMethod.accountNumberInput.value as? String else {
+        guard let accountNumberPreSetValue = addTransferMethod.bankAccountIdInput.value as? String else {
             XCTFail("preset value is nill")
             return
         }
@@ -137,7 +143,7 @@ class AddTransferMethodTests: BaseTests {
     func validateAddTransferMethodBankAccountScreen() {
         XCTAssertTrue(addTransferMethod.navigationBar.exists)
         XCTAssertTrue(addTransferMethod.branchIdInput.exists)
-        XCTAssertTrue(addTransferMethod.accountNumberInput.exists)
+        XCTAssertTrue(addTransferMethod.bankAccountIdInput.exists)
         XCTAssertTrue(addTransferMethod.accountTypeSelect.exists)
         XCTAssertNotNil(app.tables.otherElements
             .containing(NSPredicate(format: "label CONTAINS %@", "Routing Number [021000022] is not valid. " +
@@ -145,10 +151,9 @@ class AddTransferMethodTests: BaseTests {
     }
 
     private func setUpBankAccountScreen() {
-        mockServer.setupGraphQLStubs()
+        mockServer.setupGraphQLStubs(.unitedStatesUSD, .individual)
 
         app = XCUIApplication()
-        app.launch()
 
         selectTransferMethodType = SelectTransferMethodType(app: app)
         addTransferMethod = AddTransferMethod(app: app, for: .bankAccount)
@@ -171,7 +176,7 @@ class AddTransferMethodTests: BaseTests {
         waitForNonExistence(spinner)
 
         addTransferMethod.setBranchId(branchId: "021000022")
-        addTransferMethod.setAccountNumber(accountNumber: "12345")
+        addTransferMethod.setbankAccountId(accountNumber: "12345")
         addTransferMethod.selectAccountType(accountType: "Checking")
         app.scrollToElement(element: addTransferMethod.createTransferMethodButton)
         addTransferMethod.clickCreateTransferMethodButton()

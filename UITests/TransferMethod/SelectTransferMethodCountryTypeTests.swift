@@ -5,7 +5,11 @@ class SelectTransferMethodCountryTypeTests: BaseTests {
     var selectTransferMethodCountryType: SelectTransferMethodCountryType!
 
     override func setUp() {
+        profileType = .individual
+
         super.setUp()
+
+        mockServer.setupGraphQLStubs(.unitedStatesUSD, .individual)
         setUpSelectTransferMethodCountryTypeScreen()
         validateSelectionWidgetScreen()
     }

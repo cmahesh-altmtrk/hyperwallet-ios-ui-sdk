@@ -1,0 +1,37 @@
+{
+    "token": "usr-c022bb61-abbe-4518-beec-80f2544c7948",
+    "status": "PRE_ACTIVATED",
+    "verificationStatus": "NOT_REQUIRED",
+    "createdOn": "2019-05-14T20:34:18",
+    "clientUserId": "000000000000",
+    "profileType": "BUSINESS",
+    "businessType": "CORPORATION",
+    "businessName": "Dai LTD",
+    "businessRegistrationStateProvince": "BCA",
+    "businessRegistrationCountry": "CA",
+    "businessContactRole": "DIRECTOR",
+    "firstName": "Albert",
+    "middleName": "Ulm",
+    "lastName": "Einstein",
+    "dateOfBirth": "1980-01-01",
+    "gender": "MALE",
+    "phoneNumber": "000-00000",
+    "email": "qwerty@gmail.com",
+    "governmentId": "000000000",
+    "addressLine1": "Business-Address",
+    "city": "Vancouver-Business",
+    "stateProvince": "AB",
+    "country": "CA",
+    "postalCode": "V6Z1L2",
+    "language": "en",
+    "timeZone": "PST",
+    "programToken": "prg-00000000-0000-0000-0000-000000000000",
+    "links": [
+        {
+            "params": {
+                "rel": "self"
+            },
+            "href": "href": "https://localhost/rest/v3/users/usr-00000000-0000-0000-0000-000000000000"
+        }
+    ]
+}
