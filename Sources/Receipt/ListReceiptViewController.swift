@@ -29,6 +29,22 @@ public final class ListReceiptViewController: UITableViewController {
     private let sectionTitleDateFormat = "MMMM yyyy"
     private var fetchMoreData: Bool = false
 
+    /// 
+    public init() {
+        super.init(nibName: nil, bundle: nil)
+        presenter = ListReceiptViewPresenter(view: self, receiptType: .account)
+    }
+
+    public init(prepaidCardToken: String) {
+        super.init(nibName: nil, bundle: nil)
+        presenter = ListReceiptViewPresenter(view: self, receiptType: .prepaidCard, prepaidCardToken: prepaidCardToken)
+    }
+
+    // swiftlint:disable unavailable_function
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         title = "title_receipts".localized()
@@ -36,10 +52,9 @@ public final class ListReceiptViewController: UITableViewController {
         setViewBackgroundColor()
 
         navigationItem.backBarButtonItem = UIBarButtonItem.back
-        // setup table view
-        presenter = ListReceiptViewPresenter(view: self)
+
         setupListReceiptTableView()
-        presenter.listReceipt()
+        presenter.listReceipts()
     }
 
     // MARK: list receipt table view data source
@@ -99,7 +114,7 @@ public final class ListReceiptViewController: UITableViewController {
 
     override public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if fetchMoreData {
-            presenter.listReceipt()
+            presenter.listReceipts()
             fetchMoreData = false
         }
     }
@@ -127,4 +142,9 @@ extension ListReceiptViewController: ListReceiptView {
         let errorView = ErrorView(viewController: self, error: error)
         errorView.show(retry)
     }
+}
+
+public enum ReceiptType: String {
+    case account
+    case prepaidCard
 }

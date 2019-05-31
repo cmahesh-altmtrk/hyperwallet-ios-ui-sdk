@@ -32,23 +32,27 @@ final class ListReceiptViewPresenter {
     private let limit = 20
     private let dateFormat = "yyyy-MM-dd'T'H:mm:ss"
 
+    private var receiptType: ReceiptType?
+    private var prepaidCardToken: String?
     private var isFetchInProgress = false
     private(set) var isFetchCompleted = true
     private(set) var groupedSectionArray: [(key: Date, value: [HyperwalletReceipt])] = []
 
     /// Initialize ListTransferMethodPresenter
-    init(view: ListReceiptView) {
+    init(view: ListReceiptView, receiptType: ReceiptType?, prepaidCardToken: String? = nil) {
         self.view = view
+        self.receiptType = receiptType
+        self.prepaidCardToken = prepaidCardToken
     }
 
-    func listReceipt() {
-        guard !isFetchInProgress else {
-            return
+    func listReceipts() {
+        if let receiptType = receiptType {
+            if receiptType == ReceiptType.account {
+                listUserReceipts()
+            } else if let prepaidCardToken = prepaidCardToken {
+                listPrepaidCardReceipts(prepaidCardToken)
+            }
         }
-
-        isFetchInProgress = true
-        view.showLoading()
-        Hyperwallet.shared.listUserReceipts(queryParam: setUpQueryParam(), completion: listReceiptHandler())
     }
 
     func getCellConfiguration(for receiptIndex: Int, in section: Int) -> ListReceiptCellConfiguration? {
@@ -75,6 +79,26 @@ final class ListReceiptViewPresenter {
         return queryParam
     }
 
+    private func listUserReceipts() {
+        guard !isFetchInProgress else {
+            return
+        }
+
+        isFetchInProgress = true
+        view.showLoading()
+        Hyperwallet.shared.listUserReceipts(queryParam: setUpQueryParam(), completion: listReceiptHandler())
+    }
+
+    private func listPrepaidCardReceipts(_ prepaidCardToken: String) {
+        guard !isFetchInProgress else {
+            return
+        }
+
+        isFetchInProgress = true
+        view.showLoading()
+        Hyperwallet.shared.listUserReceipts(queryParam: setUpQueryParam(), completion: listReceiptHandler())
+    }
+
     private func listReceiptHandler()
         -> (HyperwalletPageList<HyperwalletReceipt>?, HyperwalletErrorType?) -> Void {
             return { [weak self] (result, error) in
@@ -85,7 +109,7 @@ final class ListReceiptViewPresenter {
                     strongSelf.isFetchInProgress = false
                     strongSelf.view.hideLoading()
                     if let error = error {
-                        strongSelf.view.showError(error, { strongSelf.listReceipt() })
+                        strongSelf.view.showError(error, { strongSelf.listReceipts() })
                         return
                     } else if let result = result {
                         strongSelf.groupReceiptsByMonth(result.data)
