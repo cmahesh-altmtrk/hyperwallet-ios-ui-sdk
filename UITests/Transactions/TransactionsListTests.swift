@@ -17,9 +17,9 @@ class TransactionsListTests: BaseTests {
 
     func testTransactionsList_verifyTransactionsOrder() {
         verifyCell(with: "Payment May 4, 2019", by: 0)
-        verifyCell(with: "Transfer to Bank Account May 12, 2019", by: 1)
+        verifyCell(with: "Bank Account May 12, 2019", by: 1)
         verifyCell(with: "Payment May 24, 2019", by: 2)
-        verifyCell(with: "Transfer to Bank Account Apr 14, 2019", by: 3)
+        verifyCell(with: "Bank Account Apr 14, 2019", by: 3)
         verifyCell(with: "Payment Apr 19, 2019", by: 4)
         verifyCell(with: "Payment Apr 27, 2019", by: 5)
         verifyCell(with: "Payment Mar 18, 2019", by: 6)
