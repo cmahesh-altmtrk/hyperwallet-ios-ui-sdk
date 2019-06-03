@@ -21,6 +21,9 @@
 		078B457F2273895C005B0248 /* AddTransferMethodPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078B45732273895C005B0248 /* AddTransferMethodPresenterTests.swift */; };
 		078B45812273A441005B0248 /* HyperwalletUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078B45802273A441005B0248 /* HyperwalletUI.swift */; };
 		07BE415F229DE181002DECAF /* UserReceiptResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 07BE415E229DE181002DECAF /* UserReceiptResponse.json */; };
+		09795B7E22A120AC00EF407F /* TransactionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09795B7C22A1208900EF407F /* TransactionsList.swift */; };
+		09795B8322A14D4700EF407F /* Transactions.json in Resources */ = {isa = PBXBuildFile; fileRef = 09795B8222A14D4700EF407F /* Transactions.json */; };
+		09795B8622A151CB00EF407F /* TransactionsListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09795B8522A151CB00EF407F /* TransactionsListTests.swift */; };
 		09B50AEA2285B2C000B03626 /* BankAccountConfigurationWithNotEditableFieldsResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 09B50AE5228595DE00B03626 /* BankAccountConfigurationWithNotEditableFieldsResponse.json */; };
 		433A08082285E5BB007A9FFC /* BankAccountConfigurationPresetValues.json in Resources */ = {isa = PBXBuildFile; fileRef = 433A08072285E5BB007A9FFC /* BankAccountConfigurationPresetValues.json */; };
 		4A12653C2280B02900C0F59E /* DateWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A12653B2280B02900C0F59E /* DateWidget.swift */; };
@@ -185,6 +188,9 @@
 		078B45732273895C005B0248 /* AddTransferMethodPresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTransferMethodPresenterTests.swift; sourceTree = "<group>"; };
 		078B45802273A441005B0248 /* HyperwalletUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperwalletUI.swift; sourceTree = "<group>"; };
 		07BE415E229DE181002DECAF /* UserReceiptResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = UserReceiptResponse.json; sourceTree = "<group>"; };
+		09795B7C22A1208900EF407F /* TransactionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsList.swift; sourceTree = "<group>"; };
+		09795B8222A14D4700EF407F /* Transactions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Transactions.json; sourceTree = "<group>"; };
+		09795B8522A151CB00EF407F /* TransactionsListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsListTests.swift; sourceTree = "<group>"; };
 		09B50AE5228595DE00B03626 /* BankAccountConfigurationWithNotEditableFieldsResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BankAccountConfigurationWithNotEditableFieldsResponse.json; sourceTree = "<group>"; };
 		433A08072285E5BB007A9FFC /* BankAccountConfigurationPresetValues.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BankAccountConfigurationPresetValues.json; sourceTree = "<group>"; };
 		4A12653B2280B02900C0F59E /* DateWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateWidget.swift; sourceTree = "<group>"; };
@@ -369,6 +375,22 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
+		09795B7F22A148D300EF407F /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				09795B8222A14D4700EF407F /* Transactions.json */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
+		09795B8422A1519C00EF407F /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				09795B8522A151CB00EF407F /* TransactionsListTests.swift */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
 		98175425228DE0E30019159A /* Receipt */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +408,7 @@
 				C358A9A32272644000E5AE47 /* ListTransferMethods.swift */,
 				C358A9A42272644000E5AE47 /* SelectTransferMethodType.swift */,
 				C38DC07822727F9300B1F00E /* SelectTransferMethodCountryType.swift */,
+				09795B7C22A1208900EF407F /* TransactionsList.swift */,
 			);
 			path = TransferMethod;
 			sourceTree = "<group>";
@@ -459,6 +482,7 @@
 				DBB2B6F92261C140006C48D3 /* Extensions */,
 				DBB2B6FF2261C141006C48D3 /* Responses */,
 				C358A9A8227265C300E5AE47 /* TransferMethod */,
+				09795B8422A1519C00EF407F /* Transactions */,
 				C3E7216D226E61C80067D3A0 /* BaseTest.swift */,
 				DB2587FF2261BFF100E6236B /* Info.plist */,
 			);
@@ -517,6 +541,7 @@
 		DBB2B6FF2261C141006C48D3 /* Responses */ = {
 			isa = PBXGroup;
 			children = (
+				09795B7F22A148D300EF407F /* Transactions */,
 				C358A9A9227267C000E5AE47 /* TransferMethod */,
 				DBFB61512261E84C00C4A8AA /* AuthenticationTokenResponse.json */,
 				DBFB61492261E84C00C4A8AA /* UnexpectedErrorResponse.json */,
@@ -873,6 +898,7 @@
 				98F63E6E2284AD370090101D /* PayPalAccountDuplicateResponse.json in Resources */,
 				9807B76D226442C60028A280 /* UnexpectedErrorResponse.json in Resources */,
 				DBB2B7202261C142006C48D3 /* TransferMethodConfigurationKeysResponse.json in Resources */,
+				09795B8322A14D4700EF407F /* Transactions.json in Resources */,
 				DBB2B71B2261C142006C48D3 /* BankAccountResponse.json in Resources */,
 				DBB2B7262261C142006C48D3 /* BankCardResponse.json in Resources */,
 				98F63E722284B4AF0090101D /* TransferMethodConfigurationPayPalAccountResponse.json in Resources */,
@@ -971,6 +997,7 @@
 				C358A9A62272644000E5AE47 /* ListTransferMethods.swift in Sources */,
 				C358A9A52272644000E5AE47 /* AddTransferMethod.swift in Sources */,
 				DBB2B7152261C142006C48D3 /* SelectTransferMethodTypeTests.swift in Sources */,
+				09795B7E22A120AC00EF407F /* TransactionsList.swift in Sources */,
 				DBB2B7172261C142006C48D3 /* AddTransferMethodBankCardTests.swift in Sources */,
 				C345BFC22289E6EC0049E67B /* XCUIElement.swift in Sources */,
 				C3E7217A226F93860067D3A0 /* XCUIDevice.swift in Sources */,
@@ -978,6 +1005,7 @@
 				DBB2B7132261C142006C48D3 /* HyperwalletMockWebServer.swift in Sources */,
 				DBB2B7142261C142006C48D3 /* ListTransferMethodTests.swift in Sources */,
 				C3E72174226E76A80067D3A0 /* XCTestCase.swift in Sources */,
+				09795B8622A151CB00EF407F /* TransactionsListTests.swift in Sources */,
 				DBB2B7272261C142006C48D3 /* AddTransferMethodBankAccountTests.swift in Sources */,
 				C358A9A72272644000E5AE47 /* SelectTransferMethodType.swift in Sources */,
 			);
