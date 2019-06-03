@@ -47,9 +47,10 @@
 		988547CC2294B879007B312C /* ListReceiptViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988547CB2294B879007B312C /* ListReceiptViewPresenter.swift */; };
 		988547D022970FA1007B312C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988547CF22970FA1007B312C /* Date.swift */; };
 		988547D422983721007B312C /* ListTransferMethodResponseWithoutPayPalAccount.json in Resources */ = {isa = PBXBuildFile; fileRef = 988547D322983721007B312C /* ListTransferMethodResponseWithoutPayPalAccount.json */; };
-		98DF1D4722A09FEC0080FFA5 /* SelectReceiptTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DF1D4622A09FEC0080FFA5 /* SelectReceiptTypeViewController.swift */; };
-		98DF1D4922A0A0100080FFA5 /* SelectReceiptTypeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DF1D4822A0A0100080FFA5 /* SelectReceiptTypeViewPresenter.swift */; };
-		98DF1D4B22A0CD8C0080FFA5 /* SelectTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DF1D4A22A0CD8C0080FFA5 /* SelectTypeTableViewCell.swift */; };
+		98DF1D4722A09FEC0080FFA5 /* ReceiptAccountTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DF1D4622A09FEC0080FFA5 /* ReceiptAccountTypeViewController.swift */; };
+		98DF1D4922A0A0100080FFA5 /* ReceiptAccountTypeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DF1D4822A0A0100080FFA5 /* ReceiptAccountTypeViewPresenter.swift */; };
+		98DF1D4B22A0CD8C0080FFA5 /* ReceiptAccountTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DF1D4A22A0CD8C0080FFA5 /* ReceiptAccountTypeTableViewCell.swift */; };
+		98DF1D5222A577550080FFA5 /* ReceiptAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DF1D5122A577550080FFA5 /* ReceiptAccountType.swift */; };
 		98F63E682284AB170090101D /* PayPalAccountResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E662284A2CF0090101D /* PayPalAccountResponse.json */; };
 		98F63E6B2284AC330090101D /* PayPalAccountInvalidEmailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E692284AC2A0090101D /* PayPalAccountInvalidEmailResponse.json */; };
 		98F63E6E2284AD370090101D /* PayPalAccountDuplicateResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E6C2284AD330090101D /* PayPalAccountDuplicateResponse.json */; };
@@ -202,9 +203,10 @@
 		988547CB2294B879007B312C /* ListReceiptViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListReceiptViewPresenter.swift; sourceTree = "<group>"; };
 		988547CF22970FA1007B312C /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		988547D322983721007B312C /* ListTransferMethodResponseWithoutPayPalAccount.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ListTransferMethodResponseWithoutPayPalAccount.json; sourceTree = "<group>"; };
-		98DF1D4622A09FEC0080FFA5 /* SelectReceiptTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectReceiptTypeViewController.swift; sourceTree = "<group>"; };
-		98DF1D4822A0A0100080FFA5 /* SelectReceiptTypeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectReceiptTypeViewPresenter.swift; sourceTree = "<group>"; };
-		98DF1D4A22A0CD8C0080FFA5 /* SelectTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeTableViewCell.swift; sourceTree = "<group>"; };
+		98DF1D4622A09FEC0080FFA5 /* ReceiptAccountTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptAccountTypeViewController.swift; sourceTree = "<group>"; };
+		98DF1D4822A0A0100080FFA5 /* ReceiptAccountTypeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptAccountTypeViewPresenter.swift; sourceTree = "<group>"; };
+		98DF1D4A22A0CD8C0080FFA5 /* ReceiptAccountTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptAccountTypeTableViewCell.swift; sourceTree = "<group>"; };
+		98DF1D5122A577550080FFA5 /* ReceiptAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptAccountType.swift; sourceTree = "<group>"; };
 		98F63E64228485930090101D /* AddTransferMethodPayPalAccountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransferMethodPayPalAccountTests.swift; sourceTree = "<group>"; };
 		98F63E662284A2CF0090101D /* PayPalAccountResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PayPalAccountResponse.json; sourceTree = "<group>"; };
 		98F63E692284AC2A0090101D /* PayPalAccountInvalidEmailResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PayPalAccountInvalidEmailResponse.json; sourceTree = "<group>"; };
@@ -381,9 +383,10 @@
 				988547CB2294B879007B312C /* ListReceiptViewPresenter.swift */,
 				988547C92294B829007B312C /* ListReceiptViewController.swift */,
 				98175428228DE42E0019159A /* ListReceiptTableViewCell.swift */,
-				98DF1D4622A09FEC0080FFA5 /* SelectReceiptTypeViewController.swift */,
-				98DF1D4822A0A0100080FFA5 /* SelectReceiptTypeViewPresenter.swift */,
-				98DF1D4A22A0CD8C0080FFA5 /* SelectTypeTableViewCell.swift */,
+				98DF1D4622A09FEC0080FFA5 /* ReceiptAccountTypeViewController.swift */,
+				98DF1D4822A0A0100080FFA5 /* ReceiptAccountTypeViewPresenter.swift */,
+				98DF1D4A22A0CD8C0080FFA5 /* ReceiptAccountTypeTableViewCell.swift */,
+				98DF1D5122A577550080FFA5 /* ReceiptAccountType.swift */,
 			);
 			path = Receipt;
 			sourceTree = "<group>";
@@ -1011,7 +1014,7 @@
 				DBCA387B225E8BAA00CD4137 /* UINavigationController.swift in Sources */,
 				DB2EB66D22617A8500FBEB3D /* String+Array.swift in Sources */,
 				DBCA386C225E8BAA00CD4137 /* ListTransferMethodPresenter.swift in Sources */,
-				98DF1D4922A0A0100080FFA5 /* SelectReceiptTypeViewPresenter.swift in Sources */,
+				98DF1D4922A0A0100080FFA5 /* ReceiptAccountTypeViewPresenter.swift in Sources */,
 				DBCA3869225E8BAA00CD4137 /* AddTransferMethodTableViewCell.swift in Sources */,
 				DBCA3876225E8BAA00CD4137 /* NSRegularExpression.swift in Sources */,
 				DBCA3861225E8BAA00CD4137 /* AddTransferMethodViewController.swift in Sources */,
@@ -1028,7 +1031,7 @@
 				DBCA388E225E8BAA00CD4137 /* AbstractWidget.swift in Sources */,
 				DBCA3880225E8BAA00CD4137 /* HyperwalletIcon.swift in Sources */,
 				98175429228DE42E0019159A /* ListReceiptTableViewCell.swift in Sources */,
-				98DF1D4722A09FEC0080FFA5 /* SelectReceiptTypeViewController.swift in Sources */,
+				98DF1D4722A09FEC0080FFA5 /* ReceiptAccountTypeViewController.swift in Sources */,
 				DBCA3873225E8BAA00CD4137 /* UIColor.swift in Sources */,
 				DBCA3870225E8BAA00CD4137 /* UIAlertAction.swift in Sources */,
 				DBCA388B225E8BAA00CD4137 /* WidgetFactory.swift in Sources */,
@@ -1052,10 +1055,11 @@
 				DBCA3883225E8BAA00CD4137 /* Theme.swift in Sources */,
 				DBCA385D225E8BAA00CD4137 /* SelectTransferMethodTypeViewController.swift in Sources */,
 				4A12653C2280B02900C0F59E /* DateWidget.swift in Sources */,
+				98DF1D5222A577550080FFA5 /* ReceiptAccountType.swift in Sources */,
 				DBCA3890225E8BAA00CD4137 /* ExpiryDatePickerView.swift in Sources */,
 				9826056822822E8A000CCA2D /* UIToolbar.swift in Sources */,
 				DBCA3879225E8BAA00CD4137 /* UIImage.swift in Sources */,
-				98DF1D4B22A0CD8C0080FFA5 /* SelectTypeTableViewCell.swift in Sources */,
+				98DF1D4B22A0CD8C0080FFA5 /* ReceiptAccountTypeTableViewCell.swift in Sources */,
 				DBCA3872225E8BAA00CD4137 /* UIBarButtonItem.swift in Sources */,
 				988547D022970FA1007B312C /* Date.swift in Sources */,
 				DBCA388A225E8BAA00CD4137 /* SelectionWidget.swift in Sources */,

@@ -19,9 +19,9 @@
 import HyperwalletSDK
 import UIKit
 
-public class SelectReceiptTypeViewController: UITableViewController {
+public class ReceiptAccountTypeViewController: UITableViewController {
     private var spinnerView: SpinnerView?
-    private var presenter: SelectReceiptTypeViewPresenter!
+    private var presenter: ReceiptAccountTypeViewPresenter!
     private let receiptTypeCellIdentifier = "receiptTypeCellIdentifier"
 
     override public func viewDidLoad() {
@@ -32,7 +32,7 @@ public class SelectReceiptTypeViewController: UITableViewController {
 
         navigationItem.backBarButtonItem = UIBarButtonItem.back
 
-        presenter = SelectReceiptTypeViewPresenter(view: self)
+        presenter = ReceiptAccountTypeViewPresenter(view: self)
         presenter.listReceiptTypes()
         setupReceiptTypeTableView()
     }
@@ -48,7 +48,6 @@ public class SelectReceiptTypeViewController: UITableViewController {
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return presenter.numberOfCells
     }
 
@@ -58,25 +57,14 @@ public class SelectReceiptTypeViewController: UITableViewController {
 
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: receiptTypeCellIdentifier, for: indexPath)
-        if let receiptTypeCell = cell as? SelectTypeTableViewCell {
-            receiptTypeCell.configure(configuration: presenter.getCellConfiguration(for: indexPath.row))
+        if let receiptTypeCell = cell as? ReceiptAccountTypeTableViewCell {
+            receiptTypeCell.item = presenter.getCellConfiguration(for: indexPath.row)
         }
         return cell
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var controller: ListReceiptViewController
-        switch indexPath.row {
-        case 0:
-            controller = ListReceiptViewController()
-
-        default:
-            let prepaidCard = presenter.getPrepaidCard(at: indexPath.row - 1)
-            guard let token = prepaidCard.getField(fieldName: .token) as? String else {
-                return
-            }
-            controller = ListReceiptViewController(prepaidCardToken: token)
-        }
+        let controller = ListReceiptViewController(receiptAccount: presenter.getSectionData(at: indexPath.row))
         navigationController?.pushViewController(controller, animated: true)
     }
 
@@ -84,12 +72,12 @@ public class SelectReceiptTypeViewController: UITableViewController {
     private func setupReceiptTypeTableView() {
         tableView = UITableView(frame: .zero, style: .grouped)
         tableView.tableFooterView = UIView()
-        tableView.register(SelectTypeTableViewCell.self,
+        tableView.register(ReceiptAccountTypeTableViewCell.self,
                            forCellReuseIdentifier: receiptTypeCellIdentifier)
     }
 }
 
-extension SelectReceiptTypeViewController: SelectReceiptTypeView {
+extension ReceiptAccountTypeViewController: ReceiptAccountTypeView {
     func loadReceiptTypes() {
         tableView.reloadData()
     }

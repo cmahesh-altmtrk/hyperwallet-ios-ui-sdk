@@ -18,24 +18,24 @@
 
 import HyperwalletSDK
 
-protocol SelectReceiptTypeView: class {
+protocol ReceiptAccountTypeView: class {
     func hideLoading()
     func loadReceiptTypes()
     func showError(_ error: HyperwalletErrorType, _ retry: (() -> Void)?)
     func showLoading()
 }
 
-final class SelectReceiptTypeViewPresenter {
-    private unowned let view: SelectReceiptTypeView
-    private var prepaidCards = [HyperwalletBankAccount]()
+final class ReceiptAccountTypeViewPresenter {
+    private unowned let view: ReceiptAccountTypeView
+    private var sectionData = [ReceiptAccount]()
 
     /// Initialize ListTransferMethodPresenter
-    init(view: SelectReceiptTypeView) {
+    init(view: ReceiptAccountTypeView) {
         self.view = view
     }
 
     var numberOfCells: Int {
-        return prepaidCards.count + 1
+        return sectionData.count
     }
 
     func listReceiptTypes() {
@@ -43,23 +43,20 @@ final class SelectReceiptTypeViewPresenter {
         listPrepaidCards()
     }
 
-    func getPrepaidCard(at index: Int) -> HyperwalletBankAccount {
-        return prepaidCards[index]
+    func getSectionData(at index: Int) -> ReceiptAccount {
+        return sectionData[index]
     }
 
-    func getCellConfiguration(for receiptIndex: Int) -> SelectTypeCellConfiguration? {
-        switch receiptIndex {
-        case 0:
-            return SelectTypeCellConfiguration(title: "account".localized(), value: nil)
-
-        default:
-            let prepaidCard = getPrepaidCard(at: receiptIndex - 1)
-            var additionlInfo = prepaidCard.getField(fieldName: .bankAccountId) as? String
-            additionlInfo = String(format: "%@%@",
-                                   "transfer_method_list_item_description".localized(),
-                                   additionlInfo?.suffix(startAt: 4) ?? "")
-            return SelectTypeCellConfiguration(title: "card".localized(), value: additionlInfo)
+    func getCellConfiguration(for receiptIndex: Int) -> ReceiptAccountTypeCellConfiguration? {
+        if sectionData[receiptIndex] as? UserAccountReceipt != nil {
+            return ReceiptAccountTypeCellConfiguration(title: "account".localized(), value: nil)
+        } else if let receiptAccountType = sectionData[receiptIndex] as? PrepaidCardAccountReceipt {
+            let additionlInfo = String(format: "%@%@",
+                                       "transfer_method_list_item_description".localized(),
+                                       receiptAccountType.token.suffix(startAt: 4))
+            return ReceiptAccountTypeCellConfiguration(title: "card".localized(), value: additionlInfo)
         }
+        return nil
     }
 
     private func listPrepaidCards() {
@@ -69,6 +66,7 @@ final class SelectReceiptTypeViewPresenter {
         Hyperwallet.shared.listBankAccounts(queryParam: bankAccountQueryParam, completion: listPrepaidCardsHandler())
     }
 
+    //swiftlint:disable force_cast
     private func listPrepaidCardsHandler()
         -> (HyperwalletPageList<HyperwalletBankAccount>?, HyperwalletErrorType?) -> Void {
             return { [weak self] (result, error) in
@@ -80,10 +78,18 @@ final class SelectReceiptTypeViewPresenter {
                     if let error = error {
                         strongSelf.view.showError(error, { strongSelf.listReceiptTypes() })
                         return
-                    } else if let result = result {
-                        strongSelf.prepaidCards = result.data
-                        strongSelf.view.loadReceiptTypes()
+                    } else {
+                        strongSelf.sectionData.append(UserAccountReceipt(receiptAccountType: .user))
+                        if let result = result {
+                        result.data.forEach { prepaidCard in
+                            strongSelf.sectionData.append(
+                                PrepaidCardAccountReceipt(receiptAccountType: .prepaidCard,
+                                                          token: prepaidCard.getField(fieldName: .bankAccountId)
+                                                            as! String))
+                        }
+                        }
                     }
+                    strongSelf.view.loadReceiptTypes()
                 }
             }
     }

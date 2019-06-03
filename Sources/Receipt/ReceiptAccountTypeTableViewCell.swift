@@ -19,7 +19,7 @@
 import HyperwalletSDK
 import UIKit
 
-struct SelectTypeCellConfiguration {
+struct ReceiptAccountTypeCellConfiguration {
     let title: String
     let value: String?
 
@@ -28,9 +28,29 @@ struct SelectTypeCellConfiguration {
     }
 }
 
-final class SelectTypeTableViewCell: UITableViewCell {
-    private var iconColor: UIColor!
-    private var iconBackgroundColor: UIColor!
+final class ReceiptAccountTypeTableViewCell: GenericCell<ReceiptAccountTypeCellConfiguration> {
+    override var item: ReceiptAccountTypeCellConfiguration! {
+        didSet {
+            guard let configuration = item  else {
+                return
+            }
+            accessibilityIdentifier = configuration.identifier
+
+            var value = configuration.value
+            if accessoryType == .checkmark {
+                value = ""
+            }
+
+            textLabel?.text = configuration.title
+            textLabel?.accessibilityLabel = configuration.title
+            textLabel?.accessibilityIdentifier = configuration.title
+
+            detailTextLabel?.text = value
+            detailTextLabel?.accessibilityLabel = configuration.value
+            detailTextLabel?.accessibilityIdentifier = configuration.value
+        }
+    }
+
     // MARK: Life cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
@@ -60,42 +80,5 @@ final class SelectTypeTableViewCell: UITableViewCell {
     @objc dynamic var subTitleLabelColor: UIColor! {
         get { return detailTextLabel?.textColor }
         set { detailTextLabel?.textColor = newValue }
-    }
-}
-
-extension SelectTypeTableViewCell {
-    func configure(configuration: SelectTypeCellConfiguration?) {
-        if let configuration = configuration {
-            textLabel?.attributedText = formatTextLabel(title: configuration.title)
-            if let value = configuration.value {
-                detailTextLabel?.attributedText = formatDetailTextLabel(value: value)
-            }
-            textLabel?.numberOfLines = 0
-            textLabel?.lineBreakMode = .byWordWrapping
-            detailTextLabel?.numberOfLines = 0
-            detailTextLabel?.lineBreakMode = .byWordWrapping
-        }
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        imageView?.backgroundColor = iconBackgroundColor
-    }
-
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-        imageView?.backgroundColor = iconBackgroundColor
-    }
-
-    private func formatTextLabel(title: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString()
-        attributedText.append(value: title, font: titleLabelFont, color: titleLabelColor)
-        return attributedText
-    }
-
-    private func formatDetailTextLabel(value: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString()
-        attributedText.append(value: value, font: Theme.Label.captionOne, color: Theme.Label.subTitleColor )
-        return attributedText
     }
 }

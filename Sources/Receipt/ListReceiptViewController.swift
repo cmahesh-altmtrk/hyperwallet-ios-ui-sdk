@@ -30,14 +30,9 @@ public final class ListReceiptViewController: UITableViewController {
     private var fetchMoreData: Bool = false
 
     /// 
-    public init() {
+    public init(receiptAccount: ReceiptAccount) {
         super.init(nibName: nil, bundle: nil)
-        presenter = ListReceiptViewPresenter(view: self, receiptType: .account)
-    }
-
-    public init(prepaidCardToken: String) {
-        super.init(nibName: nil, bundle: nil)
-        presenter = ListReceiptViewPresenter(view: self, receiptType: .prepaidCard, prepaidCardToken: prepaidCardToken)
+        presenter = ListReceiptViewPresenter(view: self, receiptAccount: receiptAccount)
     }
 
     // swiftlint:disable unavailable_function
@@ -142,9 +137,4 @@ extension ListReceiptViewController: ListReceiptView {
         let errorView = ErrorView(viewController: self, error: error)
         errorView.show(retry)
     }
-}
-
-public enum ReceiptType: String {
-    case account
-    case prepaidCard
 }

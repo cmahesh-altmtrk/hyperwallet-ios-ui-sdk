@@ -29,29 +29,30 @@ final class ListReceiptViewPresenter {
     private unowned let view: ListReceiptView
 
     private var offset = 0
-    private let limit = 20
+    private let limit = 10
     private let dateFormat = "yyyy-MM-dd'T'H:mm:ss"
 
-    private var receiptType: ReceiptType?
-    private var prepaidCardToken: String?
+    private var receiptAccount: ReceiptAccount
     private var isFetchInProgress = false
     private(set) var isFetchCompleted = true
     private(set) var groupedSectionArray: [(key: Date, value: [HyperwalletReceipt])] = []
 
+    private enum ReceiptType: String {
+        case account
+        case prepaidCard
+    }
+
     /// Initialize ListTransferMethodPresenter
-    init(view: ListReceiptView, receiptType: ReceiptType?, prepaidCardToken: String? = nil) {
+    init(view: ListReceiptView, receiptAccount: ReceiptAccount) {
         self.view = view
-        self.receiptType = receiptType
-        self.prepaidCardToken = prepaidCardToken
+        self.receiptAccount = receiptAccount
     }
 
     func listReceipts() {
-        if let receiptType = receiptType {
-            if receiptType == ReceiptType.account {
-                listUserReceipts()
-            } else if let prepaidCardToken = prepaidCardToken {
-                listPrepaidCardReceipts(prepaidCardToken)
-            }
+        if receiptAccount as? UserAccountReceipt != nil {
+            listUserReceipts()
+        } else if let receiptAccountType = receiptAccount as? PrepaidCardAccountReceipt {
+            listPrepaidCardReceipts(receiptAccountType.token)
         }
     }
 
