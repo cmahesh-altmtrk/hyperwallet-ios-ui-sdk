@@ -29,13 +29,12 @@ final class ListReceiptViewPresenter {
     private unowned let view: ListReceiptView
 
     private var offset = 0
-    private let limit = 10
-    private let dateFormat = "yyyy-MM-dd'T'H:mm:ss"
+    private let limit = 20
 
     private var receiptAccount: ReceiptAccount
     private var isFetchInProgress = false
     private(set) var isFetchCompleted = true
-    private(set) var groupedSectionArray: [(key: Date, value: [HyperwalletReceipt])] = []
+    private(set) var groupedSectionArray = [(key: Date, value: [HyperwalletReceipt])]()
 
     /// Initialize ListTransferMethodPresenter
     init(view: ListReceiptView, receiptAccount: ReceiptAccount) {
@@ -56,14 +55,16 @@ final class ListReceiptViewPresenter {
         let currency = receipt.currency
         let type = receipt.type.rawValue
         let entry = receipt.entry.rawValue
-        let createdOn = receipt.createdOn
+        let createdOn = ISO8601DateFormatter
+            .ignoreTimeZone
+            .date(from: receipt.createdOn)!
+            .format(for: .date)
         return ListReceiptCellConfiguration(
             type: type.lowercased().localized(),
             entry: entry,
             amount: receipt.amount,
             currency: currency,
-            createdOn: createdOn.toDate(withFormat: dateFormat)
-                .formatDateToString(timeStyle: DateFormatter.Style.none),
+            createdOn: createdOn,
             iconFont: HyperwalletIcon.of(receipt.entry.rawValue).rawValue)
     }
 
@@ -72,6 +73,7 @@ final class ListReceiptViewPresenter {
         queryParam.offset = offset
         queryParam.limit = limit
         queryParam.sortBy = .descendantCreatedOn
+        queryParam.createdAfter = Calendar.current.date(byAdding: .year, value: -1, to: Date())
         return queryParam
     }
 
@@ -111,24 +113,28 @@ final class ListReceiptViewPresenter {
                         strongSelf.groupReceiptsByMonth(result.data)
                         strongSelf.isFetchCompleted = result.data.count < strongSelf.limit ? true : false
                         strongSelf.offset += result.data.count
-                        strongSelf.view.loadReceipts()
                     }
+                    strongSelf.view.loadReceipts()
                 }
             }
     }
 
     private func groupReceiptsByMonth(_ receipts: [HyperwalletReceipt]) {
-        let groupedSections = Dictionary(grouping: receipts, by: {$0.createdOn
-                                                                    .toDate(withFormat: dateFormat)
-                                                                    .firstDayOfMonth()})
+        let groupedSections = Dictionary(grouping: receipts,
+                                         by: {
+                                            ISO8601DateFormatter
+                                                .ignoreTimeZone
+                                                .date(from: $0.createdOn)!
+                                                .firstDayOfMonth()
+        })
 
         for section in groupedSections {
             if let sectionIndex = groupedSectionArray.firstIndex(where: { $0.key == section.key }) {
-                groupedSectionArray[sectionIndex].value.append(contentsOf: receipts)
+                groupedSectionArray[sectionIndex].value.append(contentsOf: section.value)
             } else {
                 groupedSectionArray.append(section)
             }
-            groupedSectionArray = groupedSectionArray.sorted(by: { $0.key > $1.key })
         }
+        groupedSectionArray = groupedSectionArray.sorted(by: { $0.key > $1.key })
     }
 }

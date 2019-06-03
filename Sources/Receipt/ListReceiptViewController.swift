@@ -18,7 +18,7 @@
 import HyperwalletSDK
 import UIKit
 
-/// Lists the user's transaction hisotrys
+/// Lists the user's transaction historys
 ///
 /// The user can click a receipt in the list for more information
 public final class ListReceiptViewController: UITableViewController {
@@ -29,6 +29,7 @@ public final class ListReceiptViewController: UITableViewController {
     private let sectionTitleDateFormat = "MMMM yyyy"
     private var fetchMoreData: Bool = false
 
+    private lazy var emptyListLabel: UILabel = view.setUpEmptyListLabel(text: "empty_list_receipt_message".localized())
     /// 
     public init(receiptAccount: ReceiptAccount) {
         super.init(nibName: nil, bundle: nil)
@@ -113,11 +114,21 @@ public final class ListReceiptViewController: UITableViewController {
             fetchMoreData = false
         }
     }
+
+    private func toggleEmptyListView(hideLabel: Bool = true) {
+        emptyListLabel.isHidden = hideLabel
+    }
 }
 
 // MARK: `ListReceiptView` delegate
 extension ListReceiptViewController: ListReceiptView {
     func loadReceipts() {
+        if presenter.groupedSectionArray.isNotEmpty() {
+            toggleEmptyListView()
+        } else {
+            toggleEmptyListView(hideLabel: false)
+        }
+
         tableView.reloadData()
     }
 
