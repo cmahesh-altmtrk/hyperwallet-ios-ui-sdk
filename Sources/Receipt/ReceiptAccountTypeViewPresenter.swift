@@ -79,12 +79,11 @@ final class ReceiptAccountTypeViewPresenter {
                         strongSelf.view.showError(error, { strongSelf.listReceiptTypes() })
                         return
                     } else {
-                        strongSelf.sectionData.append(UserAccountReceipt(receiptAccountType: .user))
+                        strongSelf.sectionData.append(UserAccountReceipt())
                         if let result = result {
                         result.data.forEach { prepaidCard in
                             strongSelf.sectionData.append(
-                                PrepaidCardAccountReceipt(receiptAccountType: .prepaidCard,
-                                                          token: prepaidCard.getField(fieldName: .bankAccountId)
+                                PrepaidCardAccountReceipt(token: prepaidCard.getField(fieldName: .bankAccountId)
                                                             as! String))
                         }
                         }

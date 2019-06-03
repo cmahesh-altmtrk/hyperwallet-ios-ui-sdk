@@ -59,6 +59,7 @@ public class ReceiptAccountTypeViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: receiptTypeCellIdentifier, for: indexPath)
         if let receiptTypeCell = cell as? ReceiptAccountTypeTableViewCell {
             receiptTypeCell.item = presenter.getCellConfiguration(for: indexPath.row)
+            receiptTypeCell.accessoryType = .disclosureIndicator
         }
         return cell
     }

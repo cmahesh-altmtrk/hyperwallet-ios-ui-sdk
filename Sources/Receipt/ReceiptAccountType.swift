@@ -18,29 +18,27 @@
 
 import Foundation
 
-public enum ReceiptAccountType: String {
+enum ReceiptAccountType: String {
     case user
     case prepaidCard
 }
 
 public protocol ReceiptAccount: class {
-    init(receiptAccountType: ReceiptAccountType, token: String)
+    init(token: String)
 }
 
 public class UserAccountReceipt: ReceiptAccount {
-    var receiptAccountType: ReceiptAccountType = .user
+    let receiptAccountType: ReceiptAccountType = .user
     var token: String
-    public required init(receiptAccountType: ReceiptAccountType, token: String = "") {
-        self.receiptAccountType = receiptAccountType
+    public required init(token: String = "") {
         self.token = token
     }
 }
 
 public class PrepaidCardAccountReceipt: ReceiptAccount {
-    var receiptAccountType: ReceiptAccountType = .prepaidCard
+    let receiptAccountType: ReceiptAccountType = .prepaidCard
     var token: String
-    public required init(receiptAccountType: ReceiptAccountType, token: String) {
-        self.receiptAccountType = receiptAccountType
+    public required init(token: String) {
         self.token = token
     }
 }

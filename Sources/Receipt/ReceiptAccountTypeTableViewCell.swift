@@ -36,16 +36,11 @@ final class ReceiptAccountTypeTableViewCell: GenericCell<ReceiptAccountTypeCellC
             }
             accessibilityIdentifier = configuration.identifier
 
-            var value = configuration.value
-            if accessoryType == .checkmark {
-                value = ""
-            }
-
             textLabel?.text = configuration.title
             textLabel?.accessibilityLabel = configuration.title
             textLabel?.accessibilityIdentifier = configuration.title
 
-            detailTextLabel?.text = value
+            detailTextLabel?.text = configuration.value
             detailTextLabel?.accessibilityLabel = configuration.value
             detailTextLabel?.accessibilityIdentifier = configuration.value
         }

@@ -37,11 +37,6 @@ final class ListReceiptViewPresenter {
     private(set) var isFetchCompleted = true
     private(set) var groupedSectionArray: [(key: Date, value: [HyperwalletReceipt])] = []
 
-    private enum ReceiptType: String {
-        case account
-        case prepaidCard
-    }
-
     /// Initialize ListTransferMethodPresenter
     init(view: ListReceiptView, receiptAccount: ReceiptAccount) {
         self.view = view
