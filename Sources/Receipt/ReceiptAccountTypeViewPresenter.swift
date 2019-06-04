@@ -27,7 +27,7 @@ protocol ReceiptAccountTypeView: class {
 
 final class ReceiptAccountTypeViewPresenter {
     private unowned let view: ReceiptAccountTypeView
-    private var sectionData = [ReceiptAccount]()
+    private var sectionData = [Receipt]()
 
     /// Initialize ListTransferMethodPresenter
     init(view: ReceiptAccountTypeView) {
@@ -43,17 +43,19 @@ final class ReceiptAccountTypeViewPresenter {
         listPrepaidCards()
     }
 
-    func getSectionData(at index: Int) -> ReceiptAccount {
+    func getSectionData(at index: Int) -> Receipt {
         return sectionData[index]
     }
 
+    //swiftlint:disable force_cast
     func getCellConfiguration(for receiptIndex: Int) -> ReceiptAccountTypeCellConfiguration? {
-        if sectionData[receiptIndex] as? UserAccountReceipt != nil {
+        if sectionData[receiptIndex] as? UserReceipt != nil {
             return ReceiptAccountTypeCellConfiguration(title: "account".localized(), value: nil)
-        } else if let receiptAccountType = sectionData[receiptIndex] as? PrepaidCardAccountReceipt {
+        } else if let receiptAccountType = sectionData[receiptIndex] as? PrepaidCardReceipt {
+            let prepaidCard = receiptAccountType.prepaidCard
             let additionlInfo = String(format: "%@%@",
                                        "transfer_method_list_item_description".localized(),
-                                       receiptAccountType.token.suffix(startAt: 4))
+                                       (prepaidCard.getField(fieldName: .bankAccountId) as! String).suffix(startAt: 4))
             return ReceiptAccountTypeCellConfiguration(title: "card".localized(), value: additionlInfo)
         }
         return nil
@@ -66,7 +68,6 @@ final class ReceiptAccountTypeViewPresenter {
         Hyperwallet.shared.listBankAccounts(queryParam: bankAccountQueryParam, completion: listPrepaidCardsHandler())
     }
 
-    //swiftlint:disable force_cast
     private func listPrepaidCardsHandler()
         -> (HyperwalletPageList<HyperwalletBankAccount>?, HyperwalletErrorType?) -> Void {
             return { [weak self] (result, error) in
@@ -79,12 +80,11 @@ final class ReceiptAccountTypeViewPresenter {
                         strongSelf.view.showError(error, { strongSelf.listReceiptTypes() })
                         return
                     } else {
-                        strongSelf.sectionData.append(UserAccountReceipt())
+                        strongSelf.sectionData.append(UserReceipt())
                         if let result = result {
                         result.data.forEach { prepaidCard in
                             strongSelf.sectionData.append(
-                                PrepaidCardAccountReceipt(token: prepaidCard.getField(fieldName: .bankAccountId)
-                                                            as! String))
+                                PrepaidCardReceipt(prepaidCard: prepaidCard))
                         }
                         }
                     }

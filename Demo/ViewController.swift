@@ -155,13 +155,13 @@ class ViewController: UITableViewController {
 
         case .accountReceipts:
             let viewController = HyperwalletUI.shared.listAccountReceiptViewController(receiptAccount:
-                UserAccountReceipt(token: "usr-1234"))
+                UserReceipt())
             navigationController?.pushViewController(viewController, animated: true)
 
-        case .prepaidCardReceipts:
-            let viewController = HyperwalletUI.shared.listCardReceiptViewController(receiptAccount:
-                PrepaidCardAccountReceipt(token: "act-68adaba2-42f4-4f0f-8670-81c09f319a12"))
-            navigationController?.pushViewController(viewController, animated: true)
+//        case .prepaidCardReceipts:
+//            let viewController = HyperwalletUI.shared.listCardReceiptViewController(receiptAccount:
+//                PrepaidCardAccountReceipt(token: "act-68adaba2-42f4-4f0f-8670-81c09f319a12"))
+//            navigationController?.pushViewController(viewController, animated: true)
 
         case .receiptTypes:
             let viewController = HyperwalletUI.shared.listReceiptTypeViewController()

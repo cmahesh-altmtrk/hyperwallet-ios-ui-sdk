@@ -61,7 +61,7 @@ public final class HyperwalletUI {
     ///
     ///
     /// - Returns: An instance of `ListReceiptViewController`
-    public func listAccountReceiptViewController(receiptAccount: ReceiptAccount) -> ListReceiptViewController {
+    public func listAccountReceiptViewController(receiptAccount: Receipt) -> ListReceiptViewController {
         return ListReceiptViewController(receiptAccount: receiptAccount)
     }
 
@@ -69,7 +69,7 @@ public final class HyperwalletUI {
     ///
     ///
     /// - Returns: An instance of `ListReceiptViewController`
-    public func listCardReceiptViewController(receiptAccount: ReceiptAccount) -> ListReceiptViewController {
+    public func listCardReceiptViewController(receiptAccount: Receipt) -> ListReceiptViewController {
         return ListReceiptViewController(receiptAccount: receiptAccount)
     }
 

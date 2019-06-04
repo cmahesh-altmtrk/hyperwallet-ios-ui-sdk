@@ -31,7 +31,7 @@ public final class ListReceiptViewController: UITableViewController {
 
     private lazy var emptyListLabel: UILabel = view.setUpEmptyListLabel(text: "empty_list_receipt_message".localized())
     /// 
-    public init(receiptAccount: ReceiptAccount) {
+    public init(receiptAccount: Receipt) {
         super.init(nibName: nil, bundle: nil)
         presenter = ListReceiptViewPresenter(view: self, receiptAccount: receiptAccount)
     }
