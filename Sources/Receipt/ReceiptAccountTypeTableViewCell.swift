@@ -29,6 +29,7 @@ struct ReceiptAccountTypeCellConfiguration {
 }
 
 final class ReceiptAccountTypeTableViewCell: GenericCell<ReceiptAccountTypeCellConfiguration> {
+    static let receiptTypeCellIdentifier = "receiptTypeCellIdentifier"
     override var item: ReceiptAccountTypeCellConfiguration! {
         didSet {
             guard let configuration = item  else {

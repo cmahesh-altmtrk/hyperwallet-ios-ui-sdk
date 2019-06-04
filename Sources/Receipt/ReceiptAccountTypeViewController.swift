@@ -22,7 +22,6 @@ import UIKit
 public class ReceiptAccountTypeViewController: UITableViewController {
     private var spinnerView: SpinnerView?
     private var presenter: ReceiptAccountTypeViewPresenter!
-    private let receiptTypeCellIdentifier = "receiptTypeCellIdentifier"
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +47,7 @@ public class ReceiptAccountTypeViewController: UITableViewController {
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.numberOfCells
+        return presenter.sectionData.count
     }
 
     override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -56,16 +55,24 @@ public class ReceiptAccountTypeViewController: UITableViewController {
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: receiptTypeCellIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier:
+            ReceiptAccountTypeTableViewCell.receiptTypeCellIdentifier, for: indexPath)
         if let receiptTypeCell = cell as? ReceiptAccountTypeTableViewCell {
-            receiptTypeCell.item = presenter.getCellConfiguration(for: indexPath.row)
+            receiptTypeCell.item = presenter.cellForRowAt(indexPath)
             receiptTypeCell.accessoryType = .disclosureIndicator
         }
         return cell
     }
 
+    //swiftlint:disable force_cast
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ListReceiptViewController(receiptAccount: presenter.getSectionData(at: indexPath.row))
+        var controller: ListReceiptViewController
+        if let receiptAccountType = presenter.sectionData[indexPath.row] as? PrepaidCardReceipt,
+            let prepaidCardToken = receiptAccountType.prepaidCard.getField(fieldName: .token) as? String {
+            controller = ListReceiptViewController(prepaidCardToken: prepaidCardToken)
+        } else {
+            controller = ListReceiptViewController()
+        }
         navigationController?.pushViewController(controller, animated: true)
     }
 
@@ -74,7 +81,7 @@ public class ReceiptAccountTypeViewController: UITableViewController {
         tableView = UITableView(frame: .zero, style: .grouped)
         tableView.tableFooterView = UIView()
         tableView.register(ReceiptAccountTypeTableViewCell.self,
-                           forCellReuseIdentifier: receiptTypeCellIdentifier)
+                           forCellReuseIdentifier: ReceiptAccountTypeTableViewCell.receiptTypeCellIdentifier)
     }
 }
 

@@ -61,16 +61,16 @@ public final class HyperwalletUI {
     ///
     ///
     /// - Returns: An instance of `ListReceiptViewController`
-    public func listAccountReceiptViewController(receiptAccount: Receipt) -> ListReceiptViewController {
-        return ListReceiptViewController(receiptAccount: receiptAccount)
+    public func listUserReceiptViewController() -> ListReceiptViewController {
+        return ListReceiptViewController()
     }
 
     /// Lists the user's prepaid card transactions.
     ///
     ///
     /// - Returns: An instance of `ListReceiptViewController`
-    public func listCardReceiptViewController(receiptAccount: Receipt) -> ListReceiptViewController {
-        return ListReceiptViewController(receiptAccount: receiptAccount)
+    public func listPrepaidCardReceiptViewController(prepaidCardToken: String) -> ListReceiptViewController {
+        return ListReceiptViewController(prepaidCardToken: prepaidCardToken)
     }
 
     /// Lists all transfer method types available based on the country, currency and profile type to create a new

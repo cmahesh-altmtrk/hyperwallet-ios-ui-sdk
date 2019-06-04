@@ -31,22 +31,22 @@ final class ListReceiptViewPresenter {
     private var offset = 0
     private let limit = 20
 
-    private var receiptAccount: Receipt
+    private var prepaidCardToken: String?
     private var isFetchInProgress = false
     private(set) var isFetchCompleted = true
     private(set) var groupedSectionArray = [(key: Date, value: [HyperwalletReceipt])]()
 
     /// Initialize ListTransferMethodPresenter
-    init(view: ListReceiptView, receiptAccount: Receipt) {
+    init(view: ListReceiptView, prepaidCardToken: String? = nil) {
         self.view = view
-        self.receiptAccount = receiptAccount
+        self.prepaidCardToken = prepaidCardToken
     }
 
     func listReceipts() {
-        if receiptAccount as? UserReceipt != nil {
+        if let prepaidCardToken = prepaidCardToken {
+            listPrepaidCardReceipts(prepaidCardToken)
+        } else {
             listUserReceipts()
-        } else if let receiptAccountType = receiptAccount as? PrepaidCardReceipt {
-            listPrepaidCardReceipts(receiptAccountType.prepaidCard)
         }
     }
 
@@ -87,7 +87,7 @@ final class ListReceiptViewPresenter {
         Hyperwallet.shared.listUserReceipts(queryParam: setUpQueryParam(), completion: listReceiptHandler())
     }
 
-    private func listPrepaidCardReceipts(_ prepaidCard: HyperwalletBankAccount) {
+    private func listPrepaidCardReceipts(_ prepaidCardToken: String) {
         guard !isFetchInProgress else {
             return
         }

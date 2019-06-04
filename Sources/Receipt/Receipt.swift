@@ -23,9 +23,9 @@ public protocol Receipt: class {
 }
 
 public class UserReceipt: Receipt {
-//    var hyperwalletUser: HyperwalletUser
-    public init() {
-//        self.hyperwalletUser = user
+    var hyperwalletUser: HyperwalletUser?
+    public init(user: HyperwalletUser? = nil) {
+        self.hyperwalletUser = user
     }
 }
 

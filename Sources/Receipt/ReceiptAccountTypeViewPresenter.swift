@@ -27,15 +27,11 @@ protocol ReceiptAccountTypeView: class {
 
 final class ReceiptAccountTypeViewPresenter {
     private unowned let view: ReceiptAccountTypeView
-    private var sectionData = [Receipt]()
+    private(set) var sectionData = [Receipt]()
 
     /// Initialize ListTransferMethodPresenter
     init(view: ReceiptAccountTypeView) {
         self.view = view
-    }
-
-    var numberOfCells: Int {
-        return sectionData.count
     }
 
     func listReceiptTypes() {
@@ -43,15 +39,11 @@ final class ReceiptAccountTypeViewPresenter {
         listPrepaidCards()
     }
 
-    func getSectionData(at index: Int) -> Receipt {
-        return sectionData[index]
-    }
-
     //swiftlint:disable force_cast
-    func getCellConfiguration(for receiptIndex: Int) -> ReceiptAccountTypeCellConfiguration? {
-        if sectionData[receiptIndex] as? UserReceipt != nil {
+    func cellForRowAt(_ indexPath: IndexPath) -> ReceiptAccountTypeCellConfiguration? {
+        if sectionData[indexPath.row] as? UserReceipt != nil {
             return ReceiptAccountTypeCellConfiguration(title: "account".localized(), value: nil)
-        } else if let receiptAccountType = sectionData[receiptIndex] as? PrepaidCardReceipt {
+        } else if let receiptAccountType = sectionData[indexPath.row] as? PrepaidCardReceipt {
             let prepaidCard = receiptAccountType.prepaidCard
             let additionlInfo = String(format: "%@%@",
                                        "transfer_method_list_item_description".localized(),
@@ -80,7 +72,7 @@ final class ReceiptAccountTypeViewPresenter {
                         strongSelf.view.showError(error, { strongSelf.listReceiptTypes() })
                         return
                     } else {
-                        strongSelf.sectionData.append(UserReceipt())
+                        strongSelf.sectionData.append(UserReceipt(user: nil))
                         if let result = result {
                         result.data.forEach { prepaidCard in
                             strongSelf.sectionData.append(
