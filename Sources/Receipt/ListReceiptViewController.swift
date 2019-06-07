@@ -93,9 +93,25 @@ public final class ListReceiptViewController: UITableViewController {
         if indexPath.section == lastSectionIndex
             && indexPath.row == presenter.groupedSectionArray[lastSectionIndex].value.count - 1
             && !presenter.isFetchCompleted {
-            fetchMoreData = true
+//            fetchMoreData = true
+            presenter.listReceipts()
+            fetchMoreData = false
         }
     }
+
+//    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+//
+//        if !presenter.isFetchCompleted {
+//            let lastSectionIndex = presenter.groupedSectionArray.count - 1
+//            for indexPath in indexPaths {
+//                if indexPath.section == lastSectionIndex
+//                    && indexPath.row == presenter.groupedSectionArray[lastSectionIndex].value.count - 1 {
+//                    fetchMoreData = true
+//                    break
+//                }
+//            }
+//        }
+//    }
 
     override public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return defaultHeaderHeight
@@ -109,16 +125,17 @@ public final class ListReceiptViewController: UITableViewController {
     private func setupListReceiptTableView() {
         tableView = UITableView(frame: .zero, style: .grouped)
         tableView.tableFooterView = UIView()
+//        tableView.prefetchDataSource = self
         tableView.register(ListReceiptTableViewCell.self,
                            forCellReuseIdentifier: listReceiptCellIdentifier)
     }
 
-    override public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if fetchMoreData {
-            presenter.listReceipts()
-            fetchMoreData = false
-        }
-    }
+//    override public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if fetchMoreData {
+//            presenter.listReceipts()
+//            fetchMoreData = false
+//        }
+//    }
 
     private func toggleEmptyListView(hideLabel: Bool = true) {
         emptyListLabel.isHidden = hideLabel

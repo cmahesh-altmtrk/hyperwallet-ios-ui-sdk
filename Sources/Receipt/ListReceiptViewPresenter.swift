@@ -30,11 +30,17 @@ final class ListReceiptViewPresenter {
 
     private var offset = 0
     private let limit = 20
+    private var prepaidCardReceiptCreatedAfter = Calendar.current.date(byAdding: .year, value: -1, to: Date())
 
     private var prepaidCardToken: String?
     private var isFetchInProgress = false
     private(set) var isFetchCompleted = true
     private(set) var groupedSectionArray = [(key: Date, value: [HyperwalletReceipt])]()
+
+    private enum SortOrder: String {
+        case asc
+        case desc
+    }
 
     /// Initialize ListTransferMethodPresenter
     init(view: ListReceiptView, prepaidCardToken: String? = nil) {
@@ -68,12 +74,19 @@ final class ListReceiptViewPresenter {
             iconFont: HyperwalletIcon.of(receipt.entry.rawValue).rawValue)
     }
 
-    private func setUpQueryParam() -> HyperwalletReceiptQueryParam {
+    private func setUpUserQueryParam() -> HyperwalletReceiptQueryParam {
         let queryParam = HyperwalletReceiptQueryParam()
         queryParam.offset = offset
         queryParam.limit = limit
         queryParam.sortBy = .descendantCreatedOn
         queryParam.createdAfter = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        return queryParam
+    }
+
+    private func setUpPrepaidCardQueryParam() -> HyperwalletReceiptQueryParam {
+        let queryParam = HyperwalletReceiptQueryParam()
+//        queryParam.createdBefore = prepaidCardReceiptCreatedBefore
+        queryParam.createdAfter = prepaidCardReceiptCreatedAfter
         return queryParam
     }
 
@@ -84,7 +97,7 @@ final class ListReceiptViewPresenter {
 
         isFetchInProgress = true
         view.showLoading()
-        Hyperwallet.shared.listUserReceipts(queryParam: setUpQueryParam(), completion: listReceiptHandler())
+        Hyperwallet.shared.listUserReceipts(queryParam: setUpUserQueryParam(), completion: listUserReceiptHandler())
     }
 
     private func listPrepaidCardReceipts(_ prepaidCardToken: String) {
@@ -94,10 +107,10 @@ final class ListReceiptViewPresenter {
 
         isFetchInProgress = true
         view.showLoading()
-        Hyperwallet.shared.listUserReceipts(queryParam: setUpQueryParam(), completion: listReceiptHandler())
+        Hyperwallet.shared.listUserReceipts(queryParam: setUpPrepaidCardQueryParam(), completion: listPrepaidCardReceiptHandler())
     }
 
-    private func listReceiptHandler()
+    private func listUserReceiptHandler()
         -> (HyperwalletPageList<HyperwalletReceipt>?, HyperwalletErrorType?) -> Void {
             return { [weak self] (result, error) in
                 guard let strongSelf = self else {
@@ -110,7 +123,8 @@ final class ListReceiptViewPresenter {
                         strongSelf.view.showError(error, { strongSelf.listReceipts() })
                         return
                     } else if let result = result {
-                        strongSelf.groupReceiptsByMonth(result.data)
+                        print("For User receipts: \(result.data.count)")
+                        strongSelf.groupReceiptsByMonth(result.data, sortOrder: .desc)
                         strongSelf.isFetchCompleted = result.data.count < strongSelf.limit ? true : false
                         strongSelf.offset += result.data.count
                     }
@@ -119,7 +133,37 @@ final class ListReceiptViewPresenter {
             }
     }
 
-    private func groupReceiptsByMonth(_ receipts: [HyperwalletReceipt]) {
+    private func listPrepaidCardReceiptHandler()
+        -> (HyperwalletPageList<HyperwalletReceipt>?, HyperwalletErrorType?) -> Void {
+            return { [weak self] (result, error) in
+                guard let strongSelf = self else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    strongSelf.isFetchInProgress = false
+                    strongSelf.view.hideLoading()
+                    if let error = error {
+                        strongSelf.view.showError(error, { strongSelf.listReceipts() })
+                        return
+                    } else if let result = result {
+                        print("For prepaid card receipts: \(result.data.count)")
+                        strongSelf.groupReceiptsByMonth(result.data, sortOrder: SortOrder.asc)
+                        strongSelf.isFetchCompleted = result.data.count < 10 ? true : false
+                        print("prepaidCardReceiptCreatedAfter: \(strongSelf.prepaidCardReceiptCreatedAfter)")
+                        print("result.data.last?.createdOn: \(result.data.last?.createdOn)")
+                        if let createdOn = result.data.last?.createdOn,
+                            let date = ISO8601DateFormatter.ignoreTimeZone.date(from: createdOn) {
+                            strongSelf.prepaidCardReceiptCreatedAfter =
+                                Calendar.current.date(byAdding: .second, value: 1, to: date)
+                                ?? strongSelf.prepaidCardReceiptCreatedAfter
+                        }
+                    }
+                    strongSelf.view.loadReceipts()
+                }
+            }
+    }
+
+    private func groupReceiptsByMonth(_ receipts: [HyperwalletReceipt], sortOrder: SortOrder) {
         let groupedSections = Dictionary(grouping: receipts,
                                          by: {
                                             ISO8601DateFormatter
@@ -135,6 +179,6 @@ final class ListReceiptViewPresenter {
                 groupedSectionArray.append(section)
             }
         }
-        groupedSectionArray = groupedSectionArray.sorted(by: { $0.key > $1.key })
+        groupedSectionArray = groupedSectionArray.sorted(by: sortOrder == SortOrder.desc ? { $0.key > $1.key }: { $1.key > $0.key })
     }
 }
