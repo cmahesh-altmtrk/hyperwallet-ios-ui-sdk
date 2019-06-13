@@ -146,11 +146,21 @@ final class ListReceiptViewPresenter {
                         strongSelf.view.showError(error, { strongSelf.listPrepaidCardReceipts(prepaidCardToken) })
                         return
                     } else if let result = result {
-                        print("For prepaid card receipts: \(result.data.count)")
-                        strongSelf.groupReceiptsByMonth(result.data)
                         strongSelf.areAllReceiptsLoaded =
                             result.data.count < strongSelf.prepaidCardReceiptLimit ? true : false
-                        if let createdOn = result.data.last?.createdOn,
+
+                        var receipts = result.data
+                        var loadedReceipts = [HyperwalletReceipt]()
+
+                        strongSelf.sectionData.forEach { loadedReceipts.append(contentsOf: $0.value) }
+
+                        if loadedReceipts.isNotEmpty() {
+                            receipts = receipts.filter { !loadedReceipts.contains($0) }
+                        }
+
+                        strongSelf.groupReceiptsByMonth(receipts)
+
+                        if let createdOn = receipts.last?.createdOn,
                             let date = ISO8601DateFormatter.ignoreTimeZone.date(from: createdOn) {
                             strongSelf.prepaidCardReceiptCreatedAfter = date
                         }
