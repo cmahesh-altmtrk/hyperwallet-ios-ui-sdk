@@ -10,18 +10,24 @@ Pod::Spec.new do |s|
     s.source                = { :git => 'https://github.com/hyperwallet/hyperwallet-ios-ui-sdk.git', :tag => "#{s.version}"}
     s.requires_arc          = true
     s.swift_version         = '4.2'
-    s.resources             = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
+##s.resources             = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
     s.dependency 'HyperwalletSDK', '1.0.0-beta02'
+    s.dependency 'HyperwalletCommon'
 
-    s.subspec "Common" do |s|
-        s.resources = ['Common/**/*.xcassets', 'Common/**/*.ttf', 'Common/**/*.xib', 'Common/**/*.strings']
-        s.source_files  = "Common/**/*.{swift,h}"
-    end
+##s.subspec "HyperwalletCommon" do |s|
+##s.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf', 'HyperwalletCommon/**/*.xib', ##'HyperwalletCommon/**/*.strings']
+##s.source_files  = "HyperwalletCommon/**/*.{swift,h}"
+##end
 
     s.subspec "TransferMethod" do |s|
         s.source_files = "HyperwalletTransferMethod/**/*.{swift,h,xib}"
-        s.dependency "HyperwalletUISDK/Common"
+##s.dependency "HyperwalletUISDK/HyperwalletCommon"
     end
+
+##s.subspec "Receipt" do |s|
+##s.source_files = "HyperwalletReceipt/**/*.{swift,h,xib}"
+##s.dependency "HyperwalletUISDK/HyperwalletCommon"
+##end
 
     s.test_spec 'Tests' do |ts|
         ts.source_files = 'Tests/**/*.swift'

@@ -16,14 +16,14 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import UIKit
+#import <UIKit/UIKit.h>
 
-class AddTransferMethodTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "addTransferMethodCellIdentifier"
+//! Project version number for HyperwalletReceipt.
+FOUNDATION_EXPORT double HyperwalletReceiptVersionNumber;
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        contentView.subviews.first?.removeFromSuperview()
-        accessoryType = .none
-    }
-}
+//! Project version string for HyperwalletReceipt.
+FOUNDATION_EXPORT const unsigned char HyperwalletReceiptVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <HyperwalletReceipt/PublicHeader.h>
+
+

@@ -16,32 +16,31 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import HyperwalletCommon
 import UIKit
 
 /// Generic TableView Controller
-public class GenericTableViewController<T: GenericCell<ModelType>, ModelType>: UITableViewController,
-UISearchResultsUpdating {
-    private let reuseId = "cellId"
-    private let headerReuseId = "headerReuseId"
+class GenericTableViewController<T: GenericCell<ModelType>, ModelType>: UITableViewController,
+UISearchResultsUpdating, UISearchControllerDelegate {
+    private let reuseIdentifier = "genericCellIdentifier"
+    private let reuseHeaderIdentifier = "headerCellIentifier"
     /// Enable the search controller
     private var shouldDisplaySearchBar = false
     /// The amount of items to enable the search bar to the Generic TableView
     let amountOfItemsToEnableSearchBar = 20
-    public var items = [ModelType]() {
+    var items = [ModelType]() {
         didSet {
             shouldDisplaySearchBar = items.count >= amountOfItemsToEnableSearchBar
         }
     }
-    public var filteredItems = [ModelType]()
+    var filteredItems = [ModelType]()
     /// Event handler to indicate if the item cell should be marked
-    public var shouldMarkCellAction: ((_ value: ModelType) -> Bool)?
+    var shouldMarkCellAction: ((_ value: ModelType) -> Bool)?
 
-    /// Index  of the initial selected item
-    public var initialSelectedItemIndex: Int?
     /// Delegate to customise the filter content.
     ///
     /// - parameters: searchText - The text should be used to filter the items list and returned the filtered list.
-    public var filterContentForSearchTextAction: ((_ items: [ModelType], _ searchText: String) -> [ModelType])? {
+    var filterContentForSearchTextAction: ((_ items: [ModelType], _ searchText: String) -> [ModelType])? {
         didSet {
             if shouldDisplaySearchBar {
                 setupSeachBar()
@@ -50,16 +49,16 @@ UISearchResultsUpdating {
             }
         }
     }
-    public typealias SelectedHandler = (_ value: ModelType) -> Void
+    typealias SelectedHandler = (_ value: ModelType) -> Void
     /// Event handler to return the item selected
-    public var selectedHandler: SelectedHandler?
+    var selectedHandler: SelectedHandler?
 
     /// MARK: - Private properties
     private let searchController: UISearchController = {
         UISearchController(searchResultsController: nil)
     }()
 
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
@@ -69,26 +68,31 @@ UISearchResultsUpdating {
         setViewBackgroundColor()
     }
 
-    override public func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        if let index = initialSelectedItemIndex, index < items.count {
-            tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
-        }
+        scrollToSelectedRow()
     }
 
-    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
         guard #available(iOS 11.0, *) else {
             DispatchQueue.main.async {
-                self.searchController.searchBar.sizeToFit()
+                self.setupSearchBarSize()
             }
 
             return
         }
     }
 
+    func didDismissSearchController(_ searchController: UISearchController) {
+        setupSearchBarSize()
+    }
+
+    private func setupSearchBarSize() {
+        searchController.searchBar.sizeToFit()
+    }
     // MARK: - UITableViewDataSource
 
     override public func tableView( _ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -96,7 +100,7 @@ UISearchResultsUpdating {
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
 
         cell.accessoryType = .none
 
@@ -116,10 +120,9 @@ UISearchResultsUpdating {
     override public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard #available(iOS 11.0, *) else {
             if shouldDisplaySearchBar {
-                let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerReuseId)
+                let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: reuseHeaderIdentifier)
 
                 headerView?.addSubview(searchController.searchBar)
-
                 return headerView
             }
 
@@ -158,14 +161,16 @@ UISearchResultsUpdating {
     }
 }
 
-public extension GenericTableViewController {
+private extension GenericTableViewController {
     // MARK: - Setup
     /// Setup the Search Controller
     func setupUISearchController() {
         searchController.searchResultsUpdater = self
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
+        setupSearchBarSize()
+        searchController.delegate = self
+        searchController.hidesNavigationBarDuringPresentation = false
     }
 
     // MARK: - Private instance methods
@@ -189,12 +194,12 @@ public extension GenericTableViewController {
 
     func setupSeachBar() {
         setupUISearchController()
-        searchController.hidesNavigationBarDuringPresentation = false
+
         if #available(iOS 11.0, *) {
             navigationItem.searchController = self.searchController
             navigationItem.hidesSearchBarWhenScrolling = false
         }
-        HyperwalletThemeManager.applyTo(searchBar: searchController.searchBar)
+        ThemeManager.applyTo(searchBar: searchController.searchBar)
     }
 
     func setupWithoutSearchBar() {
@@ -205,11 +210,38 @@ public extension GenericTableViewController {
     }
 
     func setupTable() {
-        tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: headerReuseId)
-        tableView.tableFooterView = UIView()
-        tableView.estimatedRowHeight = Theme.Cell.rowHeight
+        if #available(iOS 11.0, *) {
+            tableView = UITableView(frame: .zero, style: .grouped)
+            tableView.tableFooterView = UIView()
+        } else {
+            tableView = UITableView(frame: .zero, style: .plain)
+            let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 0.5))
+            footerView.backgroundColor = tableView.separatorColor
+            tableView.tableFooterView = footerView
+        }
+        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: reuseHeaderIdentifier)
+        tableView.estimatedRowHeight = Theme.Cell.smallHeight
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(T.self, forCellReuseIdentifier: reuseId)
+        tableView.register(T.self, forCellReuseIdentifier: reuseIdentifier)
+    }
+
+    func scrollToSelectedRow() {
+        var selectedItemIndex: Int?
+
+        for index in items.indices {
+            if shouldMarkCellAction?(retrieveItems()[index]) ?? false {
+                selectedItemIndex = index
+                break
+            }
+        }
+
+        guard let indexToScrollTo = selectedItemIndex, indexToScrollTo < items.count else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            self.tableView.scrollToRow(at: IndexPath(row: indexToScrollTo, section: 0), at: .middle, animated: false)
+        }
     }
 }
+

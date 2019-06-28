@@ -16,14 +16,16 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import UIKit
+import Foundation
+import HyperwalletCommon
 
-class AddTransferMethodTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "addTransferMethodCellIdentifier"
+extension HyperwalletUI {
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        contentView.subviews.first?.removeFromSuperview()
-        accessoryType = .none
+    /// Lists the user's transactions.
+    ///
+    ///
+    /// - Returns: An instance of `ListReceiptTableViewController`
+    public func listReceiptTableViewController() -> ListReceiptTableViewController {
+        return ListReceiptTableViewController()
     }
 }

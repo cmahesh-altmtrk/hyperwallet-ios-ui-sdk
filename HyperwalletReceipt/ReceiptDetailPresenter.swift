@@ -16,14 +16,27 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import UIKit
+import HyperwalletSDK
 
-class AddTransferMethodTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "addTransferMethodCellIdentifier"
+final class ReceiptDetailViewPresenter {
+    private(set) var sectionData = [ReceiptDetailSectionData]()
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        contentView.subviews.first?.removeFromSuperview()
-        accessoryType = .none
+    init(with receipt: HyperwalletReceipt) {
+        initializeSections(with: receipt)
+    }
+
+    private func initializeSections(with receipt: HyperwalletReceipt) {
+        let receiptTransactionSection = ReceiptDetailSectionTransactionData(from: receipt)
+        sectionData.append(receiptTransactionSection)
+
+        let receiptDetailSection = ReceiptDetailSectionDetailData(from: receipt)
+        sectionData.append(receiptDetailSection)
+
+        if let receiptNotesSection = ReceiptDetailSectionNotesData(from: receipt) {
+            sectionData.append(receiptNotesSection)
+        }
+
+        let receiptFeeSection = ReceiptDetailSectionFeeData(from: receipt)
+        sectionData.append(receiptFeeSection)
     }
 }

@@ -15,27 +15,39 @@
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 import HyperwalletCommon
-import HyperwalletSDK
-import UIKit
 
-/// Represents the select widget cell, to display `HyperwalletFieldSelectionOption`.
-final class SelectionWidgetCell: GenericCell<HyperwalletFieldSelectionOption> {
-    override var item: HyperwalletFieldSelectionOption! {
-        didSet {
-            if let option = item {
-                textLabel?.text = option.label.localized()
-            }
-        }
+final class ReceiptFeeTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "receiptFeeTableViewCellReuseIdentifier"
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
+        self.heightAnchor.constraint(equalToConstant: Theme.Cell.extraSmallHeight).isActive = true
     }
 
-    @objc dynamic var textLabelColor: UIColor! {
-        get { return self.textLabel?.textColor }
-        set { self.textLabel?.textColor = newValue }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
-    @objc dynamic var textLabelFont: UIFont! {
-        get { return self.textLabel?.font }
-        set { self.textLabel?.font = newValue }
+    // MARK: Theme manager's proxy properties
+    @objc dynamic var titleLabelFont: UIFont! {
+        get { return textLabel?.font }
+        set { textLabel?.font = newValue }
+    }
+
+    @objc dynamic var titleLabelColor: UIColor! {
+        get { return textLabel?.textColor }
+        set { textLabel?.textColor = newValue }
+    }
+
+    @objc dynamic var subTitleLabelFont: UIFont! {
+        get { return detailTextLabel?.font }
+        set { detailTextLabel?.font = newValue }
+    }
+
+    @objc dynamic var subTitleLabelColor: UIColor! {
+        get { return detailTextLabel?.textColor }
+        set { detailTextLabel?.textColor = newValue }
     }
 }

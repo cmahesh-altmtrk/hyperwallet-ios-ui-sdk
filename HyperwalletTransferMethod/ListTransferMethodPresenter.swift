@@ -17,6 +17,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import HyperwalletSDK
+import HyperwalletCommon
 
 protocol ListTransferMethodView: class {
     func showLoading()
@@ -31,7 +32,7 @@ protocol ListTransferMethodView: class {
 
 final class ListTransferMethodPresenter {
     private unowned let view: ListTransferMethodView
-    var transferMethods: [HyperwalletTransferMethod]?
+    private (set) var sectionData = [HyperwalletTransferMethod]()
     private var selectedTransferMethod: HyperwalletTransferMethod?
 
     /// Initialize ListTransferMethodPresenter
@@ -39,32 +40,23 @@ final class ListTransferMethodPresenter {
         self.view = view
     }
 
-    var numberOfCells: Int {
-        return transferMethods?.count ?? 0
-    }
-
     /// Get the list of all Activated transfer methods from core SDK
     func listTransferMethod() {
         view.showLoading()
-        let pagination = HyperwalletTransferMethodPagination()
-        pagination.limit = 100
-        pagination.status = .activated
-        Hyperwallet.shared.listTransferMethods(pagination: pagination, completion: listTransferMethodHandler())
+        let queryParam = HyperwalletTransferMethodQueryParam()
+        queryParam.limit = 100
+        queryParam.status = .activated
+        Hyperwallet.shared.listTransferMethods(queryParam: queryParam, completion: listTransferMethodHandler())
     }
 
     func transferMethodExists(at index: Int) -> Bool {
-        return getTransferMethod(at: index) != nil
-    }
-
-    func getTransferMethod(at index: Int) -> HyperwalletTransferMethod? {
-        return transferMethods?[index]
+        return sectionData[safe: index] != nil
     }
 
     func deactivateTransferMethod(at index: Int) {
-        guard let transferMethod = getTransferMethod(at: index) else {
-            return
+        if transferMethodExists(at: index) {
+            deactivateTransferMethod(sectionData[index])
         }
-        deactivateTransferMethod(transferMethod)
     }
 
     /// Deactivate the selected Transfer Method
@@ -99,8 +91,10 @@ final class ListTransferMethodPresenter {
                         strongSelf.view.showError(error, { strongSelf.listTransferMethod() })
                         return
                     }
+                    if let data = result?.data {
+                        strongSelf.sectionData = data
+                    }
 
-                    strongSelf.transferMethods = result?.data
                     strongSelf.view.showTransferMethods()
                 }
             }
@@ -149,36 +143,39 @@ final class ListTransferMethodPresenter {
             }
     }
 
-    func getCellConfiguration(for transferMethodIndex: Int) -> ListTransferMethodCellConfiguration? {
-        if let transferMethod = getTransferMethod(at: transferMethodIndex),
+    func getCellConfiguration(indexPath: IndexPath) -> ListTransferMethodCellConfiguration? {
+        if let transferMethod = sectionData[safe: indexPath.row],
             let country = transferMethod.getField(fieldName: .transferMethodCountry) as? String,
             let transferMethodType = transferMethod.getField(fieldName: .type) as? String {
-            var lastFourDigitAccountNumber: String?
-            if let lastFourDigit = getLastDigits(transferMethod, number: 4) {
-                lastFourDigitAccountNumber = String(format: "%@%@",
-                                                    "transfer_method_list_item_description".localized(),
-                                                    lastFourDigit)
-            }
             return ListTransferMethodCellConfiguration(
                 transferMethodType: transferMethodType.lowercased().localized(),
                 transferMethodCountry: country.localized(),
-                lastFourDigitAccountNumber: lastFourDigitAccountNumber,
-                transferMethodIconFont: HyperwalletIcon.of(transferMethodType).rawValue)
+                additionalInfo: getAdditionalInfo(transferMethod),
+                transferMethodIconFont: HyperwalletIcon.of(transferMethodType).rawValue,
+                transferMethodToken: transferMethod.getField(fieldName: .token) as? String ?? "")
         }
         return nil
     }
 
-    private func getLastDigits(_ transferMethod: HyperwalletTransferMethod, number: Int) -> String? {
-        var accountId: String?
+    func getAdditionalInfo(_ transferMethod: HyperwalletTransferMethod) -> String? {
+        var additionlInfo: String?
         switch transferMethod.getField(fieldName: .type) as? String {
         case "BANK_ACCOUNT", "WIRE_ACCOUNT":
-            accountId = transferMethod.getField(fieldName: .bankAccountId) as? String
+            additionlInfo = transferMethod.getField(fieldName: .bankAccountId) as? String
+            additionlInfo = String(format: "%@%@",
+                                   "transfer_method_list_item_description".localized(),
+                                   additionlInfo?.suffix(startAt: 4) ?? "")
         case "BANK_CARD":
-            accountId = transferMethod.getField(fieldName: .cardNumber) as? String
+            additionlInfo = transferMethod.getField(fieldName: .cardNumber) as? String
+            additionlInfo = String(format: "%@%@",
+                                   "transfer_method_list_item_description".localized(),
+                                   additionlInfo?.suffix(startAt: 4) ?? "")
+        case "PAYPAL_ACCOUNT":
+            additionlInfo = transferMethod.getField(fieldName: .email) as? String
 
         default:
             break
         }
-        return accountId?.suffix(startAt: number)
+        return additionlInfo
     }
 }
