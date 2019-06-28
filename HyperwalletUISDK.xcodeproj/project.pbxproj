@@ -85,6 +85,8 @@
 		988547CC2294B879007B312C /* ListReceiptViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988547CB2294B879007B312C /* ListReceiptViewPresenter.swift */; };
 		988547D022970FA1007B312C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988547CF22970FA1007B312C /* Date.swift */; };
 		98EA861922C2AFEE0079947F /* SelectDestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA861822C2AFEE0079947F /* SelectDestinationTableViewCell.swift */; };
+		98EA861D22C412F80079947F /* TransferMethodConfigurationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA861C22C412F80079947F /* TransferMethodConfigurationRepository.swift */; };
+		98EA861F22C522B00079947F /* RepositoryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA861E22C522B00079947F /* RepositoryFactory.swift */; };
 		98F63E682284AB170090101D /* PayPalAccountResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E662284A2CF0090101D /* PayPalAccountResponse.json */; };
 		98F63E6B2284AC330090101D /* PayPalAccountInvalidEmailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E692284AC2A0090101D /* PayPalAccountInvalidEmailResponse.json */; };
 		98F63E6E2284AD370090101D /* PayPalAccountDuplicateResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E6C2284AD330090101D /* PayPalAccountDuplicateResponse.json */; };
@@ -273,6 +275,8 @@
 		988547CB2294B879007B312C /* ListReceiptViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListReceiptViewPresenter.swift; sourceTree = "<group>"; };
 		988547CF22970FA1007B312C /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		98EA861822C2AFEE0079947F /* SelectDestinationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDestinationTableViewCell.swift; sourceTree = "<group>"; };
+		98EA861C22C412F80079947F /* TransferMethodConfigurationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMethodConfigurationRepository.swift; sourceTree = "<group>"; };
+		98EA861E22C522B00079947F /* RepositoryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryFactory.swift; sourceTree = "<group>"; };
 		98F63E64228485930090101D /* AddTransferMethodPayPalAccountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransferMethodPayPalAccountTests.swift; sourceTree = "<group>"; };
 		98F63E662284A2CF0090101D /* PayPalAccountResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PayPalAccountResponse.json; sourceTree = "<group>"; };
 		98F63E692284AC2A0090101D /* PayPalAccountInvalidEmailResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PayPalAccountInvalidEmailResponse.json; sourceTree = "<group>"; };
@@ -579,6 +583,31 @@
 			path = Receipt;
 			sourceTree = "<group>";
 		};
+		98EA861A22C412990079947F /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				98EA862022C5482A0079947F /* Receipt */,
+				98EA861B22C412C20079947F /* TransferMethod */,
+				98EA861E22C522B00079947F /* RepositoryFactory.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		98EA861B22C412C20079947F /* TransferMethod */ = {
+			isa = PBXGroup;
+			children = (
+				98EA861C22C412F80079947F /* TransferMethodConfigurationRepository.swift */,
+			);
+			path = TransferMethod;
+			sourceTree = "<group>";
+		};
+		98EA862022C5482A0079947F /* Receipt */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Receipt;
+			sourceTree = "<group>";
+		};
 		C358A9A12272644000E5AE47 /* TransferMethod */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,6 +765,7 @@
 		DBCA37F7225E892400CD4137 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				98EA861A22C412990079947F /* Repository */,
 				0702671E22B1A8450057D62B /* Transfer */,
 				DB2EB66E22617AB100FBEB3D /* Resources */,
 				DBCA382E225E8BA900CD4137 /* Extensions */,
@@ -1263,9 +1293,11 @@
 				9826056822822E8A000CCA2D /* UIToolbar.swift in Sources */,
 				073BA5D322A885E6002C58BD /* AddTransferMethodTableViewController.swift in Sources */,
 				073BA5D522A88612002C58BD /* ListTransferMethodTableViewController.swift in Sources */,
+				98EA861D22C412F80079947F /* TransferMethodConfigurationRepository.swift in Sources */,
 				DBCA3879225E8BAA00CD4137 /* UIImage.swift in Sources */,
 				07D4E00E22B46978004E031A /* ScheduleTransferSectionData.swift in Sources */,
 				DBCA3872225E8BAA00CD4137 /* UIBarButtonItem.swift in Sources */,
+				98EA861F22C522B00079947F /* RepositoryFactory.swift in Sources */,
 				0702672622B1AC570057D62B /* ScheduleTransferViewPresenter.swift in Sources */,
 				07D4E01422B47257004E031A /* ScheduleTransferForeignExchangeCell.swift in Sources */,
 				988547D022970FA1007B312C /* Date.swift in Sources */,
@@ -1428,8 +1460,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_URL = "http://localhost:8080";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 86FDS64Z83;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1443,6 +1476,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyperwallet.ui.sdk.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_TOKEN = "usr-your-user-token";
@@ -1455,8 +1489,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_URL = "http://localhost:8080";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 86FDS64Z83;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1470,6 +1505,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyperwallet.ui.sdk.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_TOKEN = "usr-your-user-token";
@@ -1626,8 +1662,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_URL = "http://localhost:8080";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 86FDS64Z83;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1641,6 +1678,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyperwallet.ui.sdk.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_TOKEN = "usr-token";
