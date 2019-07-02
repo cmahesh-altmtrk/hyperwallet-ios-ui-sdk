@@ -62,7 +62,6 @@
 		9807B76B226442C60028A280 /* TransferMethodConfigurationBankAccountResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = DBFB61522261E84D00C4A8AA /* TransferMethodConfigurationBankAccountResponse.json */; };
 		9807B76C226442C60028A280 /* TransferMethodConfigurationBankCardResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = DBFB614F2261E84C00C4A8AA /* TransferMethodConfigurationBankCardResponse.json */; };
 		9807B76D226442C60028A280 /* UnexpectedErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = DBFB61492261E84C00C4A8AA /* UnexpectedErrorResponse.json */; };
-		98EA865122C55E380079947F /* HyperwalletReceipt.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EA864F22C55E380079947F /* HyperwalletReceipt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98EA865422C55E380079947F /* HyperwalletReceipt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EA864D22C55E380079947F /* HyperwalletReceipt.framework */; };
 		98EA865522C55E380079947F /* HyperwalletReceipt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98EA864D22C55E380079947F /* HyperwalletReceipt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98EA866422C55EA30079947F /* ListReceiptTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA865A22C55EA30079947F /* ListReceiptTableViewCell.swift */; };
@@ -221,7 +220,6 @@
 		98220B8B2265793700055E18 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		98541F142273D72C007D4238 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		98EA864D22C55E380079947F /* HyperwalletReceipt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyperwalletReceipt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		98EA864F22C55E380079947F /* HyperwalletReceipt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyperwalletReceipt.h; sourceTree = "<group>"; };
 		98EA865022C55E380079947F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98EA865A22C55EA30079947F /* ListReceiptTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListReceiptTableViewCell.swift; sourceTree = "<group>"; };
 		98EA865B22C55EA30079947F /* ReceiptDetailPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptDetailPresenter.swift; sourceTree = "<group>"; };
@@ -487,7 +485,6 @@
 			children = (
 				98EA869C22C697740079947F /* Extensions */,
 				98EA869622C691450079947F /* Helper */,
-				98EA864F22C55E380079947F /* HyperwalletReceipt.h */,
 				98EA865022C55E380079947F /* Info.plist */,
 				98EA865A22C55EA30079947F /* ListReceiptTableViewCell.swift */,
 				98EA866322C55EA30079947F /* ListReceiptTableViewController.swift */,
@@ -850,7 +847,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98EA865122C55E380079947F /* HyperwalletReceipt.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
