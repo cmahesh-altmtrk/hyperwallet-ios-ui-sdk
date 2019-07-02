@@ -16,7 +16,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-//import HyperwalletCommon
+import HyperwalletCommon
 import HyperwalletSDK
 import UIKit
 
@@ -26,8 +26,8 @@ class AbstractWidget: UIStackView, UITextFieldDelegate {
 
     let label: UILabel = {
         let label = UILabel()
-//        label.textColor = Theme.Label.textColor
-//        label.font = Theme.Label.bodyFont
+        label.textColor = Theme.Label.textColor
+        label.font = Theme.Label.bodyFont
         label.translatesAutoresizingMaskIntoConstraints = false
         label.widthAnchor.constraint(equalToConstant: 144.0).isActive = true
         label.setContentHuggingPriority(UILayoutPriority.required, for: NSLayoutConstraint.Axis.horizontal)
@@ -75,7 +75,7 @@ class AbstractWidget: UIStackView, UITextFieldDelegate {
     }
 
     func hideError() {
-//        label.textColor = Theme.Label.textColor
+        label.textColor = Theme.Label.textColor
         label.accessibilityIdentifier = String(format: "label_%@", field.name ?? "")
     }
 
@@ -96,7 +96,7 @@ class AbstractWidget: UIStackView, UITextFieldDelegate {
     }
 
     func showError() {
-//        label.textColor = Theme.Label.errorColor
+        label.textColor = Theme.Label.errorColor
         label.accessibilityIdentifier = String(format: "label_%@_error", field.name ?? "")
     }
 
