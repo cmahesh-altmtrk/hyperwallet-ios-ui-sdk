@@ -105,7 +105,6 @@
 		98EA86E322C699650079947F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA86C522C699650079947F /* Theme.swift */; };
 		98EA86E522C699650079947F /* ProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA86C922C699650079947F /* ProcessingView.swift */; };
 		98EA86E622C699650079947F /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA86CB22C699650079947F /* ErrorView.swift */; };
-		98EA86EF22C6D9940079947F /* info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 98EA86EE22C6D9940079947F /* info.plist */; };
 		98F63E682284AB170090101D /* PayPalAccountResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E662284A2CF0090101D /* PayPalAccountResponse.json */; };
 		98F63E6B2284AC330090101D /* PayPalAccountInvalidEmailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E692284AC2A0090101D /* PayPalAccountInvalidEmailResponse.json */; };
 		98F63E6E2284AD370090101D /* PayPalAccountDuplicateResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E6C2284AD330090101D /* PayPalAccountDuplicateResponse.json */; };
@@ -1050,7 +1049,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98EA86EF22C6D9940079947F /* info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
