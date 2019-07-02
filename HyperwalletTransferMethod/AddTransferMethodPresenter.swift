@@ -57,36 +57,37 @@ final class AddTransferMethodPresenter {
 
     func loadTransferMethodConfigurationFields() {
         view.showLoading()
-        RepositoryFactory
-            .shared
-            .transferMethodConfigurationRepository
-            .getFields(country: country,
-                       currency: currency,
-                       transferMethodType: transferMethodTypeCode,
-                       transferMethodProfileType: profileType,
-                       completion: { [weak self] (result, error) in
-                            guard let strongSelf = self else {
-                                return
-                            }
-
-                            DispatchQueue.main.async {
-                                strongSelf.view.hideLoading()
-                                if let error = error {
-                                    strongSelf.view.showError(error, { () -> Void in
-                                        strongSelf.loadTransferMethodConfigurationFields() })
-                                    return
-                                }
-                                guard
-                                    let result = result,
-                                    let fieldGroups = result.fieldGroups(),
-                                    let transferMethodType = result.transferMethodType()
-                                    else {
-                                        return
-                                }
-                                strongSelf.view.showTransferMethodFields(fieldGroups, transferMethodType)
-                            }
-                        }
+        let fieldsQuery = HyperwalletTransferMethodConfigurationFieldQuery(
+            country: country,
+            currency: currency,
+            transferMethodType: transferMethodTypeCode,
+            profile: profileType
         )
+        view.showLoading()
+        Hyperwallet.shared.retrieveTransferMethodConfigurationFields(
+            request: fieldsQuery,
+            completion: { [weak self] (result, error) in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    strongSelf.view.hideLoading()
+                    if let error = error {
+                        strongSelf.view.showError(error, { () -> Void in
+                            strongSelf.loadTransferMethodConfigurationFields() })
+                        return
+                    }
+                    guard
+                        let result = result,
+                        let fieldGroups = result.fieldGroups(),
+                        let transferMethodType = result.transferMethodType()
+                        else {
+                            return
+                    }
+                    strongSelf.view.showTransferMethodFields(fieldGroups, transferMethodType)
+                }
+        })
     }
 
     func createTransferMethod() {

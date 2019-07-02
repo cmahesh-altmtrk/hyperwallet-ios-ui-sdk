@@ -127,7 +127,8 @@ final class SelectTransferMethodTypePresenter {
 
             strongSelf.user = result
 
-            RepositoryFactory.shared.transferMethodConfigurationRepository.getKeys(
+            Hyperwallet.shared.retrieveTransferMethodConfigurationKeys(
+                request: HyperwalletTransferMethodConfigurationKeysQuery(),
                 completion: strongSelf.transferMethodConfigurationKeyResultHandler())
         }
     }
