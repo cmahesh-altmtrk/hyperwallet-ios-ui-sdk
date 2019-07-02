@@ -7,31 +7,30 @@ Pod::Spec.new do |s|
     s.author                = { 'Hyperwallet Systems Inc' => 'devsupport@hyperwallet.com' }
     s.platform              = :ios
     s.ios.deployment_target = '10.0'
-    s.source                = { :git => 'https://github.com/hyperwallet/hyperwallet-ios-ui-sdk.git', :commit => "527c51aa0dd8c1f60c8bc679a0f04670b840d536"}
+    s.source                = { :git => 'https://github.com/hyperwallet/hyperwallet-ios-ui-sdk.git', :branch => "poc/modularization-poc"}
     s.requires_arc          = true
     s.swift_version         = '4.2'
 ##s.resources             = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
     s.dependency 'HyperwalletSDK', '1.0.0-beta02'
-##s.dependency 'HyperwalletCommon', '1.0.0-beta02'
+##s.dependency 'HyperwalletUISDK/HyperwalletCommon'
 
-    s.subspec "HyperwalletCommon" do |s|
+    s.subspec "HyperwalletCommon" do |common|
 ##s.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf', 'HyperwalletCommon/**/*.xib', 'HyperwalletCommon/**/*.strings']
 ##s.source_files  = "HyperwalletCommon/**/*.{swift,h}"
-        s.source_files  = "HyperwalletCommon/**/*.{swift,h,strings,xib}"
-        s.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
-        s.frameworks = "HyperwalletCommon"
+        common.source_files  = "HyperwalletCommon/**/*.{swift,h,strings,xib}"
+        common.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
     end
 
-    s.subspec "TransferMethod" do |s|
-        s.source_files = "HyperwalletTransferMethod/**/*.{swift,h}"
-        s.dependency "HyperwalletUISDK/HyperwalletCommon"
-        s.exclude_files = "HyperwalletCommon/**"
+    s.subspec "TransferMethod" do |transferMethod|
+        transferMethod.source_files = "HyperwalletTransferMethod/**/*.{swift,h}"
+        transferMethod.dependency "HyperwalletUISDK/HyperwalletCommon"
+        transferMethod.exclude_files = "HyperwalletCommon/**"
     end
 
-##s.subspec "Receipt" do |s|
-##s.source_files = "HyperwalletReceipt/**/*.{swift,h}"
-##s.dependency "HyperwalletUISDK/HyperwalletCommon"
-##end
+    s.subspec "Receipt" do |receipt|
+        receipt.source_files = "HyperwalletReceipt/**/*.{swift,h}"
+        receipt.dependency 'HyperwalletUISDK/HyperwalletCommon'
+    end
 
     s.test_spec 'Tests' do |ts|
         ts.source_files = 'Tests/**/*.swift'

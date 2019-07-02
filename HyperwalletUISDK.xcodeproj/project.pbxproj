@@ -444,6 +444,7 @@
 				07B583FB2294A33D009CAF80 /* Extensions */,
 				DBCA383F225E8BAA00CD4137 /* Generics */,
 				07B584002294A8D7009CAF80 /* Helper */,
+				070AD77A2294CA2D00BB2B26 /* View */,
 				DBCA3822225E8BA900CD4137 /* AddTransferMethodPresenter.swift */,
 				072A53F622838F6B00BC11D0 /* AddTransferMethodSectionData.swift */,
 				DBCA3828225E8BA900CD4137 /* AddTransferMethodTableViewCell.swift */,
@@ -457,7 +458,6 @@
 				98EA868522C6869F0079947F /* SelectTransferMethodTypeTableViewController.swift */,
 				DBCA382A225E8BA900CD4137 /* TransferMethodTypeDetail.swift */,
 				DBCA37F9225E892400CD4137 /* Info.plist */,
-				070AD77A2294CA2D00BB2B26 /* View */,
 			);
 			path = HyperwalletTransferMethod;
 			sourceTree = "<group>";

@@ -17,7 +17,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import UIKit
-import HyperwalletCommon
 
 /// Represents the country and currency data to be displyed on the CountryCurrencyCell
 struct CountryCurrencyCellConfiguration {

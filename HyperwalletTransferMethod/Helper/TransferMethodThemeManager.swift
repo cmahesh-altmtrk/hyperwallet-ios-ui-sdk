@@ -17,7 +17,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import Foundation
+#if !COCOAPODS
 import HyperwalletCommon
+#endif
 
 public class TransferMethodThemeManager {
     /// Applies default visual styles to the Hyperwallet user interface components.
