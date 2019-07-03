@@ -19,6 +19,7 @@
 #if !COCOAPODS
 import HyperwalletCommon
 #endif
+import UIKit
 
 final class ReceiptDetailTableViewCell: UITableViewCell {
     static let reuseIdentifier = "receiptDetailTableViewCellReuseIdentifier"

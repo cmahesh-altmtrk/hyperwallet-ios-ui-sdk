@@ -20,6 +20,8 @@
 import HyperwalletCommon
 #endif
 
+import UIKit
+
 final class ReceiptFeeTableViewCell: UITableViewCell {
     static let reuseIdentifier = "receiptFeeTableViewCellReuseIdentifier"
 
