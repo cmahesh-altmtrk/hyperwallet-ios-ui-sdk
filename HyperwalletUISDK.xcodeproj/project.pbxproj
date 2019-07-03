@@ -112,7 +112,6 @@
 		98EA87BD22CD62D00079947F /* SelectTransferMethodTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA879D22CD62D00079947F /* SelectTransferMethodTypeCell.swift */; };
 		98EA87BE22CD62D00079947F /* GenericTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA879F22CD62D00079947F /* GenericTableViewController.swift */; };
 		98EA87BF22CD62D00079947F /* GenericCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA87A022CD62D00079947F /* GenericCell.swift */; };
-		98EA87DB22CD671C0079947F /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EA872622CD61E90079947F /* Common.framework */; };
 		98F63E682284AB170090101D /* PayPalAccountResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E662284A2CF0090101D /* PayPalAccountResponse.json */; };
 		98F63E6B2284AC330090101D /* PayPalAccountInvalidEmailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E692284AC2A0090101D /* PayPalAccountInvalidEmailResponse.json */; };
 		98F63E6E2284AD370090101D /* PayPalAccountDuplicateResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 98F63E6C2284AD330090101D /* PayPalAccountDuplicateResponse.json */; };
@@ -179,6 +178,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 98EA876F22CD62950079947F;
 			remoteInfo = TransferMethod;
+		};
+		98EA87E022CD70920079947F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBCA37EC225E892400CD4137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98EA872522CD61E90079947F;
+			remoteInfo = Common;
+		};
+		98EA87E222CD70A00079947F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBCA37EC225E892400CD4137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98EA86FA22CD0B3C0079947F;
+			remoteInfo = TransferMethodRepository;
+		};
+		98EA87E422CD70A90079947F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBCA37EC225E892400CD4137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98EA872522CD61E90079947F;
+			remoteInfo = Common;
 		};
 		DB2588002261BFF100E6236B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -389,7 +409,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98EA87DB22CD671C0079947F /* Common.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,6 +929,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				98EA87E522CD70A90079947F /* PBXTargetDependency */,
 			);
 			name = HyperwalletReceipt;
 			productName = HyperwalletReceipt;
@@ -964,6 +984,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				98EA87E322CD70A00079947F /* PBXTargetDependency */,
+				98EA87E122CD70920079947F /* PBXTargetDependency */,
 			);
 			name = TransferMethod;
 			productName = TransferMethod;
@@ -1342,6 +1364,21 @@
 			isa = PBXTargetDependency;
 			target = 98EA876F22CD62950079947F /* TransferMethod */;
 			targetProxy = 98EA877522CD62960079947F /* PBXContainerItemProxy */;
+		};
+		98EA87E122CD70920079947F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98EA872522CD61E90079947F /* Common */;
+			targetProxy = 98EA87E022CD70920079947F /* PBXContainerItemProxy */;
+		};
+		98EA87E322CD70A00079947F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98EA86FA22CD0B3C0079947F /* TransferMethodRepository */;
+			targetProxy = 98EA87E222CD70A00079947F /* PBXContainerItemProxy */;
+		};
+		98EA87E522CD70A90079947F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98EA872522CD61E90079947F /* Common */;
+			targetProxy = 98EA87E422CD70A90079947F /* PBXContainerItemProxy */;
 		};
 		DB2588012261BFF100E6236B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
