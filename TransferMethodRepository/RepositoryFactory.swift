@@ -20,7 +20,7 @@ import Foundation
 
 public class RepositoryFactory {
     private static var instance: RepositoryFactory?
-    private(set) var transferMethodConfigurationRepository: TransferMethodConfigurationRepository
+    public private(set) var transferMethodConfigurationRepository: TransferMethodConfigurationRepository
 
     public static var shared: RepositoryFactory {
         guard let instance = instance else {

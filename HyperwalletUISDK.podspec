@@ -15,16 +15,21 @@ Pod::Spec.new do |s|
 ##s.dependency 'HyperwalletUISDK/HyperwalletCommon'
 
     s.subspec "HyperwalletCommon" do |common|
-##s.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf', 'HyperwalletCommon/**/*.xib', 'HyperwalletCommon/**/*.strings']
-##s.source_files  = "HyperwalletCommon/**/*.{swift,h}"
-        common.source_files  = "HyperwalletCommon/**/*.{swift,h,strings,xib}"
-        common.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
+        common.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf', 'HyperwalletCommon/**/*.xib', 'HyperwalletCommon/**/*.strings']
+        common.source_files  = "HyperwalletCommon/**/*.{swift,h}"
+##common.source_files  = "HyperwalletCommon/**/*.{swift,h,strings,xib}"
+##common.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
     end
 
     s.subspec "TransferMethod" do |transferMethod|
         transferMethod.source_files = "HyperwalletTransferMethod/**/*.{swift,h}"
         transferMethod.dependency "HyperwalletUISDK/HyperwalletCommon"
         transferMethod.exclude_files = "HyperwalletCommon/**"
+    end
+
+    s.subspec "TransferMethodRepository" do |transferMethodRepository|
+        transferMethodRepository.source_files = "TransferMethodRepository/**/*.{swift,h}"
+        transferMethodRepository.exclude_files = "TransferMethodRepository/**"
     end
 
     s.subspec "Receipt" do |receipt|
