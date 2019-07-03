@@ -171,6 +171,20 @@
 			remoteGlobalIDString = 98EA86A422C6993B0079947F;
 			remoteInfo = HyperwalletCommon;
 		};
+		98EA86F222CC308C0079947F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBCA37EC225E892400CD4137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98EA86A422C6993B0079947F;
+			remoteInfo = HyperwalletCommon;
+		};
+		98EA86F422CC30970079947F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBCA37EC225E892400CD4137 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98EA86A422C6993B0079947F;
+			remoteInfo = HyperwalletCommon;
+		};
 		DB2588002261BFF100E6236B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DBCA37EC225E892400CD4137 /* Project object */;
@@ -872,6 +886,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				98EA86F522CC30970079947F /* PBXTargetDependency */,
 			);
 			name = HyperwalletTransferMethod;
 			productName = HyperwalletTransferMethod;
@@ -890,6 +905,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				98EA86F322CC308C0079947F /* PBXTargetDependency */,
 			);
 			name = HyperwalletReceipt;
 			productName = HyperwalletReceipt;
@@ -1262,6 +1278,16 @@
 			isa = PBXTargetDependency;
 			target = 98EA86A422C6993B0079947F /* HyperwalletCommon */;
 			targetProxy = 98EA86AA22C6993B0079947F /* PBXContainerItemProxy */;
+		};
+		98EA86F322CC308C0079947F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98EA86A422C6993B0079947F /* HyperwalletCommon */;
+			targetProxy = 98EA86F222CC308C0079947F /* PBXContainerItemProxy */;
+		};
+		98EA86F522CC30970079947F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98EA86A422C6993B0079947F /* HyperwalletCommon */;
+			targetProxy = 98EA86F422CC30970079947F /* PBXContainerItemProxy */;
 		};
 		DB2588012261BFF100E6236B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
