@@ -18,7 +18,7 @@
 
 import Foundation
 #if !COCOAPODS
-import HyperwalletCommon
+import Common
 #endif
 
 extension HyperwalletUI {

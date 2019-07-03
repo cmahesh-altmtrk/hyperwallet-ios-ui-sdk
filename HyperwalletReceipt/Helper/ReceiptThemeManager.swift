@@ -19,7 +19,7 @@
 
 import Foundation
 #if !COCOAPODS
-import HyperwalletCommon
+import Common
 #endif
 
 public class ReceiptThemeManager {

@@ -52,7 +52,6 @@
 		98EA870322CD0B3C0079947F /* TransferMethodRepository.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98EA86FB22CD0B3C0079947F /* TransferMethodRepository.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98EA870922CD0BCC0079947F /* TransferMethodConfigurationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA870822CD0BCC0079947F /* TransferMethodConfigurationRepository.swift */; };
 		98EA870C22CD17440079947F /* RepositoryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EA868E22C6879B0079947F /* RepositoryFactory.swift */; };
-		98EA871A22CD602B0079947F /* HyperwalletReceipt.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EA871922CD602B0079947F /* HyperwalletReceipt.h */; };
 		98EA872A22CD61E90079947F /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EA872822CD61E90079947F /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98EA872D22CD61E90079947F /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EA872622CD61E90079947F /* Common.framework */; };
 		98EA872E22CD61E90079947F /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 98EA872622CD61E90079947F /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -244,7 +243,6 @@
 		98EA86FD22CD0B3C0079947F /* TransferMethodRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransferMethodRepository.h; sourceTree = "<group>"; };
 		98EA870822CD0BCC0079947F /* TransferMethodConfigurationRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferMethodConfigurationRepository.swift; sourceTree = "<group>"; };
 		98EA871522CD35770079947F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		98EA871922CD602B0079947F /* HyperwalletReceipt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyperwalletReceipt.h; sourceTree = "<group>"; };
 		98EA872622CD61E90079947F /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EA872822CD61E90079947F /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		98EA872922CD61E90079947F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -469,7 +467,6 @@
 				98EA865C22C55EA30079947F /* ReceiptFeeTableViewCell.swift */,
 				98EA866122C55EA30079947F /* ReceiptNotesTableViewCell.swift */,
 				98EA866022C55EA30079947F /* ReceiptTransactionTableViewCell.swift */,
-				98EA871922CD602B0079947F /* HyperwalletReceipt.h */,
 			);
 			path = HyperwalletReceipt;
 			sourceTree = "<group>";
@@ -871,7 +868,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98EA871A22CD602B0079947F /* HyperwalletReceipt.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
