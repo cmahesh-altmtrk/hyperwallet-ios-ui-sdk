@@ -10,26 +10,23 @@ Pod::Spec.new do |s|
     s.source                = { :git => 'https://github.com/hyperwallet/hyperwallet-ios-ui-sdk.git', :branch => "poc/modularization-poc"}
     s.requires_arc          = true
     s.swift_version         = '4.2'
-##s.resources             = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
     s.dependency 'HyperwalletSDK', '1.0.0-beta02'
-##s.dependency 'HyperwalletUISDK/HyperwalletCommon'
 
     s.subspec "HyperwalletCommon" do |common|
         common.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf', 'HyperwalletCommon/**/*.xib', 'HyperwalletCommon/**/*.strings']
         common.source_files  = "HyperwalletCommon/**/*.{swift,h}"
-##common.source_files  = "HyperwalletCommon/**/*.{swift,h,strings,xib}"
-##common.resources = ['HyperwalletCommon/**/*.xcassets', 'HyperwalletCommon/**/*.ttf']
+    end
+
+    s.subspec "TransferMethodRepository" do |transferMethodRepository|
+        transferMethodRepository.source_files = "TransferMethodRepository/TransferMethodConfigurationRepository.swift"
+        transferMethodRepository.exclude_files = "TransferMethodRepository/*.{swift,h,plist}"
     end
 
     s.subspec "TransferMethod" do |transferMethod|
         transferMethod.source_files = "HyperwalletTransferMethod/**/*.{swift,h}"
         transferMethod.dependency "HyperwalletUISDK/HyperwalletCommon"
-        transferMethod.exclude_files = "HyperwalletCommon/**"
-    end
-
-    s.subspec "TransferMethodRepository" do |transferMethodRepository|
-        transferMethodRepository.source_files = "TransferMethodRepository/**/*.{swift,h}"
-        transferMethodRepository.exclude_files = "TransferMethodRepository/**"
+        transferMethod.dependency "HyperwalletUISDK/TransferMethodRepository"
+##transferMethod.exclude_files = "HyperwalletCommon/**"
     end
 
     s.subspec "Receipt" do |receipt|
