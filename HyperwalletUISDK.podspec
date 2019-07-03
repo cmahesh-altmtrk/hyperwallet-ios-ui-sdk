@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
     s.platform              = :ios
     s.ios.deployment_target = '10.0'
     s.source                = { :git => 'https://github.com/hyperwallet/hyperwallet-ios-ui-sdk.git', :branch => "poc/modularization-poc"}
-    s.source_files          = ['TransferMethod/**/*.{swift,h}', 'HyperwalletReceipt/**/*.{swift,h}', 'TransferMethodRepository/**/*.{swift,h}', 'HyperwalletCommon/**/*.{swift,h}']
+    s.source_files          = ['TransferMethod/**/*.{swift,h}', 'HyperwalletReceipt/**/*.{swift,h}', 'TransferMethodRepository/**/*.{swift,h}', 'Common/**/*.{swift,h}']
     s.resources             = ['Common/**/*.{xcassets,ttf,strings,xib}']
     s.requires_arc          = true
     s.swift_version         = '4.2'
