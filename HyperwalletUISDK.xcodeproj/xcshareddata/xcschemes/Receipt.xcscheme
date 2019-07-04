@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "98EA864C22C55E380079947F"
-               BuildableName = "HyperwalletReceipt.framework"
-               BlueprintName = "HyperwalletReceipt"
+               BuildableName = "Receipt.framework"
+               BlueprintName = "Receipt"
                ReferencedContainer = "container:HyperwalletUISDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "98EA864C22C55E380079947F"
-            BuildableName = "HyperwalletReceipt.framework"
-            BlueprintName = "HyperwalletReceipt"
+            BuildableName = "Receipt.framework"
+            BlueprintName = "Receipt"
             ReferencedContainer = "container:HyperwalletUISDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "98EA864C22C55E380079947F"
-            BuildableName = "HyperwalletReceipt.framework"
-            BlueprintName = "HyperwalletReceipt"
+            BuildableName = "Receipt.framework"
+            BlueprintName = "Receipt"
             ReferencedContainer = "container:HyperwalletUISDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
