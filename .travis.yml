@@ -12,7 +12,7 @@ env:
   - LC_CTYPE=en_US.UTF-8
   - LANG=en_US.UTF-8
   - PROJECT=HyperwalletUISDK.xcodeproj
-  - IOS_FRAMEWORK_SCHEME="HyperwalletTransferMethod"
+  - IOS_FRAMEWORK_SCHEME="TransferMethod"
   - IOS_UI_TESTS_SCHEME="Demo"
 
   matrix:
@@ -56,3 +56,6 @@ after_success:
  if [ "$code_coverage" == "YES" ]; then
       slather;
  fi
+notifications:
+  slack:
+    secure: oqibkB7miMOa4w1HKWpLFwgBRf1LM9hlOy2c5QcID291rfJ33h24U1twGVRk860pFslTa0FFT4Hb9uzSbVtCG4mrvtpw673VhzxNwLJW0jx0co86vRM1ULoU5Xs3vxNrLiXXcnb9Sz6rcJeCzyWfnU0FnEhWxGFNyKNBB5UJHgnzpmJYQncv3DVfjpGMfPaO8N9dq2m2UPqd6tedt0DwEMJ28Zg1pqv1uU4hClf9e9AKIjFLDgFhyAIw2nZ4h56jFeXSk+Z9/j3Vv+621uDegt3yNWNFa+WLZh62HdnnukMcVJzVFFtgS0/j53rtTJ1Ayg5GroqaL28khakVt81AsKgUp+HQHHBn43ee3JCj72uTu+SEWbCit4NYYZLzByOa4IunGTKBCWPGaomizSfNKTBFadvIi4XzABA6Dg5agZDd8P6toH9JSIgAPCGku+3iHvCqVJnK1fkTShjrkKNpKr5ry5SP1EH72OC1vTxOMahlRsygIwDiUOFMz78lEtHV0a/2onwkeIPI0segYBDdP6pbEBQUrCmTNw2guhDyopIKaEzhwWphcky9v5lT1oqsjdNPAESW+/5uWETXLMeNI7bc3fWy8xVECJUyeX0ZDwJU2zFOyoD+Mxn1pnhMcWhX3yFMPAhVEEAC02YVKTsjOJQgbmv9K7Stv3HbSUenR3Y=
