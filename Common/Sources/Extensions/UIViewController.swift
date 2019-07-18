@@ -45,4 +45,35 @@ public extension UIViewController {
     func dismissKeyboard() {
         view.endEditing(true)
     }
+
+    var stringClassName: String {
+        return String(describing: self)
+    }
+}
+
+extension UIViewController: HyperwalletFlowDelegate {
+    @objc
+    open func isComplete(response: HyperwalletModel) {
+    }
+
+    struct Holder {
+        static var _hyperwalletFlowDelegate: HyperwalletFlowDelegate?
+    }
+    public weak var hyperwalletFlowDelegate: HyperwalletFlowDelegate? {
+        get {
+            return Holder._hyperwalletFlowDelegate
+        }
+        set(newValue) {
+            Holder._hyperwalletFlowDelegate = newValue
+        }
+    }
+
+//    public weak var hyperwalletFlowDelegate: HyperwalletFlowDelegate? {
+//        get {
+//            return self
+//        }
+//        set(newValue) {
+//            self.hyperwalletFlowDelegate = newValue
+//        }
+//    }
 }

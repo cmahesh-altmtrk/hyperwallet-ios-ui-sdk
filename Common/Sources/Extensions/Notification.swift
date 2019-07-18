@@ -30,6 +30,22 @@ public extension Notification.Name {
     static var transferMethodDeactivated: Notification.Name {
         return .init(rawValue: "transferMethodDeactivated")
     }
+
+    /// Posted when a transfer method (bank account, bank card, PayPal account, prepaid card, paper check)
+    /// has been deactivated.
+    static var transferCreated: Notification.Name {
+        return .init(rawValue: "transferCreated")
+    }
+
+    /// Posted when a transfer method (bank account, bank card, PayPal account, prepaid card, paper check)
+    /// has been deactivated.
+    static var transferScheduled: Notification.Name {
+        return .init(rawValue: "transferScheduled")
+    }
+
+    static var openAddTransferMethod: Notification.Name {
+        return .init(rawValue: "openAddTransferMethod")
+    }
 }
 
 /// The Hyperwallet's `NotificationCenter` key to access the information.
@@ -39,4 +55,7 @@ public extension Notification.Name {
 public enum UserInfo: String {
     case transferMethod
     case statusTransition
+    case transferCreated
+    case transferScheduled
+    case openAddTransferMethod
 }

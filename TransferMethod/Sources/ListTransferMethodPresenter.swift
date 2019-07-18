@@ -17,9 +17,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import HyperwalletSDK
-#if !COCOAPODS
-import Common
-#endif
 
 protocol ListTransferMethodView: class {
     func showLoading()
@@ -64,11 +61,11 @@ final class ListTransferMethodPresenter {
     /// Deactivate the selected Transfer Method
     private func deactivateTransferMethod(_ transferMethod: HyperwalletTransferMethod) {
         self.view.showProcessing()
-        if let transferMethodType = transferMethod.getField(fieldName: .type)  as? String,
-            let token = transferMethod.getField(fieldName: .token) as? String {
+        if let transferMethodType = transferMethod.type,
+            let token = transferMethod.token {
             selectedTransferMethod = transferMethod
             switch transferMethodType {
-            case "BANK_ACCOUNT":
+            case "BANK_ACCOUNT", "WIRE_ACCOUNT":
                 deactivateBankAccount(token)
             case "BANK_CARD":
                 deactivateBankCard(token)
@@ -95,6 +92,8 @@ final class ListTransferMethodPresenter {
                     }
                     if let data = result?.data {
                         strongSelf.sectionData = data
+                    } else {
+                        strongSelf.sectionData = []
                     }
 
                     strongSelf.view.showTransferMethods()
@@ -104,7 +103,7 @@ final class ListTransferMethodPresenter {
 
     private func deactivateBankAccount(_ token: String) {
         Hyperwallet.shared.deactivateBankAccount(transferMethodToken: token,
-                                                 notes: "Deactivating the Bank Account",
+                                                 notes: "Deactivating Account",
                                                  completion: deactivateTransferMethodHandler())
     }
 
@@ -143,41 +142,5 @@ final class ListTransferMethodPresenter {
                     }
                 }
             }
-    }
-
-    func getCellConfiguration(indexPath: IndexPath) -> ListTransferMethodCellConfiguration? {
-        if let transferMethod = sectionData[safe: indexPath.row],
-            let country = transferMethod.getField(fieldName: .transferMethodCountry) as? String,
-            let transferMethodType = transferMethod.getField(fieldName: .type) as? String {
-            return ListTransferMethodCellConfiguration(
-                transferMethodType: transferMethodType.lowercased().localized(),
-                transferMethodCountry: country.localized(),
-                additionalInfo: getAdditionalInfo(transferMethod),
-                transferMethodIconFont: HyperwalletIcon.of(transferMethodType).rawValue,
-                transferMethodToken: transferMethod.getField(fieldName: .token) as? String ?? "")
-        }
-        return nil
-    }
-
-    func getAdditionalInfo(_ transferMethod: HyperwalletTransferMethod) -> String? {
-        var additionlInfo: String?
-        switch transferMethod.getField(fieldName: .type) as? String {
-        case "BANK_ACCOUNT", "WIRE_ACCOUNT":
-            additionlInfo = transferMethod.getField(fieldName: .bankAccountId) as? String
-            additionlInfo = String(format: "%@%@",
-                                   "transfer_method_list_item_description".localized(),
-                                   additionlInfo?.suffix(startAt: 4) ?? "")
-        case "BANK_CARD":
-            additionlInfo = transferMethod.getField(fieldName: .cardNumber) as? String
-            additionlInfo = String(format: "%@%@",
-                                   "transfer_method_list_item_description".localized(),
-                                   additionlInfo?.suffix(startAt: 4) ?? "")
-        case "PAYPAL_ACCOUNT":
-            additionlInfo = transferMethod.getField(fieldName: .email) as? String
-
-        default:
-            break
-        }
-        return additionlInfo
     }
 }

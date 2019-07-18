@@ -16,29 +16,30 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#if !COCOAPODS
-import Common
-#endif
 import HyperwalletSDK
-import UIKit
 
-/// Represents the select widget cell, to display `HyperwalletFieldSelectionOption`.
-final class SelectionWidgetCell: GenericCell<HyperwalletFieldSelectionOption> {
-    override var item: HyperwalletFieldSelectionOption! {
-        didSet {
-            if let option = item {
-                textLabel?.text = option.label.localized()
-            }
+/// The HyperwalletTransferMethod extension
+public extension HyperwalletTransferMethod {
+    /// Additional information about the transfer method
+    var additionalInfo: String? {
+        switch type {
+        case "BANK_CARD", "PREPAID_CARD":
+            return String(format: "%@%@",
+                          "transfer_method_list_item_description".localized(),
+                          getField(TransferMethodField.cardNumber.rawValue)?
+                            .suffix(startAt: 4) ?? "" )
+
+        case "PAYPAL_ACCOUNT":
+            return getField(TransferMethodField.email.rawValue)
+
+        default:
+            return String(format: "%@%@",
+                          "transfer_method_list_item_description".localized(),
+                          getField(TransferMethodField.bankAccountId.rawValue)?
+                            .suffix(startAt: 4) ?? "")
         }
     }
+}
 
-    @objc dynamic var textLabelColor: UIColor! {
-        get { return self.textLabel?.textColor }
-        set { self.textLabel?.textColor = newValue }
-    }
-
-    @objc dynamic var textLabelFont: UIFont! {
-        get { return self.textLabel?.font }
-        set { self.textLabel?.font = newValue }
-    }
+extension HyperwalletTransferMethod: HyperwalletModel {
 }

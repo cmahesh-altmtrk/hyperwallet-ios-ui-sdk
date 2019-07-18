@@ -16,18 +16,16 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
-#if !COCOAPODS
-import Common
-#endif
+import UIKit
 
-extension HyperwalletUI {
+open class GenericCell<ModelType>: UITableViewCell {
+    open var item: ModelType!
 
-    /// Lists the user's transactions.
-    ///
-    ///
-    /// - Returns: An instance of `ListReceiptTableViewController`
-    public func listReceiptTableViewController() -> ListReceiptTableViewController {
-        return ListReceiptTableViewController()
+    override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }

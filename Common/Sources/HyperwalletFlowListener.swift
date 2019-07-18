@@ -16,29 +16,28 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#if !COCOAPODS
-import Common
-#endif
-import HyperwalletSDK
-import UIKit
+import Foundation
 
-/// Represents the select widget cell, to display `HyperwalletFieldSelectionOption`.
-final class SelectionWidgetCell: GenericCell<HyperwalletFieldSelectionOption> {
-    override var item: HyperwalletFieldSelectionOption! {
-        didSet {
-            if let option = item {
-                textLabel?.text = option.label.localized()
-            }
+public enum HyperwalletFlow: String {
+    case addTransferMethod
+}
+
+public class HyperwalletFlowListener {
+    public static var flowDictionary = [HyperwalletFlow: NSObject.Type]()
+
+    public init() {
+
+    }
+
+    public static func isFlowInitialized(flow: HyperwalletFlow) -> Bool {
+        return flowDictionary[flow] != nil
+    }
+
+    public static func navigateToFlow(flow: HyperwalletFlow, viewController: UIViewController) {
+        if let flowClass = flowDictionary[flow], let viewCont = flowClass.init() as? UIViewController {
+            viewCont.hyperwalletFlowDelegate = viewController
+            viewController.navigationController?.pushViewController(viewCont,
+                                                                    animated: true)
         }
-    }
-
-    @objc dynamic var textLabelColor: UIColor! {
-        get { return self.textLabel?.textColor }
-        set { self.textLabel?.textColor = newValue }
-    }
-
-    @objc dynamic var textLabelFont: UIFont! {
-        get { return self.textLabel?.font }
-        set { self.textLabel?.font = newValue }
     }
 }

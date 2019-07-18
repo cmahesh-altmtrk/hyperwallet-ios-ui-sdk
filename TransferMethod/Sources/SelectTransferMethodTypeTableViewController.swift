@@ -34,12 +34,14 @@ public final class SelectTransferMethodTypeTableViewController: UITableViewContr
     private var spinnerView: SpinnerView?
     private var presenter: SelectTransferMethodTypePresenter!
     private var countryCurrencyView: CountryCurrencyTableView!
+//    weak var delegate: HyperwalletFlowDelegate?
 
     // MARK: - Lifecycle
     override public func viewDidLoad() {
         super.viewDidLoad()
         title = "add_account_title".localized()
         largeTitle()
+        titleDisplayMode(.always)
         setViewBackgroundColor()
 
         navigationItem.backBarButtonItem = UIBarButtonItem.back
@@ -136,6 +138,7 @@ extension SelectTransferMethodTypeTableViewController: SelectTransferMethodTypeV
         addTransferMethodController.createTransferMethodHandler = {
             (transferMethod: HyperwalletTransferMethod) -> Void in
             self.createTransferMethodHandler?(transferMethod)
+            self.hyperwalletFlowDelegate?.isComplete(response: transferMethod)
         }
 
         navigationController?.pushViewController(addTransferMethodController, animated: true)

@@ -22,17 +22,8 @@ import Common
 import HyperwalletSDK
 import UIKit
 
-final class ListTransferMethodTableViewCell: GenericCell<HyperwalletTransferMethod> {
-    static let reuseIdentifier = "listTransferMethodCellIdentifier"
-
-    override var item: HyperwalletTransferMethod? {
-        didSet {
-            guard let transferMethod = item  else {
-                return
-            }
-            configure(transferMethod: transferMethod)
-        }
-    }
+final class AddAccountTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "addAccountCellIdentifier"
 
     // MARK: Life cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -76,34 +67,20 @@ final class ListTransferMethodTableViewCell: GenericCell<HyperwalletTransferMeth
     }
 }
 
-extension ListTransferMethodTableViewCell {
-    func configure(transferMethod: HyperwalletTransferMethod) {
-        textLabel?.text = transferMethod.type?.lowercased().localized()
-        textLabel?.accessibilityIdentifier = "ListTransferMethodTableViewCellTextLabel"
-        detailTextLabel?.attributedText = formatDetails(
-            transferMethodCountry: transferMethod.transferMethodCountry?.localized() ?? "",
-            additionalInfo: transferMethod.additionalInfo)
+extension AddAccountTableViewCell {
+    func configure() {
+        textLabel?.text = "add_account".localized()
+        textLabel?.accessibilityIdentifier = "addAccountTableViewCellTextLabel"
+        detailTextLabel?.text = "add_account_detailed_text".localized()
 
-        detailTextLabel?.accessibilityIdentifier = "ListTransferMethodTableViewCellDetailTextLabel"
+        detailTextLabel?.accessibilityIdentifier = "addAccountTableViewCellDetailTextLabel"
         detailTextLabel?.numberOfLines = 0
         detailTextLabel?.lineBreakMode = .byWordWrapping
-        let icon = UIImage.fontIcon(HyperwalletIcon.of(transferMethod.type ?? "").rawValue,
+        let icon = UIImage.fontIcon(HyperwalletIcon.of("").rawValue,
                                     Theme.Icon.frame,
                                     CGFloat(Theme.Icon.size),
                                     Theme.Icon.primaryColor)
         imageView?.image = icon
         imageView?.layer.cornerRadius = CGFloat(Theme.Icon.frame.width / 2)
-    }
-
-    private func formatDetails(transferMethodCountry: String, additionalInfo: String?) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString()
-        attributedText.append(value: String(format: "%@\n", transferMethodCountry),
-                              font: subTitleLabelFont,
-                              color: subTitleLabelColor)
-        if let additionalInfo = additionalInfo {
-            attributedText.append(value: additionalInfo, font: subTitleLabelFont, color: subTitleLabelColor)
-        }
-
-        return attributedText
     }
 }

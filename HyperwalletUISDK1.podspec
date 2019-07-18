@@ -18,23 +18,29 @@ Pod::Spec.new do |s|
     end
 
     s.subspec "TransferMethodRepository" do |transferMethodRepository|
-        transferMethodRepository.source_files = "TransferMethodRepository/**/*.{swift,h}"
+        transferMethodRepository.source_files = "TransferMethodRepository/Sources/**/*.{swift,h}"
     end
 
     s.subspec "TransferMethod" do |transferMethod|
-        transferMethod.source_files = "HyperwalletTransferMethod/**/*.{swift,h}"
+        transferMethod.source_files = "HyperwalletTransferMethod/Sources/**/*.{swift,h}"
         transferMethod.dependency "HyperwalletUISDK/HyperwalletCommon"
         transferMethod.dependency "HyperwalletUISDK/TransferMethodRepository"
     end
 
     s.subspec "Receipt" do |receipt|
-        receipt.source_files = "HyperwalletReceipt/**/*.{swift,h}"
+        receipt.source_files = "HyperwalletReceipt/Sources/**/*.{swift,h}"
         receipt.dependency 'HyperwalletUISDK/HyperwalletCommon'
     end
 
+    s.subspec "Transfer" do |transfer|
+        transfer.source_files = "Transfer/Sources/**/*.{swift,h}"
+        transfer.dependency 'HyperwalletUISDK/HyperwalletCommon'
+        transfer.dependency 'HyperwalletUISDK/TransferMethod'
+    end
+
     s.test_spec 'Tests' do |ts|
-        ts.source_files = 'Tests/**/*.swift'
-        ts.resources = 'Tests/**/*.json'
+        ts.source_files = '/*/Tests/**/*.swift'
+        ts.resources = '/*/Tests/**/*.json'
         ts.dependency 'Hippolyte', '0.6.0'
     end
 

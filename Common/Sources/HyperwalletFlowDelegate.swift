@@ -19,26 +19,12 @@
 import Foundation
 import HyperwalletSDK
 
-public final class HyperwalletUI {
-    private static var instance: HyperwalletUI?
-    
-    /// Returns the previously initialized instance of the Hyperwallet UI SDK interface object
-    public static var shared: HyperwalletUI {
-        guard let instance = instance else {
-            fatalError("Call HyperwalletUI.setup(_:) before accessing HyperwalletUI.shared")
-        }
-        return instance
-    }
-    
-    /// Creates a new instance of the Hyperwallet UI SDK interface object. If a previously created instance exists,
-    /// it will be replaced.
-    ///
-    /// - Parameter provider: a provider of Hyperwallet authentication tokens.
-    public class func setup(_ provider: HyperwalletAuthenticationTokenProvider) {
-        instance = HyperwalletUI(provider)
-    }
-    
-    private init(_ provider: HyperwalletAuthenticationTokenProvider) {
-        Hyperwallet.setup(provider)
-    }
+public protocol HyperwalletFlowDelegate: class {
+    func isComplete(response: HyperwalletModel)
+    init()
+}
+
+@objc
+public protocol HyperwalletModel: class {
+
 }

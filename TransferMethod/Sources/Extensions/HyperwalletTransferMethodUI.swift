@@ -16,12 +16,39 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
 #if !COCOAPODS
 import Common
 #endif
+import Foundation
+import HyperwalletSDK
 
-extension HyperwalletUI {
+public final class HyperwalletTransferMethodUI {
+    private static var instance: HyperwalletTransferMethodUI?
+
+    public static var shared: HyperwalletTransferMethodUI {
+        guard let instance = instance else {
+            fatalError("Call HyperwalletUI.setup(_:) before accessing HyperwalletUI.shared")
+        }
+        return instance
+    }
+
+    /// Creates a new instance of the Hyperwallet UI SDK interface object. If a previously created instance exists,
+    /// it will be replaced.
+    ///
+    /// - Parameter provider: a provider of Hyperwallet authentication tokens.
+    public class func setup(_ provider: HyperwalletAuthenticationTokenProvider) {
+        instance = HyperwalletTransferMethodUI(provider)
+    }
+
+    private init(_ provider: HyperwalletAuthenticationTokenProvider) {
+        Hyperwallet.setup(provider)
+        addFlow()
+    }
+
+    private func addFlow() {
+        HyperwalletFlowListener.flowDictionary[HyperwalletFlow.addTransferMethod]
+            = SelectTransferMethodTypeTableViewController.self
+    }
     
     /// Lists the user's transfer methods (bank account, bank card, PayPal account, prepaid card, paper check).
     ///

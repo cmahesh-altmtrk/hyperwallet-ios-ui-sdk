@@ -18,7 +18,6 @@
 
 #if !COCOAPODS
 import Common
-import TransferMethodRepository
 #endif
 import HyperwalletSDK
 
@@ -127,11 +126,10 @@ final class SelectTransferMethodTypePresenter {
             }
 
             strongSelf.user = result
-            RepositoryFactory.shared.transferMethodConfigurationRepository.getKeys(completion: strongSelf.transferMethodConfigurationKeyResultHandler())
 
-//            Hyperwallet.shared.retrieveTransferMethodConfigurationKeys(
-//                request: HyperwalletTransferMethodConfigurationKeysQuery(),
-//                completion: strongSelf.transferMethodConfigurationKeyResultHandler())
+            Hyperwallet.shared.retrieveTransferMethodConfigurationKeys(
+                request: HyperwalletTransferMethodConfigurationKeysQuery(),
+                completion: strongSelf.transferMethodConfigurationKeyResultHandler())
         }
     }
 
