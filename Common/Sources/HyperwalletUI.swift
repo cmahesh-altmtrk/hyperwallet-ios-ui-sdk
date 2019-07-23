@@ -46,7 +46,8 @@ public final class HyperwalletUI {
     }
 
     private func addFlow() {
-        if let className = NSClassFromString("TransferMethod.SelectTransferMethodTypeController") as? NSObject.Type {
+        if let className = NSClassFromString("HyperwalletUISDK.SelectTransferMethodTypeController") as? NSObject.Type
+            ?? NSClassFromString("TransferMethod.SelectTransferMethodTypeController") as? NSObject.Type {
             HyperwalletFlowCoordinator.flows[HyperwalletFlow.addTransferMethod] = className
         }
     }
