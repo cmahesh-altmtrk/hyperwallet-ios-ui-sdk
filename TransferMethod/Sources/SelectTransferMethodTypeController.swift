@@ -45,6 +45,10 @@ public final class SelectTransferMethodTypeController: UITableViewController {
         super.init(coder: aDecoder)
     }
 
+    override public init(style: UITableView.Style) {
+        super.init(style: style)
+    }
+
     // MARK: - Lifecycle
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -140,6 +144,7 @@ extension SelectTransferMethodTypeController: SelectTransferMethodTypeView {
 
         addTransferMethodController.createTransferMethodHandler = { (transferMethod) -> Void in
             self.createTransferMethodHandler?(transferMethod)
+            self.hyperwalletFlowDelegate?.didFlowComplete(with: transferMethod)
         }
 
         navigationController?.pushViewController(addTransferMethodController, animated: true)

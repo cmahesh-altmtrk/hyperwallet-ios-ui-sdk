@@ -44,6 +44,11 @@ Pod::Spec.new do |s|
         receipt.dependency 'HyperwalletUISDK/ReceiptRepository'
     end
 
+    s.subspec "Transfer" do |transfer|
+        transfer.source_files = "Transfer/Sources/**/*.{swift,h}"
+        transfer.dependency 'HyperwalletUISDK/Common'
+    end
+
     s.test_spec 'Tests' do |ts|
         ts.source_files = '**/Tests/**/*.swift'
         ts.resources = '**/Tests/**/*.json'

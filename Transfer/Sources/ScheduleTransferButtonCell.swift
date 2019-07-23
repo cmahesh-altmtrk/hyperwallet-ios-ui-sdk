@@ -16,30 +16,32 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import HyperwalletSDK
+#if !COCOAPODS
+import Common
+#endif
 
-/// The HyperwalletTransferMethod extension
-public extension HyperwalletTransferMethod {
-    /// Additional information about the transfer method
-    var additionalInfo: String? {
-        switch type {
-        case "BANK_CARD", "PREPAID_CARD":
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.cardNumber.rawValue)?
-                            .suffix(startAt: 4) ?? "" )
+final class ScheduleTransferButtonCell: UITableViewCell {
+    static let reuseIdentifier = "scheduleTransferButtonCellReuseIdentifier"
 
-        case "PAYPAL_ACCOUNT":
-            return getField(TransferMethodField.email.rawValue)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        self.heightAnchor.constraint(equalToConstant: Theme.Cell.smallHeight).isActive = true
+    }
 
-        default:
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.bankAccountId.rawValue)?
-                            .suffix(startAt: 4) ?? "")
-        }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
 
-extension HyperwalletTransferMethod: HyperwalletModel {
+extension ScheduleTransferButtonCell {
+    // MARK: Theme manager's proxy properties
+    @objc dynamic var titleLabelFont: UIFont! {
+        get { return textLabel?.font }
+        set { textLabel?.font = newValue }
+    }
+
+    @objc dynamic var titleLabelColor: UIColor! {
+        get { return textLabel?.textColor }
+        set { textLabel?.textColor = newValue }
+    }
 }

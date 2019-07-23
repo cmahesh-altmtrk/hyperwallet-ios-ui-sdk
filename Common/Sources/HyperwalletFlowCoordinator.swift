@@ -16,30 +16,28 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import HyperwalletSDK
+import Foundation
 
-/// The HyperwalletTransferMethod extension
-public extension HyperwalletTransferMethod {
-    /// Additional information about the transfer method
-    var additionalInfo: String? {
-        switch type {
-        case "BANK_CARD", "PREPAID_CARD":
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.cardNumber.rawValue)?
-                            .suffix(startAt: 4) ?? "" )
-
-        case "PAYPAL_ACCOUNT":
-            return getField(TransferMethodField.email.rawValue)
-
-        default:
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.bankAccountId.rawValue)?
-                            .suffix(startAt: 4) ?? "")
-        }
-    }
+public enum HyperwalletFlow: String {
+    case addTransferMethod
 }
 
-extension HyperwalletTransferMethod: HyperwalletModel {
+public class HyperwalletFlowCoordinator {
+    public static var flows = [HyperwalletFlow: NSObject.Type]()
+
+    public init() {
+    }
+
+    public static func isFlowInitialized(flow: HyperwalletFlow) -> Bool {
+        return flows[flow] != nil
+    }
+
+    public static func navigateToFlow(flow: HyperwalletFlow, fromViewController: UIViewController) {
+        if let toViewController = flows[flow],
+            let initializedToViewController = toViewController.init() as? UIViewController {
+            initializedToViewController.hyperwalletFlowDelegate = fromViewController
+            fromViewController.navigationController?.pushViewController(initializedToViewController,
+                                                                        animated: true)
+        }
+    }
 }

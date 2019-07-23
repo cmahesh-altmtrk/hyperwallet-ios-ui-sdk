@@ -53,3 +53,21 @@ public extension UIViewController {
         view.endEditing(true)
     }
 }
+
+extension UIViewController: HyperwalletFlowDelegate {
+    @objc
+    open func didFlowComplete(with response: HyperwalletModel) {
+    }
+
+    struct Holder {
+        static var hyperwalletFlowDelegate: HyperwalletFlowDelegate?
+    }
+    public weak var hyperwalletFlowDelegate: HyperwalletFlowDelegate? {
+        get {
+            return Holder.hyperwalletFlowDelegate
+        }
+        set(newValue) {
+            Holder.hyperwalletFlowDelegate = newValue
+        }
+    }
+}

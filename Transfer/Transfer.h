@@ -16,30 +16,14 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import HyperwalletSDK
+#import <UIKit/UIKit.h>
 
-/// The HyperwalletTransferMethod extension
-public extension HyperwalletTransferMethod {
-    /// Additional information about the transfer method
-    var additionalInfo: String? {
-        switch type {
-        case "BANK_CARD", "PREPAID_CARD":
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.cardNumber.rawValue)?
-                            .suffix(startAt: 4) ?? "" )
+//! Project version number for Transfer.
+FOUNDATION_EXPORT double TransferVersionNumber;
 
-        case "PAYPAL_ACCOUNT":
-            return getField(TransferMethodField.email.rawValue)
+//! Project version string for Transfer.
+FOUNDATION_EXPORT const unsigned char TransferVersionString[];
 
-        default:
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.bankAccountId.rawValue)?
-                            .suffix(startAt: 4) ?? "")
-        }
-    }
-}
+// In this header, you should import all the public headers of your framework using statements like #import <Transfer/PublicHeader.h>
 
-extension HyperwalletTransferMethod: HyperwalletModel {
-}
+

@@ -16,30 +16,20 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import HyperwalletSDK
+#if !COCOAPODS
+import Common
+#endif
+import Foundation
 
-/// The HyperwalletTransferMethod extension
-public extension HyperwalletTransferMethod {
-    /// Additional information about the transfer method
-    var additionalInfo: String? {
-        switch type {
-        case "BANK_CARD", "PREPAID_CARD":
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.cardNumber.rawValue)?
-                            .suffix(startAt: 4) ?? "" )
-
-        case "PAYPAL_ACCOUNT":
-            return getField(TransferMethodField.email.rawValue)
-
-        default:
-            return String(format: "%@%@",
-                          "transfer_method_list_item_description".localized(),
-                          getField(TransferMethodField.bankAccountId.rawValue)?
-                            .suffix(startAt: 4) ?? "")
-        }
+public extension HyperwalletUI {
+    func createTransferFromUserTableViewController(clientTransferId: String)
+        -> CreateTransferTableViewController {
+            return CreateTransferTableViewController(clientTransferId: clientTransferId)
     }
-}
 
-extension HyperwalletTransferMethod: HyperwalletModel {
+    func createTransferFromPrepaidCardTableViewController(clientTransferId: String,
+                                                                 sourceToken: String)
+        -> CreateTransferTableViewController {
+            return CreateTransferTableViewController(clientTransferId: clientTransferId, sourceToken: sourceToken)
+    }
 }

@@ -19,6 +19,7 @@
 #if !COCOAPODS
 import Common
 import Receipt
+import Transfer
 import TransferMethod
 #endif
 import HyperwalletSDK
@@ -180,6 +181,12 @@ class ViewController: UITableViewController {
             let viewController = HyperwalletUI.shared.listPrepaidCardReceiptController(
                 prepaidCardToken)
 
+            navigationController?.pushViewController(viewController, animated: true)
+
+        case .transferFunds:
+
+            let viewController = HyperwalletUI.shared
+                .createTransferFromUserTableViewController(clientTransferId: "randomNumber")
             navigationController?.pushViewController(viewController, animated: true)
 
         default:

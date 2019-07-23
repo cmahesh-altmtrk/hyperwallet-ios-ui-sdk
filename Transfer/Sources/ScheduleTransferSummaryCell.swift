@@ -16,38 +16,40 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
+#if !COCOAPODS
+import Common
+#endif
 
-/// The Notification extension
-public extension Notification.Name {
-    /// Posted when a new transfer method (bank account, bank card, PayPal account, prepaid card, paper check)
-    /// has been created.
-    static var transferMethodAdded: Notification.Name {
-        return .init(rawValue: "transferMethodAdded")
+final class ScheduleTransferSummaryCell: UITableViewCell {
+    static let reuseIdentifier = "scheduleTransferSummaryCellReuseIdentifier"
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
+        self.heightAnchor.constraint(equalToConstant: Theme.Cell.smallHeight).isActive = true
     }
 
-    /// Posted when a transfer method (bank account, bank card, PayPal account, prepaid card, paper check)
-    /// has been deactivated.
-    static var transferMethodDeactivated: Notification.Name {
-        return .init(rawValue: "transferMethodDeactivated")
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
-    static var transferCreated: Notification.Name {
-        return .init(rawValue: "transferCreated")
+    // MARK: Theme manager's proxy properties
+    @objc dynamic var titleLabelFont: UIFont! {
+        get { return textLabel?.font }
+        set { textLabel?.font = newValue }
     }
 
-    static var transferScheduled: Notification.Name {
-        return .init(rawValue: "transferScheduled")
+    @objc dynamic var titleLabelColor: UIColor! {
+        get { return textLabel?.textColor }
+        set { textLabel?.textColor = newValue }
     }
-}
 
-/// The Hyperwallet's `NotificationCenter` key to access the information.
-///
-/// - transferMethod: A new transfer method has been created.
-/// - statusTransition: A transfer method has been deactivated.
-public enum UserInfo: String {
-    case transferMethod
-    case statusTransition
-    case transferCreated
-    case transferScheduled
+    @objc dynamic var subTitleLabelFont: UIFont! {
+        get { return detailTextLabel?.font }
+        set { detailTextLabel?.font = newValue }
+    }
+
+    @objc dynamic var subTitleLabelColor: UIColor! {
+        get { return detailTextLabel?.textColor }
+        set { detailTextLabel?.textColor = newValue }
+    }
 }
