@@ -56,11 +56,12 @@ public extension UIViewController {
 
 extension UIViewController: HyperwalletFlowDelegate {
     @objc
-    open func didFlowComplete(with response: HyperwalletModel) {
+    open func didFlowComplete(with response: Any) {
     }
 
     struct Holder {
         static var hyperwalletFlowDelegate: HyperwalletFlowDelegate?
+        static var initializationData: [String: Any]?
     }
     public weak var hyperwalletFlowDelegate: HyperwalletFlowDelegate? {
         get {
@@ -68,6 +69,15 @@ extension UIViewController: HyperwalletFlowDelegate {
         }
         set(newValue) {
             Holder.hyperwalletFlowDelegate = newValue
+        }
+    }
+
+    public var initializationData: [String: Any]? {
+        get {
+            return Holder.initializationData
+        }
+        set(newValue) {
+            Holder.initializationData = newValue
         }
     }
 }

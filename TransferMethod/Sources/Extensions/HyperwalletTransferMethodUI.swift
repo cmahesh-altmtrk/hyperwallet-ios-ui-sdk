@@ -59,10 +59,14 @@ public extension HyperwalletUI {
         _ profileType: String,
         _ transferMethodTypeCode: String,
         _ forceUpdateData: Bool = false) -> AddTransferMethodController {
-        return AddTransferMethodController(country,
-                                           currency,
-                                           profileType,
-                                           transferMethodTypeCode,
-                                           forceUpdateData)
+            let controller = AddTransferMethodController()
+            var initializationData = [String: Any]()
+            initializationData["country"]  = country
+            initializationData["currency"]  = currency
+            initializationData["profileType"]  = profileType
+            initializationData["transferMethodTypeCode"]  = transferMethodTypeCode
+            initializationData["forceUpdateData"]  = forceUpdateData
+            controller.initializationData = initializationData
+            return controller
     }
 }

@@ -19,23 +19,26 @@
 import Foundation
 
 public enum HyperwalletFlow: String {
+    case addSelectTransferMethod
     case addTransferMethod
 }
 
 public class HyperwalletFlowCoordinator {
     public static var flows = [HyperwalletFlow: NSObject.Type]()
 
-    public init() {
-    }
-
     public static func isFlowInitialized(flow: HyperwalletFlow) -> Bool {
         return flows[flow] != nil
     }
 
-    public static func navigateToFlow(flow: HyperwalletFlow, fromViewController: UIViewController) {
+    public static func navigateToFlow(flow: HyperwalletFlow,
+                                      fromViewController: UIViewController,
+                                      initializationData: [String: Any]? = nil) {
         if let toViewController = flows[flow],
             let initializedToViewController = toViewController.init() as? UIViewController {
             initializedToViewController.hyperwalletFlowDelegate = fromViewController
+            if let initializationData = initializationData {
+                initializedToViewController.initializationData = initializationData
+            }
             fromViewController.navigationController?.pushViewController(initializedToViewController,
                                                                         animated: true)
         }

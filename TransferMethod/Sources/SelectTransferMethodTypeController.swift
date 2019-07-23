@@ -144,7 +144,6 @@ extension SelectTransferMethodTypeController: SelectTransferMethodTypeView {
 
         addTransferMethodController.createTransferMethodHandler = { (transferMethod) -> Void in
             self.createTransferMethodHandler?(transferMethod)
-            self.hyperwalletFlowDelegate?.didFlowComplete(with: transferMethod)
         }
 
         navigationController?.pushViewController(addTransferMethodController, animated: true)
@@ -231,5 +230,11 @@ extension CountryCurrencyTableView: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return nil
+    }
+}
+
+extension SelectTransferMethodTypeController {
+    override public func didFlowComplete(with response: Any) {
+        self.hyperwalletFlowDelegate?.didFlowComplete(with: response)
     }
 }

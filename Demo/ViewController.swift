@@ -187,6 +187,10 @@ class ViewController: UITableViewController {
 
             let viewController = HyperwalletUI.shared
                 .createTransferFromUserTableViewController(clientTransferId: "randomNumber")
+            viewController.createTransferHandler = {
+                (transfer: HyperwalletTransfer) -> Void in
+                self.didCreateTransfer(transfer: transfer)
+            }
             navigationController?.pushViewController(viewController, animated: true)
 
         default:
@@ -211,6 +215,10 @@ class ViewController: UITableViewController {
 
     func didCreateTransferMethod(transferMethod: HyperwalletTransferMethod) {
         print("Transfer method has been created successfully")
+    }
+
+    func didCreateTransfer(transfer: HyperwalletTransfer) {
+        print("Transfer has been created successfully")
     }
 
     @objc

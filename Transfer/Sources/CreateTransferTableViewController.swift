@@ -35,6 +35,8 @@ public final class CreateTransferTableViewController: UITableViewController {
     private var transferAmount: String?
     private var transferDescription: String?
     private var didSelectAddAccountCell = false
+    public var createTransferMethodHandler: ((HyperwalletTransferMethod) -> Void)?
+    public var createTransferHandler: ((HyperwalletTransfer) -> Void)?
 
     private let registeredCells: [(type: AnyClass, id: String)] = [
         (AddAccountTableViewCell.self, AddAccountTableViewCell.reuseIdentifier),
@@ -267,8 +269,20 @@ extension CreateTransferTableViewController: CreateTransferView {
     }
 
     func navigateToAddTransferMethodFlow() {
+//        if HyperwalletFlowCoordinator.isFlowInitialized(flow: HyperwalletFlow.addSelectTransferMethod) {
+//            HyperwalletFlowCoordinator.navigateToFlow(flow: HyperwalletFlow.addSelectTransferMethod,
+//                                                      fromViewController: self)
+//        } else {
         if HyperwalletFlowCoordinator.isFlowInitialized(flow: HyperwalletFlow.addTransferMethod) {
-            HyperwalletFlowCoordinator.navigateToFlow(flow: HyperwalletFlow.addTransferMethod, fromViewController: self)
+            var initializationData = [String: Any]()
+            initializationData["country"]  = "US"
+            initializationData["currency"]  = "USD"
+            initializationData["profileType"]  = "INDIVIDUAL"
+            initializationData["transferMethodTypeCode"]  = "BANK_ACCOUNT"
+            initializationData["forceUpdateData"]  = true
+            HyperwalletFlowCoordinator.navigateToFlow(flow: HyperwalletFlow.addTransferMethod,
+                                                      fromViewController: self,
+                                                      initializationData: initializationData)
         } else {
             HyperwalletUtilViews.showAlert(self, title: "Error", message: "No Transfer Method module initialized")
         }
@@ -299,15 +313,19 @@ extension CreateTransferTableViewController: CreateTransferView {
                                             object: self,
                                             userInfo: [UserInfo.transferCreated: transfer])
         }
+        createTransferHandler?(transfer)
     }
 }
 
 extension CreateTransferTableViewController {
-    override public func didFlowComplete(with response: HyperwalletModel) {
+    override public func didFlowComplete(with response: Any) {
         if !didSelectAddAccountCell {
             navigationController?.popViewController(animated: true)
         }
-        presenter.selectedTransferMethod = response as? HyperwalletTransferMethod
-        presenter.loadCreateTransfer()
+        if let transferMethod = response as? HyperwalletTransferMethod {
+            createTransferMethodHandler?(transferMethod)
+            presenter.selectedTransferMethod = transferMethod
+            presenter.loadCreateTransfer()
+        }
     }
 }

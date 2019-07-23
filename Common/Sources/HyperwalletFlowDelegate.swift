@@ -20,7 +20,7 @@ import Foundation
 import HyperwalletSDK
 
 public protocol HyperwalletFlowDelegate: class {
-    func didFlowComplete(with response: HyperwalletModel)
+    func didFlowComplete(with response: Any)
     init()
 }
 
