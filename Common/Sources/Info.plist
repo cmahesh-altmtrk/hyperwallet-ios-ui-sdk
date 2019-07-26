@@ -18,7 +18,5 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-    <key>SelectTransferMethodTypeController</key>
-    <string>SelectTransferMethodTypeController</string>
 </dict>
 </plist>

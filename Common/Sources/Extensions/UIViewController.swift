@@ -62,6 +62,7 @@ extension UIViewController: HyperwalletFlowDelegate {
     struct Holder {
         static var hyperwalletFlowDelegate: HyperwalletFlowDelegate?
         static var initializationData: [String: Any]?
+        static var coordinator: HyperwalletCoordinator?
     }
     public weak var hyperwalletFlowDelegate: HyperwalletFlowDelegate? {
         get {
@@ -69,6 +70,15 @@ extension UIViewController: HyperwalletFlowDelegate {
         }
         set(newValue) {
             Holder.hyperwalletFlowDelegate = newValue
+        }
+    }
+
+    public var coordinator: HyperwalletCoordinator? {
+        get {
+            return Holder.coordinator
+        }
+        set(newValue) {
+            Holder.coordinator = newValue
         }
     }
 

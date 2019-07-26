@@ -139,14 +139,13 @@ extension SelectTransferMethodTypeController: SelectTransferMethodTypeView {
                                                currency: String,
                                                profileType: String,
                                                transferMethodTypeCode: String) {
-        let addTransferMethodController = HyperwalletUI.shared
-            .addTransferMethodController(country, currency, profileType, transferMethodTypeCode, forceUpdate)
-
-        addTransferMethodController.createTransferMethodHandler = { (transferMethod) -> Void in
-            self.createTransferMethodHandler?(transferMethod)
-        }
-
-        navigationController?.pushViewController(addTransferMethodController, animated: true)
+        var initializationData = [String: Any]()
+        initializationData[InitializationDataField.country.rawValue]  = country
+        initializationData[InitializationDataField.currency.rawValue]  = currency
+        initializationData[InitializationDataField.profileType.rawValue]  = profileType
+        initializationData[InitializationDataField.transferMethodTypeCode.rawValue]  = transferMethodTypeCode
+        initializationData[InitializationDataField.forceUpdateData.rawValue]  = true
+        coordinator?.navigateToNextPage(initializationData: initializationData)
     }
 
     func showLoading() {
@@ -230,11 +229,5 @@ extension CountryCurrencyTableView: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return nil
-    }
-}
-
-extension SelectTransferMethodTypeController {
-    override public func didFlowComplete(with response: Any) {
-        self.hyperwalletFlowDelegate?.didFlowComplete(with: response)
     }
 }

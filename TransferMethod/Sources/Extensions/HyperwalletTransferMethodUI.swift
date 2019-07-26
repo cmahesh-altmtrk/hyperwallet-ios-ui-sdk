@@ -26,19 +26,23 @@ public extension HyperwalletUI {
     ///
     /// The user can deactivate and add a new transfer method.
     ///
-    /// - Returns: An instance of `listTransferMethodController`
-    func listTransferMethodController() -> ListTransferMethodController {
-        return ListTransferMethodController()
+    /// - Returns: An instance of `ListTransferMethodsCoordinator`
+    func listTransferMethodCoordinator(parentController: UIViewController) -> ListTransferMethodsCoordinator {
+        let coordinator = ListTransferMethodsCoordinator()
+        coordinator.start(parentController: parentController)
+        return coordinator
     }
 
     /// Lists all transfer method types available based on the country, currency and profile type to create a new
     /// transfer method (bank account, bank card, PayPal account, prepaid card, paper check).
     ///
     /// - Parameter forceUpdateData: Forces to refresh the cached data.
-    /// - Returns: An instance of `SelectTransferMethodTypeController`
-    func selectTransferMethodTypeController(forceUpdateData: Bool = false)
-        -> SelectTransferMethodTypeController {
-            return SelectTransferMethodTypeController(forceUpdate: forceUpdateData)
+    /// - Returns: An instance of `SelectTransferMethodTypeCoordinator`
+    func selectTransferMethodTypeCoordinator(forceUpdateData: Bool = false, parentController: UIViewController)
+        -> SelectTransferMethodTypeCoordinator {
+            let coordinator = SelectTransferMethodTypeCoordinator()
+            coordinator.start(parentController: parentController)
+            return coordinator
     }
 
     /// Controller to create a new transfer method.
@@ -52,21 +56,23 @@ public extension HyperwalletUI {
     ///   - profileType: The profile type. Possible values - INDIVIDUAL, BUSINESS.
     ///   - transferMethodTypeCode: The transfer method type. Possible values - BANK_ACCOUNT, BANK_CARD.
     ///   - forceUpdateData: Forces to refresh the cached data.
-    /// - Returns: An instance of `AddTransferMethodController`
-    func addTransferMethodController(
+    /// - Returns: An instance of `AddTransferMethodCoordinator`
+    func addTransferMethodCoordinator(
         _ country: String,
         _ currency: String,
         _ profileType: String,
         _ transferMethodTypeCode: String,
-        _ forceUpdateData: Bool = false) -> AddTransferMethodController {
-            let controller = AddTransferMethodController()
+        _ forceUpdateData: Bool = false,
+        parentController: UIViewController) -> AddTransferMethodCoordinator {
             var initializationData = [String: Any]()
-            initializationData["country"]  = country
-            initializationData["currency"]  = currency
-            initializationData["profileType"]  = profileType
-            initializationData["transferMethodTypeCode"]  = transferMethodTypeCode
-            initializationData["forceUpdateData"]  = forceUpdateData
-            controller.initializationData = initializationData
-            return controller
+            initializationData[InitializationDataField.country.rawValue]  = country
+            initializationData[InitializationDataField.currency.rawValue]  = currency
+            initializationData[InitializationDataField.profileType.rawValue]  = profileType
+            initializationData[InitializationDataField.transferMethodTypeCode.rawValue]  = transferMethodTypeCode
+            initializationData[InitializationDataField.forceUpdateData.rawValue]  = forceUpdateData
+
+            let coordinator = AddTransferMethodCoordinator()
+            coordinator.start(initializationData: initializationData, parentController: parentController)
+            return coordinator
     }
 }

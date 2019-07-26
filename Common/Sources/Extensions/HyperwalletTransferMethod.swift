@@ -40,6 +40,3 @@ public extension HyperwalletTransferMethod {
         }
     }
 }
-
-extension HyperwalletTransferMethod: HyperwalletModel {
-}

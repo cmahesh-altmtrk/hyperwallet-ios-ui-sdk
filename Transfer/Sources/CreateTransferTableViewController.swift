@@ -30,13 +30,9 @@ public final class CreateTransferTableViewController: UITableViewController {
     typealias MarkCellHandler = (_ value: HyperwalletTransferMethod) -> Bool
     private var presenter: CreateTransferPresenter!
     private var spinnerView: SpinnerView?
-    private var sourceToken: String?
-    private var clientTransferId: String
     private var transferAmount: String?
     private var transferDescription: String?
     private var didSelectAddAccountCell = false
-    public var createTransferMethodHandler: ((HyperwalletTransferMethod) -> Void)?
-    public var createTransferHandler: ((HyperwalletTransfer) -> Void)?
 
     private let registeredCells: [(type: AnyClass, id: String)] = [
         (AddAccountTableViewCell.self, AddAccountTableViewCell.reuseIdentifier),
@@ -45,17 +41,6 @@ public final class CreateTransferTableViewController: UITableViewController {
         (CreateTransferButtonCell.self, CreateTransferButtonCell.reuseIdentifier),
         (CreateTransferNotesTableViewCell.self, CreateTransferNotesTableViewCell.reuseIdentifier)
     ]
-
-    init(clientTransferId: String, sourceToken: String? = nil) {
-        self.sourceToken = sourceToken
-        self.clientTransferId = clientTransferId
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    // swiftlint:disable unavailable_function
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +52,12 @@ public final class CreateTransferTableViewController: UITableViewController {
         // setup table view
         setUpCreateTransferTableView()
         hideKeyboardWhenTappedAround()
-
-        presenter = CreateTransferPresenter(clientTransferId, sourceToken, view: self)
+        if let clientTransferId = initializationData?["clientTransferId"] as? String {
+            let sourceToken = initializationData?["sourceToken"] as? String
+            presenter = CreateTransferPresenter(clientTransferId, sourceToken, view: self)
+        } else {
+            //TODO handle error
+        }
         presenter.loadCreateTransfer()
     }
 
@@ -251,9 +240,11 @@ extension CreateTransferTableViewController: CreateTransferView {
         let genericTableView = GenericController < CreateTransferSelectDestinationCell,
             HyperwalletTransferMethod> ()
 
-        genericTableView.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                                             target: self,
-                                                                             action: #selector(didTapAddButton))
+        if HyperwalletUI.shared.isFlowInitialized(flow: HyperwalletUI.HyperwalletFlow.selectTransferMethodType) {
+            genericTableView.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                                                 target: self,
+                                                                                 action: #selector(didTapAddButton))
+        }
 
         genericTableView.title = title
         genericTableView.items = items
@@ -269,43 +260,20 @@ extension CreateTransferTableViewController: CreateTransferView {
     }
 
     func navigateToAddTransferMethodFlow() {
-//        if HyperwalletFlowCoordinator.isFlowInitialized(flow: HyperwalletFlow.addSelectTransferMethod) {
-//            HyperwalletFlowCoordinator.navigateToFlow(flow: HyperwalletFlow.addSelectTransferMethod,
-//                                                      fromViewController: self)
-//        } else {
-        if HyperwalletFlowCoordinator.isFlowInitialized(flow: HyperwalletFlow.addTransferMethod) {
-            var initializationData = [String: Any]()
-            initializationData["country"]  = "US"
-            initializationData["currency"]  = "USD"
-            initializationData["profileType"]  = "INDIVIDUAL"
-            initializationData["transferMethodTypeCode"]  = "BANK_ACCOUNT"
-            initializationData["forceUpdateData"]  = true
-            HyperwalletFlowCoordinator.navigateToFlow(flow: HyperwalletFlow.addTransferMethod,
-                                                      fromViewController: self,
-                                                      initializationData: initializationData)
+        if HyperwalletUI.shared.isFlowInitialized(flow: HyperwalletUI.HyperwalletFlow.selectTransferMethodType) {
+            HyperwalletUI.shared.navigateToFlow(flow: HyperwalletUI.HyperwalletFlow.selectTransferMethodType,
+                                                               fromViewController: self,
+                                                               initializationData: nil)
         } else {
-            HyperwalletUtilViews.showAlert(self, title: "Error", message: "No Transfer Method module initialized")
+            HyperwalletUtilViews.showAlert(self, title: "Error", message: "No Tranfer Method module initialized")
         }
     }
-
-//    private func addTransferMethod() {
-//        let controller = SelectTransferMethodTypeTableViewController()
-//        controller.largeTitle()
-//        controller.createTransferMethodHandler = {
-//            [weak self] (transferMethod: HyperwalletTransferMethod) -> Void in
-//            // refresh transfer method list
-//            self?.navigationController?.popViewController(animated: true)
-//            self?.presenter.selectedTransferMethod = transferMethod
-//            self?.presenter.loadCreateTransfer()
-//        }
-//        navigationController?.pushViewController(controller, animated: true)
-//    }
 
     func showScheduleTransfer(_ transfer: HyperwalletTransfer, _ selectedTransferMethod: HyperwalletTransferMethod) {
         let scheduleTransferController = ScheduleTransferTableViewController(transferMethod: selectedTransferMethod,
                                                                              transfer: transfer)
         navigationController?.pushViewController(scheduleTransferController, animated: true)
-    }
+   }
 
     func notifyTransferCreated(_ transfer: HyperwalletTransfer) {
         DispatchQueue.global(qos: .background).async {
@@ -313,17 +281,13 @@ extension CreateTransferTableViewController: CreateTransferView {
                                             object: self,
                                             userInfo: [UserInfo.transferCreated: transfer])
         }
-        createTransferHandler?(transfer)
+        hyperwalletFlowDelegate?.didFlowComplete(with: transfer)
     }
 }
 
 extension CreateTransferTableViewController {
     override public func didFlowComplete(with response: Any) {
-        if !didSelectAddAccountCell {
-            navigationController?.popViewController(animated: true)
-        }
         if let transferMethod = response as? HyperwalletTransferMethod {
-            createTransferMethodHandler?(transferMethod)
             presenter.selectedTransferMethod = transferMethod
             presenter.loadCreateTransfer()
         }

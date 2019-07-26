@@ -24,6 +24,16 @@ import HyperwalletSDK
 public final class HyperwalletUI {
     private static var instance: HyperwalletUI?
 
+    public enum HyperwalletFlow: String {
+        case selectTransferMethodType
+        case addTransferMethod
+        case listTransferMethods
+        case listReceipts
+        case createTransfer
+    }
+
+    public static var flows = [HyperwalletFlow: NSObject.Type]()
+
     /// Returns the previously initialized instance of the Hyperwallet UI SDK interface object
     public static var shared: HyperwalletUI {
         guard let instance = instance else {
@@ -40,22 +50,58 @@ public final class HyperwalletUI {
         instance = HyperwalletUI(provider)
     }
 
-    private init(_ provider: HyperwalletAuthenticationTokenProvider) {
-        Hyperwallet.setup(provider)
-        addFlow()
+    public func isFlowInitialized(flow: HyperwalletFlow) -> Bool {
+        return HyperwalletUI.flows[flow] != nil
     }
 
-    private func addFlow() {
-        Bundle(for: HyperwalletUI.self).infoDictionary?["SelectTransferMethodTypeController"]
+    public func navigateToFlow(flow: HyperwalletFlow,
+                               fromViewController: UIViewController,
+                               initializationData: [String: Any]? = nil) {
+        if let toViewCoordinator = HyperwalletUI.flows[flow],
+            let initializedCoordinator = toViewCoordinator.init() as? HyperwalletCoordinator {
+            initializedCoordinator.start(initializationData: initializationData, parentController: fromViewController)
+            initializedCoordinator.navigate()
+        }
+    }
 
-        if let className = NSClassFromString("HyperwalletUISDK.SelectTransferMethodTypeController") as? NSObject.Type
-            ?? NSClassFromString("TransferMethod.SelectTransferMethodTypeController") as? NSObject.Type {
-            HyperwalletFlowCoordinator.flows[HyperwalletFlow.addSelectTransferMethod] = className
+    private init(_ provider: HyperwalletAuthenticationTokenProvider) {
+        Hyperwallet.setup(provider)
+        addFlows()
+        applyTheme()
+    }
+
+    private func applyTheme() {
+        for (_, coordinator) in HyperwalletUI.flows {
+            if let initializedCoordinator = coordinator.init() as? HyperwalletCoordinator {
+                initializedCoordinator.applyTheme()
+            }
+        }
+    }
+
+    private func addFlows() {
+        if let className = NSClassFromString("HyperwalletUISDK.SelectTransferMethodTypeCoordinator") as? NSObject.Type
+            ?? NSClassFromString("TransferMethod.SelectTransferMethodTypeCoordinator") as? NSObject.Type {
+            HyperwalletUI.flows[.selectTransferMethodType] = className
         }
 
-        if let className = NSClassFromString("HyperwalletUISDK.AddTransferMethodController") as? NSObject.Type
-            ?? NSClassFromString("TransferMethod.AddTransferMethodController") as? NSObject.Type {
-            HyperwalletFlowCoordinator.flows[HyperwalletFlow.addTransferMethod] = className
+        if let className = NSClassFromString("HyperwalletUISDK.AddTransferMethodCoordinator") as? NSObject.Type
+            ?? NSClassFromString("TransferMethod.AddTransferMethodCoordinator") as? NSObject.Type {
+            HyperwalletUI.flows[.addTransferMethod] = className
+        }
+
+        if let className = NSClassFromString("HyperwalletUISDK.ListTransferMethodsCoordinator") as? NSObject.Type
+            ?? NSClassFromString("TransferMethod.ListTransferMethodsCoordinator") as? NSObject.Type {
+            HyperwalletUI.flows[.listTransferMethods] = className
+        }
+
+        if let className = NSClassFromString("HyperwalletUISDK.ListReceiptCoordinator") as? NSObject.Type
+            ?? NSClassFromString("TransferMethod.ListReceiptCoordinator") as? NSObject.Type {
+            HyperwalletUI.flows[.listReceipts] = className
+        }
+
+        if let className = NSClassFromString("HyperwalletUISDK.CreateTransferCoordinator") as? NSObject.Type
+            ?? NSClassFromString("Receipt.CreateTransferCoordinator") as? NSObject.Type {
+            HyperwalletUI.flows[.createTransfer] = className
         }
     }
 }

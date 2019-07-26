@@ -147,55 +147,47 @@ class ViewController: UITableViewController {
 
         switch example {
         case .listTransferMethod:
-            let viewController = HyperwalletUI.shared.listTransferMethodController()
-            navigationController?.pushViewController(viewController, animated: true)
+            let coordinator = HyperwalletUI.shared.listTransferMethodCoordinator(parentController: self)
+            coordinator.navigate()
 
         case .selectTransferMethod:
-            let viewController = HyperwalletUI.shared.selectTransferMethodTypeController()
-            viewController.createTransferMethodHandler = {
-                (transferMethod: HyperwalletTransferMethod) -> Void in
-                self.didCreateTransferMethod(transferMethod: transferMethod)
-            }
-            navigationController?.pushViewController(viewController, animated: true)
+            let coordinator = HyperwalletUI.shared.selectTransferMethodTypeCoordinator(parentController: self)
+            coordinator.navigate()
 
         case .addTransferMethod:
             if let country = ProcessInfo.processInfo.environment["COUNTRY"],
                 let currency = ProcessInfo.processInfo.environment["CURRENCY"],
                 let accountType = ProcessInfo.processInfo.environment["ACCOUNT_TYPE"],
                 let profileType = ProcessInfo.processInfo.environment["PROFILE_TYPE"] {
-                let viewController = HyperwalletUI.shared.addTransferMethodController(
-                    country, currency, profileType, accountType)
-                navigationController?.pushViewController(viewController, animated: true)
+                let coordinator = HyperwalletUI.shared.addTransferMethodCoordinator(
+                    country, currency, profileType, accountType, parentController: self)
+                coordinator.navigate()
             } else {
-                let viewController = HyperwalletUI.shared.addTransferMethodController(
-                    "US", "USD", "INDIVIDUAL", "BANK_ACCOUNT")
-                navigationController?.pushViewController(viewController, animated: true)
+                let coordinator = HyperwalletUI.shared.addTransferMethodCoordinator(
+                    "US", "USD", "INDIVIDUAL", "BANK_ACCOUNT", parentController: self)
+                coordinator.navigate()
             }
 
         case .userReceipts:
-            let viewController = HyperwalletUI.shared.listUserReceiptController()
-            navigationController?.pushViewController(viewController, animated: true)
+            let coordinator = HyperwalletUI.shared.listUserReceiptCoordinator(parentController: self)
+            coordinator.navigate()
 
         case .prepaidCardReceipts:
             let prepaidCardToken = Bundle.main.infoDictionary!["PREPAID_CARD_TOKEN"] as! String
-            let viewController = HyperwalletUI.shared.listPrepaidCardReceiptController(
-                prepaidCardToken)
+            let coordinator = HyperwalletUI.shared.listPrepaidCardReceiptCoordinator(
+                parentController: self, prepaidCardToken)
 
-            navigationController?.pushViewController(viewController, animated: true)
+            coordinator.navigate()
 
         case .transferFunds:
 
-            let viewController = HyperwalletUI.shared
-                .createTransferFromUserTableViewController(clientTransferId: "randomNumber")
-            viewController.createTransferHandler = {
-                (transfer: HyperwalletTransfer) -> Void in
-                self.didCreateTransfer(transfer: transfer)
-            }
-            navigationController?.pushViewController(viewController, animated: true)
+            let coordinator = HyperwalletUI.shared
+                .createTransferFromUserCoordinator(clientTransferId: "randomNumber", parentController: self)
+            coordinator.navigate()
 
         default:
-            let viewController = HyperwalletUI.shared.listTransferMethodController()
-            navigationController?.pushViewController(viewController, animated: true)
+            let coordinator = HyperwalletUI.shared.listTransferMethodCoordinator(parentController: self)
+            coordinator.navigate()
         }
     }
 
@@ -224,5 +216,13 @@ class ViewController: UITableViewController {
     @objc
     func methodOfReceivedNotification(notification: Notification) {
         print("Transfer method has been deleted successfully")
+    }
+
+    override public func didFlowComplete(with response: Any) {
+        if let transferMethod = response as? HyperwalletTransferMethod {
+            self.didCreateTransferMethod(transferMethod: transferMethod)
+        } else if let transfer = response as? HyperwalletTransfer {
+            didCreateTransfer(transfer: transfer)
+        }
     }
 }

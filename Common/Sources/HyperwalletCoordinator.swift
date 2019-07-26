@@ -16,10 +16,12 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import Foundation
-import HyperwalletSDK
+import UIKit
 
-public protocol HyperwalletFlowDelegate: class {
-    init()
-    func didFlowComplete(with response: Any)
+public protocol HyperwalletCoordinator: NSObject {
+    func applyTheme()
+    func navigate()
+    func navigateToNextPage(initializationData: [String: Any]?)
+    func navigateBackFromNextPage(with response: Any)
+    func start(initializationData: [String: Any]?, parentController: UIViewController)
 }

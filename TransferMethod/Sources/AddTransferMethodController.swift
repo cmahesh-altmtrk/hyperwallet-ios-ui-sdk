@@ -89,13 +89,13 @@ public final class AddTransferMethodController: UITableViewController {
     // MARK: - View Lifecycle -
     override public func viewDidLoad() {
         super.viewDidLoad()
-        title = transferMethodTypeCode?.lowercased().localized()
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         view.addGestureRecognizer(tap)
         initializeData()
         initializePresenter()
         setupLayout()
         hideKeyboardWhenTappedAround()
+        title = transferMethodTypeCode?.lowercased().localized()
         navigationItem.backBarButtonItem = UIBarButtonItem.back
     }
 
@@ -109,6 +109,7 @@ public final class AddTransferMethodController: UITableViewController {
                 self.profileType = profileType
                 self.transferMethodTypeCode = transferMethodTypeCode
         } else {
+            //TODO error handling
         }
     }
 
@@ -350,9 +351,7 @@ extension AddTransferMethodController: AddTransferMethodView {
                                             object: self,
                                             userInfo: [UserInfo.transferMethod: transferMethod])
         }
-        navigationController?
-            .skipPreviousViewControllerIfPresent(skip: SelectTransferMethodTypeController.self)
-        createTransferMethodHandler?(transferMethod)
+        coordinator?.navigateBackFromNextPage(with: transferMethod)
     }
 
     private func focusOnInvalidField(_ widget: AbstractWidget) {

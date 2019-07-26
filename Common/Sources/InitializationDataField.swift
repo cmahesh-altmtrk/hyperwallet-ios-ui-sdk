@@ -16,20 +16,16 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#if !COCOAPODS
-import Common
-#endif
 import Foundation
 
-public extension HyperwalletUI {
-    func createTransferFromUserTableViewController(clientTransferId: String)
-        -> CreateTransferTableViewController {
-            return CreateTransferTableViewController(clientTransferId: clientTransferId)
-    }
-
-    func createTransferFromPrepaidCardTableViewController(clientTransferId: String,
-                                                                 sourceToken: String)
-        -> CreateTransferTableViewController {
-            return CreateTransferTableViewController(clientTransferId: clientTransferId, sourceToken: sourceToken)
-    }
+public enum InitializationDataField: String {
+    case country
+    case currency
+    case profileType
+    case transferMethodTypeCode
+    case forceUpdateData
+    case receipt
+    case clientTransferId
+    case prepaidCardToken
+    case sourceToken
 }
