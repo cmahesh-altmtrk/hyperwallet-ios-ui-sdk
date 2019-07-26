@@ -24,7 +24,7 @@ public struct IntegratorAuthenticationProvider: HyperwalletAuthenticationTokenPr
     private let user: String = "selrestuser@1861681"
     private let password: String = "Password1!"
     private let baseUrl = "https://qamaster-hyperwallet.aws.paylution.net"
-    private let userToken = "usr-02d381d3-bf7e-43fe-9d00-02e26b28df57"
+    private let userToken = "usr-71a278f3-c1d1-45c3-964e-ea305a4ec09a"
     private let session: URLSession
 
     init(_ baseUrl: String, _ userToken: String) {

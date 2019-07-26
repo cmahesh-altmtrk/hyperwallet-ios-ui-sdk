@@ -204,6 +204,8 @@ final class CreateTransferPresenter {
             guard let errors = error.getHyperwalletErrors()?.errorList, errors.isNotEmpty else {
                 return
             }
+
+            view.showError(error, nil)
             // TODO add error handling logic, refer to AddTransferMethodPresenter
 
         default:
