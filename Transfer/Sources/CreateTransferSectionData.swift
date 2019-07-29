@@ -30,6 +30,7 @@ protocol CreateTransferSectionData {
     var rowCount: Int { get }
     var title: String? { get }
     var cellIdentifier: String { get }
+    var errorMessage: String? { get }
 }
 
 extension CreateTransferSectionData {
@@ -49,6 +50,7 @@ struct CreateTransferSectionDestinationData: CreateTransferSectionData {
         }
     }
     var isTransferMethodAvailable = true
+    var errorMessage: String?
     init(isTransferMethodAvailable: Bool) {
         self.isTransferMethodAvailable = isTransferMethodAvailable
     }
@@ -59,7 +61,7 @@ struct CreateTransferSectionTransferData: CreateTransferSectionData {
     var rowCount: Int { return 2 }
     var cellIdentifier: String { return CreateTransferUserInputCell.reuseIdentifier }
     var footer: UIView?
-
+    var errorMessage: String?
     init(availableBalance: String?) {
         if let availableBalance = availableBalance {
             let availableFunds = UILabel()
@@ -73,9 +75,11 @@ struct CreateTransferSectionTransferData: CreateTransferSectionData {
 struct CreateTransferSectionButtonData: CreateTransferSectionData {
     var createTransferSectionHeader: CreateTransferSectionHeader { return .button }
     var cellIdentifier: String { return CreateTransferButtonCell.reuseIdentifier }
+    var errorMessage: String?
 }
 
 struct CreateTransferSectionNotesData: CreateTransferSectionData {
     var createTransferSectionHeader: CreateTransferSectionHeader { return .notes }
     var cellIdentifier: String { return CreateTransferNotesTableViewCell.reuseIdentifier }
+    var errorMessage: String?
 }

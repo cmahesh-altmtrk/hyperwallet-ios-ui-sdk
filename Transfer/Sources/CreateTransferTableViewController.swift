@@ -161,7 +161,22 @@ extension CreateTransferTableViewController {
 
     @objc
     private func didTapNext(sender: UITapGestureRecognizer) {
-        presenter.createTransfer(amount: transferAmount, notes: transferDescription)
+        if presenter.selectedTransferMethod == nil {
+//            presenter.sectionData[0].errorMessage = "Add Transfer"
+        }
+        if transferAmount == nil || transferAmount == "0.00" {
+        } else {
+            presenter.createTransfer(amount: transferAmount, notes: transferDescription)
+        }
+    }
+
+    private func updateFooterView(_ footerView: UITableViewHeaderFooterView, for section: Int) {
+        UIView.setAnimationsEnabled(false)
+        tableView.beginUpdates()
+        footerView.textLabel?.text = presenter.sectionData[section].errorMessage
+        footerView.sizeToFit()
+        tableView.endUpdates()
+        UIView.setAnimationsEnabled(true)
     }
 }
 
