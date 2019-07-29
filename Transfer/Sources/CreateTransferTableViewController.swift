@@ -33,6 +33,7 @@ public final class CreateTransferTableViewController: UITableViewController {
     private var transferAmount: String?
     private var transferDescription: String?
     private var didSelectAddAccountCell = false
+    private var transferAllFundSwitchOn = false
 
     private let registeredCells: [(type: AnyClass, id: String)] = [
         (AddAccountTableViewCell.self, AddAccountTableViewCell.reuseIdentifier),
@@ -88,13 +89,13 @@ extension CreateTransferTableViewController {
         return presenter.sectionData[section].title
     }
 
-    override public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if let transferSection = presenter.sectionData[section] as? CreateTransferSectionTransferData {
-            return transferSection.footer
-        }
+//    override public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        if let transferSection = presenter.sectionData[section] as? CreateTransferSectionTransferData {
+//            return presenter.sectionData[section].footer
+//        }
 
-        return nil
-    }
+//        return nil
+//    }
 
     private func getCellConfiguration(_ indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = presenter.sectionData[indexPath.section].cellIdentifier
@@ -127,15 +128,14 @@ extension CreateTransferTableViewController {
     }
 
     private func getTransferSectionCellConfiguration(_ cell: UITableViewCell, _ indexPath: IndexPath) {
-        var transferAllFundSwitchOn = false
         if let tableViewCell = cell as? CreateTransferUserInputCell {
             tableViewCell.selectionStyle = UITableViewCell.SelectionStyle.none
             tableViewCell.configure(currency: presenter.selectedTransferMethod?.transferMethodCurrency, at: indexPath.row)
             tableViewCell.transferAllSwitchOn = { transferAllSwitch in
-                transferAllFundSwitchOn = transferAllSwitch
+                self.transferAllFundSwitchOn = transferAllSwitch
             }
             tableViewCell.enteredAmount = { amount in
-                if !transferAllFundSwitchOn {
+                if !self.transferAllFundSwitchOn {
                     self.transferAmount = amount
                 }
             }
@@ -162,10 +162,23 @@ extension CreateTransferTableViewController {
     @objc
     private func didTapNext(sender: UITapGestureRecognizer) {
         if presenter.selectedTransferMethod == nil {
-//            presenter.sectionData[0].errorMessage = "Add Transfer"
+            //var destinationSectionData = presenter.sectionData[1]
+
+            if let footerView = tableView.footerView(forSection: 0) {
+                // section is visible, update footer
+                presenter.sectionData[0].errorMessage = "Add Transfer"
+                updateFooterView(footerView, for: 0)
+            }
         }
-        if transferAmount == nil || transferAmount == "0.00" {
+        if transferAmount == nil || transferAmount == "0.00" || !transferAllFundSwitchOn {
+            if let footerView = tableView.footerView(forSection: 1) {
+                // section is visible, update footer
+                presenter.sectionData[1].errorMessage = "Enter amount or select transfer all funds"
+                updateFooterView(footerView, for: 1)
+            }
         } else {
+            presenter.sectionData[0].errorMessage = nil
+            presenter.sectionData[1].errorMessage = nil
             presenter.createTransfer(amount: transferAmount, notes: transferDescription)
         }
     }
@@ -182,9 +195,24 @@ extension CreateTransferTableViewController {
 
 // MARK: - Create transfer table view delegate
 extension CreateTransferTableViewController {
+    override public func tableView(_ tableView: UITableView,
+                                   willDisplayFooterView view: UIView,
+                                   forSection section: Int) {
+        if let footerView = view as? UITableViewHeaderFooterView {
+            footerView.textLabel?.textColor = Theme.Label.errorColor
+        }
+    }
+
     override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         // TODO error will display here
-        return nil
+        var footerText = ""
+        if let section = presenter.sectionData[section] as? CreateTransferSectionTransferData {
+            footerText = section.footerText ?? ""
+        }
+        if let errorMessage = presenter.sectionData[section].errorMessage {
+            footerText = String(format: "%@", errorMessage)
+        }
+        return footerText
     }
 
     override public func tableView(_ tableView: UITableView,
